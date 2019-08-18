@@ -1,0 +1,36 @@
+!    -*- f90 -*-
+! Note: the context of this file is case sensitive.
+
+python module fortran_module ! in 
+    interface  ! in :fortran_module
+        module functions ! in :fortran_module:functions.f90
+            function magnetization_vector(num_sites,state) ! in :fortran_module:functions.f90:functions
+                integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
+                real*8 dimension(num_sites,3),intent(in) :: state
+                real*8 dimension(3) :: magnetization_vector
+            end function magnetization_vector
+            function magnetization_vector_by_type(num_sites,state,num_types,types) ! in :fortran_module:functions.f90:functions
+                integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
+                real*8 dimension(num_sites,3),intent(in) :: state
+                integer intent(in) :: num_types
+                integer dimension(num_sites),intent(in) :: types
+                real*8 dimension(num_types,3) :: magnetization_vector_by_type
+            end function magnetization_vector_by_type
+            function total_magnetization(num_sites,state) ! in :fortran_module:functions.f90:functions
+                integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
+                real*8 dimension(num_sites,3),intent(in) :: state
+                real*8 :: total_magnetization
+            end function total_magnetization
+            function magnetization_by_type(num_sites,state,num_types,types) ! in :fortran_module:functions.f90:functions
+                integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
+                real*8 dimension(num_sites,3),intent(in) :: state
+                integer intent(in) :: num_types
+                integer dimension(num_sites),intent(in) :: types
+                real*8 dimension(num_types) :: magnetization_by_type
+            end function magnetization_by_type
+        end module functions
+    end interface 
+end python module fortran_module
+
+! This file was auto-generated with f2py (version:2).
+! See http://cens.ioc.ee/projects/f2py2e/
