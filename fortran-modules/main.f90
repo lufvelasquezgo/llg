@@ -14,13 +14,13 @@ program main
     allocate(state(0:(num_sites - 1), 0:2))
     allocate(types(0:(num_sites - 1)))
 
-    state = 0.0d0
+    state = 0.d0
 
     do i = 0, num_sites - 1
-        state(i, :) = (/ 0.0d0, 0.0d0, 1.0d0 /)
+        state(i, :) = (/ 0.d0, 0.d0, 1.d0 /)
         types(i) = 0
         if (mod(i, 2) == 0) then
-            state(i, :) = (/ 0.0d0, 0.0d0, -1.0d0 /)
+            state(i, :) = (/ 0.d0, 0.d0, -1.d0 /)
             types(i) = 1
         end if
     end do

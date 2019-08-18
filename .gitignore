@@ -127,3 +127,10 @@ dmypy.json
 *.mod
 *.o
 main
+
+
+# funit files
+TestRunner
+TestRunner.f90
+*_fun.f90
+makeTestRunner
