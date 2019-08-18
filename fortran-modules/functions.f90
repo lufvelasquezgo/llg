@@ -19,17 +19,14 @@ module functions
         integer, intent(in), dimension(0:(num_sites - 1)) :: types
         real*8, dimension(0:(num_types - 1), 0:2) :: magnetization_vector_by_type
         integer :: i
-        integer, dimension(0:(num_types - 1)) :: amount_types
 
-        amount_types = 0
         magnetization_vector_by_type = 0.d0
         do i = 0, num_sites - 1
             magnetization_vector_by_type(types(i), :) = magnetization_vector_by_type(types(i), :) + state(i, :)
-            amount_types(types(i)) = amount_types(types(i)) + 1
         end do
 
         do i = 0, num_types - 1
-            magnetization_vector_by_type(i, :) = magnetization_vector_by_type(i, :) / amount_types(i)
+            magnetization_vector_by_type(i, :) = magnetization_vector_by_type(i, :) / count(types==i)
         end do
     end function magnetization_vector_by_type
 
