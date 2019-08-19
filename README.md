@@ -1,1 +1,1 @@
-# LLG-equation-
+# LLG-equation
