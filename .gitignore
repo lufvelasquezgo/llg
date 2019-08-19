@@ -134,3 +134,6 @@ TestRunner
 TestRunner.f90
 *_fun.f90
 makeTestRunner
+
+# mac files :(
+*.DS_Store

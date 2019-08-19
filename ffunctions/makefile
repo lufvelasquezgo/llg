@@ -15,5 +15,5 @@ clean:
 	funit --clean
 
 module:
-	# f2py functions.f90 -m fortran_module -h signature.pyf
+	# f2py functions.f90 -m ffunctions -h signature.pyf
 	f2py -c signature.pyf functions.f90
