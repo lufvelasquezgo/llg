@@ -2,33 +2,33 @@
 ! Note: the context of this file is case sensitive.
 
 python module ffunctions ! in 
-    interface  ! in :ffunctions
-        module functions ! in :ffunctions:functions.f90
-            function magnetization_vector(num_sites,state) ! in :ffunctions:functions.f90:functions
+    interface  ! in :functions
+        module mag_functions ! in :ffunctions:mag_functions.f90
+            function magnetization_vector(num_sites,state) ! in :ffunctions:mag_functions.f90:functions
                 integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
                 real*8 dimension(num_sites,3),intent(in) :: state
                 real*8 dimension(3) :: magnetization_vector
             end function magnetization_vector
-            function magnetization_vector_by_type(num_sites,state,num_types,types) ! in :ffunctions:functions.f90:functions
+            function magnetization_vector_by_type(num_sites,state,num_types,types) ! in :ffunctions:mag_functions.f90:functions
                 integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
                 real*8 dimension(num_sites,3),intent(in) :: state
                 integer intent(in) :: num_types
                 integer dimension(num_sites),intent(in) :: types
                 real*8 dimension(num_types,3) :: magnetization_vector_by_type
             end function magnetization_vector_by_type
-            function total_magnetization(num_sites,state) ! in :ffunctions:functions.f90:functions
+            function total_magnetization(num_sites,state) ! in :ffunctions:mag_functions.f90:functions
                 integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
                 real*8 dimension(num_sites,3),intent(in) :: state
                 real*8 :: total_magnetization
             end function total_magnetization
-            function magnetization_by_type(num_sites,state,num_types,types) ! in :ffunctions:functions.f90:functions
+            function magnetization_by_type(num_sites,state,num_types,types) ! in :ffunctions:mag_functions.f90:functions
                 integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
                 real*8 dimension(num_sites,3),intent(in) :: state
                 integer intent(in) :: num_types
                 integer dimension(num_sites),intent(in) :: types
                 real*8 dimension(num_types) :: magnetization_by_type
             end function magnetization_by_type
-        end module functions
+        end module mag_functions
     end interface 
 end python module ffunctions
 

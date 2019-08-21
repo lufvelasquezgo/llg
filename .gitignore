@@ -137,3 +137,7 @@ makeTestRunner
 
 # mac files :(
 *.DS_Store
+
+# pipenv files
+Pipfile
+Pipfile.lock

@@ -7,8 +7,8 @@ from setuptools import find_packages
 from numpy.distutils.core import setup
 from numpy.distutils.core import Extension
 
-ffunctions = Extension(name='ffunctions',
-                       sources=['ffunctions/signature.pyf', 'ffunctions/functions.f90'])
+ffunctions = Extension(name='llg.ffunctions',
+                       sources=['fortran-src/signature.pyf', 'fortran-src/mag_functions.f90'])
 
 
 with open('README.rst') as readme_file:
@@ -18,7 +18,7 @@ with open('README.rst') as readme_file:
 #     history = history_file.read()
 history = ""
 
-requirements = ['Click>=6.0', ]
+requirements = ['Click>=6.0', 'numpy==1.17.0']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -47,7 +47,10 @@ setup(
     include_package_data=True,
     keywords='llg',
     name='llg',
-    packages=find_packages(include=['llg']),
+    package_dir={'llg': 'src'},
+    packages=[
+        "llg"
+    ],
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,

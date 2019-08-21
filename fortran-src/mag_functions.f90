@@ -1,4 +1,4 @@
-module functions
+module mag_functions
 
     contains
     function magnetization_vector(num_sites, state)
@@ -64,4 +64,4 @@ module functions
         end do
     end function magnetization_by_type
 
-end module functions
+end module mag_functions
