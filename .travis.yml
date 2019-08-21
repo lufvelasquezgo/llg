@@ -1,13 +1,15 @@
 # Config file for automatic testing at travis-ci.org
 
 language: python
-sudo: required
-before_install:
-  - sudo apt install gfortran
 python:
   - 3.5
   - 3.6
   - 3.7
+
+addons:
+  apt:
+    packages:
+      - gfortran
 
 # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install: pip install -U tox-travis
