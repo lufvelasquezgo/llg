@@ -12,3 +12,6 @@ pytest==5.1.1
 pytest-runner==5.1
 
 numpy==1.17.0
+pytest-repeat==0.8.0
+
+ipython==7.7.0

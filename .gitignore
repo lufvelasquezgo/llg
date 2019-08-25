@@ -141,3 +141,7 @@ makeTestRunner
 # pipenv files
 Pipfile
 Pipfile.lock
+
+# vscode folder
+.vscode/
+

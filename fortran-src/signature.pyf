@@ -14,7 +14,7 @@ python module ffunctions ! in
                 real*8 dimension(num_sites,3),intent(in) :: state
                 integer intent(in) :: num_types
                 integer dimension(num_sites),intent(in) :: types
-                real*8 dimension(num_types,3) :: magnetization_vector_by_type
+                real*8 dimension(num_types,3),depend(num_types) :: magnetization_vector_by_type
             end function magnetization_vector_by_type
             function total_magnetization(num_sites,state) ! in :ffunctions:mag_functions.f90:functions
                 integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
@@ -26,7 +26,7 @@ python module ffunctions ! in
                 real*8 dimension(num_sites,3),intent(in) :: state
                 integer intent(in) :: num_types
                 integer dimension(num_sites),intent(in) :: types
-                real*8 dimension(num_types) :: magnetization_by_type
+                real*8 dimension(num_types),depend(num_types) :: magnetization_by_type
             end function magnetization_by_type
         end module mag_functions
     end interface 
