@@ -92,6 +92,8 @@ def test_total_magnetization_AFM_state_z(num_sites):
 
 @pytest.mark.repeat(100)
 def test_magnetization_by_type_random_state(num_sites, random_num_types, random_state):
+    assert random_num_types <= num_sites
+
     types = numpy.random.randint(0, random_num_types, size=num_sites)
     assert sorted(numpy.unique(types)) == list(range(0, random_num_types))
 
@@ -218,6 +220,8 @@ def test_magnetization_vector_AFM_state_z(num_sites):
 
 @pytest.mark.repeat(100)
 def test_magnetization_vector_by_type_random_state(num_sites, random_num_types, random_state):
+    assert random_num_types <= num_sites
+
     types = numpy.random.randint(0, random_num_types, size=num_sites)
     assert sorted(numpy.unique(types)) == list(range(0, random_num_types))
 

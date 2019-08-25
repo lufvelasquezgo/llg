@@ -11,7 +11,7 @@ def num_sites():
 
 @pytest.fixture
 def random_num_types():
-    return numpy.random.randint(1, 5)
+    return numpy.random.randint(1, 10)
 
 
 @pytest.fixture
