@@ -4,7 +4,7 @@ import pytest
 
 @pytest.fixture
 def num_sites():
-    N = 1000
+    N = numpy.random.randint(100, 500) * 2
     assert N % 2 == 0
     return N
 

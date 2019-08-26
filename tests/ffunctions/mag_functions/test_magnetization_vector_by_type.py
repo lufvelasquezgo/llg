@@ -5,7 +5,6 @@
 
 import numpy
 import pytest
-from pytest_fixtures import *
 from llg.ffunctions import mag_functions
 
 
