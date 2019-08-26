@@ -1,6 +1,7 @@
 module mag_functions
+    implicit none
 
-    contains
+contains
     function magnetization_vector(num_sites, state)
         implicit none
         integer, intent(in) :: num_sites
@@ -40,7 +41,7 @@ module mag_functions
         real*8 :: total_magnetization
 
         mag = magnetization_vector(num_sites, state)
-        total_magnetization = sum(mag * mag) ** 0.5
+        total_magnetization = sqrt(sum(mag * mag))
     end function total_magnetization
 
 
@@ -60,7 +61,7 @@ module mag_functions
         mag_by_type = magnetization_vector_by_type(num_sites, state, num_types, types)
 
         do i = 0, num_types - 1
-            magnetization_by_type(i) = sum(mag_by_type(i, :) * mag_by_type(i, :)) ** 0.5
+            magnetization_by_type(i) = sqrt(sum(mag_by_type(i, :) * mag_by_type(i, :)))
         end do
     end function magnetization_by_type
 
