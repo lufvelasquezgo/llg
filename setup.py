@@ -3,12 +3,13 @@
 
 """The setup script."""
 
+from glob import glob
 from setuptools import find_packages
 from numpy.distutils.core import setup
 from numpy.distutils.core import Extension
 
 ffunctions = Extension(name='llg.ffunctions',
-                       sources=['fortran-src/signature.pyf', 'fortran-src/mag_functions.f90'])
+                       sources=['fortran-src/signature.pyf'] + glob("fortran-src/*.f90"))
 
 
 with open('README.rst') as readme_file:

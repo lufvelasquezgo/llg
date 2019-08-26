@@ -29,7 +29,16 @@ python module ffunctions ! in
                 real*8 dimension(num_types),depend(num_types) :: magnetization_by_type
             end function magnetization_by_type
         end module mag_functions
-    end interface 
+
+        module external_fields ! in :external_spin_fields:external_spin_fields.f90
+            function external_magnetic_spin_field(num_sites,intensities,directions) ! in :external_spin_fields:external_spin_fields.f90:external_fields
+                integer, intent(hide),check(len(intensities)==num_sites),depend(intensities) :: num_sites=len(intensities)
+                real*8 dimension(num_sites),intent(in) :: intensities
+                real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: directions
+                real*8 dimension(num_sites,3),depend(num_sites) :: external_magnetic_spin_field
+            end function external_magnetic_spin_field
+        end module external_fields
+    end interface
 end python module ffunctions
 
 ! This file was auto-generated with f2py (version:2).

@@ -3,7 +3,6 @@
 
 """Tests for `ffortran/functions` package."""
 
-from llg import ffunctions
 import numpy
 import pytest
 from pytest_fixtures import *
