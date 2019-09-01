@@ -48,10 +48,10 @@ setup(
     include_package_data=True,
     keywords='llg',
     name='llg',
-    package_dir={'llg': 'src'},
-    packages=[
-        "llg"
-    ],
+    packages=find_packages(where="src"),
+    package_dir={
+        "": 'src'
+    },
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
