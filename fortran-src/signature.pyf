@@ -30,17 +30,18 @@ python module ffunctions ! in
             end function magnetization_by_type
         end module mag_functions
 
+
         module external_fields ! in :external_spin_fields:external_spin_fields.f90
-            real*8, parameter,intent(hide) :: pi=4*atan(1.d0)
-            real*8, parameter,intent(hide) :: kb=1.38064852e-29
-            function random_normal_matrix(num_sites) ! in :external_fields:external_spin_fields.f90:external_fields
+            real*8, parameter,optional :: pi=4*atan(1.d0)
+            real*8, parameter,optional :: kb=1.38064852e-29
+            function random_normal_matrix(num_sites) ! in :external_fields.mod:external_spin_fields.f90:external_fields
                 integer intent(in) :: num_sites
                 real*8 dimension(num_sites,3) :: random_normal_matrix
             end function random_normal_matrix
-            function thermal_external_field(num_sites,damping,temperature,gyromagnetic,deltat,magnitude_spin_moment) ! in :external_fields:external_spin_fields.f90:external_fields
-                integer, intent(hide),check(len(temperature)>=num_sites),depend(temperature) :: num_sites=len(temperature)
+            function thermal_external_field(num_sites,damping,temperature,gyromagnetic,deltat,magnitude_spin_moment) ! in :external_fields.mod:external_spin_fields.f90:external_fields
+                integer intent(in) :: num_sites
                 real*8 intent(in) :: damping
-                real*8 dimension(num_sites),intent(in) :: temperature
+                real*8 intent(in) :: temperature
                 real*8 intent(in) :: gyromagnetic
                 integer intent(in) :: deltat
                 real*8 intent(in) :: magnitude_spin_moment

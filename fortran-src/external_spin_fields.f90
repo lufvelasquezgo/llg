@@ -24,7 +24,7 @@ contains
         implicit none
         integer, intent(in) :: num_sites
         real*8, intent(in) :: damping
-        real*8, intent(in), dimension(0:(num_sites - 1)) :: temperature
+        real*8, intent(in):: temperature
         real*8, intent(in) :: gyromagnetic
         real*8, intent(in) :: magnitude_spin_moment
         integer, intent(in) :: deltat
