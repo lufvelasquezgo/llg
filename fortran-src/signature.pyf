@@ -32,25 +32,22 @@ python module ffunctions ! in
 
 
         module external_fields ! in :external_spin_fields:external_spin_fields.f90
-            function random_normal_matrix(num_sites) ! in :external_fields.mod:external_spin_fields.f90:external_fields
-                integer intent(in) :: num_sites
-                real*8 dimension(num_sites,3),depend(num_sites) :: random_normal_matrix
-            end function random_normal_matrix
-            function thermal_external_field(num_sites,damping,temperature,gyromagnetic,deltat,magnitude_spin_moment) ! in :external_fields.mod:external_spin_fields.f90:external_fields
-                integer intent(in) :: num_sites
+            function thermal_field(random_normal_matrix,num_sites,damping,temperature,gyromagnetic,deltat,magnitude_spin_moment) ! in :external_spin_fields:external_spin_fields.f90:external_fields
+                real*8 dimension(num_sites,3) :: random_normal_matrix
+                integer, intent(hide),check(shape(random_normal_matrix,0)==num_sites),depend(random_normal_matrix) :: num_sites=shape(random_normal_matrix,0)
                 real*8 intent(in) :: damping
                 real*8 intent(in) :: temperature
                 real*8 intent(in) :: gyromagnetic
                 integer intent(in) :: deltat
                 real*8 intent(in) :: magnitude_spin_moment
-                real*8 dimension(num_sites,3),depend(num_sites) :: thermal_external_field
-            end function thermal_external_field
-            function external_magnetic_spin_field(num_sites,intensities,directions) ! in :external_spin_fields:external_spin_fields.f90:external_fields
+                real*8 dimension(num_sites,3) :: thermal_field
+            end function thermal_field
+            function magnetic_field(num_sites,intensities,directions) ! in :external_spin_fields:external_spin_fields.f90:external_fields
                 integer, intent(hide),check(len(intensities)==num_sites),depend(intensities) :: num_sites=len(intensities)
                 real*8 dimension(num_sites),intent(in) :: intensities
                 real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: directions
-                real*8 dimension(num_sites,3),depend(num_sites) :: external_magnetic_spin_field
-            end function external_magnetic_spin_field
+                real*8 dimension(num_sites,3),depend(num_sites) :: magnetic_field
+            end function magnetic_field
         end module external_fields
 
 
