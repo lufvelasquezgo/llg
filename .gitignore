@@ -148,3 +148,6 @@ Pipfile.lock
 # fortran wrappers
 fortran-src/ffunctions-f2pywrappers2.f90
 fortran-src/ffunctionsmodule.c
+
+# Untracked files
+src/llg/ffunctions.cpython-36m-darwin.so.dSYM/

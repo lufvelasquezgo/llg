@@ -30,13 +30,25 @@ python module ffunctions ! in
             end function magnetization_by_type
         end module mag_functions
 
+
         module external_fields ! in :external_spin_fields:external_spin_fields.f90
-            function external_magnetic_spin_field(num_sites,intensities,directions) ! in :external_spin_fields:external_spin_fields.f90:external_fields
+            function thermal_field(num_sites,random_normal_matrix,temperature,damping,deltat,magnitude_spin_moment,gyromagnetic,kB) ! in :external_fields:external_spin_fields.f90:external_fields
+                integer, intent(hide),check(shape(random_normal_matrix,0)==num_sites),depend(random_normal_matrix) :: num_sites=shape(random_normal_matrix,0)
+                real*8 dimension(num_sites,3) :: random_normal_matrix
+                real*8 dimension(num_sites),depend(num_sites) :: temperature
+                real*8 intent(in) :: damping
+                real*8 intent(in) :: deltat
+                real*8 intent(in) :: magnitude_spin_moment
+                real*8 intent(in) :: gyromagnetic
+                real*8 intent(in) :: kB
+                real*8 dimension(num_sites,3),depend(num_sites) :: thermal_field
+            end function thermal_field
+            function magnetic_field(num_sites,intensities,directions) ! in :external_spin_fields:external_spin_fields.f90:external_fields
                 integer, intent(hide),check(len(intensities)==num_sites),depend(intensities) :: num_sites=len(intensities)
                 real*8 dimension(num_sites),intent(in) :: intensities
                 real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: directions
-                real*8 dimension(num_sites,3),depend(num_sites) :: external_magnetic_spin_field
-            end function external_magnetic_spin_field
+                real*8 dimension(num_sites,3),depend(num_sites) :: magnetic_field
+            end function magnetic_field
         end module external_fields
 
 
