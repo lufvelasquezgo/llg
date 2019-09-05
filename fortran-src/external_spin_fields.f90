@@ -1,23 +1,27 @@
 module external_fields
     implicit none
-    real*8, parameter :: kB = 1.38064852e-29
 
 contains
-    function thermal_field(random_normal_matrix, num_sites, damping, temperature, gyromagnetic, deltat, magnitude_spin_moment)
+    function thermal_field(num_sites, random_normal_matrix, temperature, damping, deltat, magnitude_spin_moment, gyromagnetic, kB)
         implicit none
         integer, intent(in) :: num_sites
         real*8, dimension(0:(num_sites - 1), 0:2) :: random_normal_matrix
+        real*8, dimension(0:(num_sites - 1)):: temperature
         real*8, intent(in) :: damping
-        real*8, intent(in):: temperature
-        real*8, intent(in) :: gyromagnetic
+        real*8, intent(in) :: deltat
         real*8, intent(in) :: magnitude_spin_moment
-        integer, intent(in) :: deltat
+        real*8, intent(in) :: gyromagnetic
+        real*8, intent(in) :: kB
 
         real*8, dimension(0:(num_sites - 1), 0:2) :: thermal_field
-        
-        thermal_field = random_normal_matrix &
-                                 * sqrt((2.d0 * kB * temperature * damping) &
-                                 / (gyromagnetic * deltat * magnitude_spin_moment)) 
+
+        integer :: i
+
+        do i = 0, num_sites - 1
+            thermal_field(i, :) = random_normal_matrix(i, :) &
+                        * sqrt((2.d0 * kB * temperature(i) * damping) &
+                        / (gyromagnetic * deltat * magnitude_spin_moment)) 
+        end do
                                     
     end function thermal_field
 
