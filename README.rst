@@ -9,10 +9,12 @@ llg
 .. image:: https://img.shields.io/travis/jdalzatec/llg.svg
         :target: https://travis-ci.org/jdalzatec/llg
 
+.. image:: https://api.codacy.com/project/badge/Grade/193b0e26c511469b90a550e3a45369bf
+        :target: https://www.codacy.com/manual/jdalzatec/llg?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jdalzatec/llg&amp;utm_campaign=Badge_Grade
+
 .. image:: https://readthedocs.org/projects/llg/badge/?version=latest
         :target: https://llg.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
-
 
 .. image:: https://pyup.io/repos/github/jdalzatec/llg/shield.svg
      :target: https://pyup.io/repos/github/jdalzatec/llg/
