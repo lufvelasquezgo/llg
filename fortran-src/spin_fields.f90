@@ -2,10 +2,13 @@ module spin_fields
     implicit none
     
 contains
-    function exchange_interaction_field(num_sites, state, num_interactions, j_exchange, num_neighbors, neighbors)
+    function exchange_interaction_field(num_sites, state, &
+        magnitude_spin_moment, num_interactions, j_exchange, &
+        num_neighbors, neighbors)
         implicit none
         integer, intent(in) :: num_sites
         real*8, intent(in), dimension(0:(num_sites - 1), 0:2) :: state
+        real*8, intent(in), dimension(0:(num_sites - 1)) :: magnitude_spin_moment
         integer, intent(in) :: num_interactions
         real*8, intent(in), dimension(0:(num_interactions - 1)) :: j_exchange
         integer, intent(in), dimension(0:(num_sites - 1)) :: num_neighbors
@@ -26,13 +29,16 @@ contains
                 nbh = neighbors(j)
                 exchange_interaction_field(i, :) = exchange_interaction_field(i, :) + j_exchange(nbh) * state(nbh, :)
             end do
+            exchange_interaction_field(i, :) = - exchange_interaction_field(i, :) / magnitude_spin_moment(i)
         end do
     end function exchange_interaction_field
     
-    function anisotropy_interaction_field(num_sites, state, anisotropy_constant, anisotropy_vector)
+    function anisotropy_interaction_field(num_sites, state, &
+        magnitude_spin_moment, anisotropy_constant, anisotropy_vector)
         implicit none
         integer, intent(in) :: num_sites
         real*8, intent(in), dimension(0:(num_sites - 1), 0:2) :: state
+        real*8, intent(in), dimension(0:(num_sites - 1)) :: magnitude_spin_moment
         real*8, intent(in), dimension(0:(num_sites - 1)) :: anisotropy_constant
         real*8, intent(in), dimension(0:(num_sites - 1), 0:2) :: anisotropy_vector
         
@@ -45,6 +51,8 @@ contains
                 anisotropy_constant(i) * &
                 dot_product(state(i, :), anisotropy_vector(i, :)) * &
                 anisotropy_vector(i, :)
+
+            anisotropy_interaction_field(i, :) = - anisotropy_interaction_field(i, :) / magnitude_spin_moment(i)
         end do        
     end function anisotropy_interaction_field
     
