@@ -74,7 +74,7 @@ python module ffunctions ! in
             end function anisotropy_interaction_field
         end module spin_fields
 
-        module heun ! in :maricadita:heun.f90
+        module heun ! in :heun:heun.f90
             use external_fields
             use spin_fields
             function integrate(num_sites,state,magnitude_spin_moment,random_normal_matrix,temperature,damping,deltat,gyromagnetic,kb,field_intensities,field_directions,num_interactions,j_exchange,num_neighbors,neighbors,anisotropy_constant,anisotropy_vector) ! in :maricadita:heun.f90:heun
