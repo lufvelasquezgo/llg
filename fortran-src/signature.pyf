@@ -32,13 +32,13 @@ python module ffunctions ! in
 
 
         module external_fields ! in :external_spin_fields:external_spin_fields.f90
-            function thermal_field(num_sites,random_normal_matrix,temperature,damping,deltat,magnitude_spin_moment,gyromagnetic,kB) ! in :external_fields:external_spin_fields.f90:external_fields
+            function thermal_field(num_sites,random_normal_matrix,temperature,magnitude_spin_moment,damping,deltat,gyromagnetic,kB) ! in :external_fields:external_spin_fields.f90:external_fields
                 integer, intent(hide),check(shape(random_normal_matrix,0)==num_sites),depend(random_normal_matrix) :: num_sites=shape(random_normal_matrix,0)
-                real*8 dimension(num_sites,3) :: random_normal_matrix
-                real*8 dimension(num_sites),depend(num_sites) :: temperature
+                real*8 dimension(num_sites,3),intent(in) :: random_normal_matrix
+                real*8 dimension(num_sites),intent(in),depend(num_sites) :: temperature
+                real*8 dimension(num_sites),intent(in),depend(num_sites) :: magnitude_spin_moment
                 real*8 intent(in) :: damping
                 real*8 intent(in) :: deltat
-                real*8 intent(in) :: magnitude_spin_moment
                 real*8 intent(in) :: gyromagnetic
                 real*8 intent(in) :: kB
                 real*8 dimension(num_sites,3),depend(num_sites) :: thermal_field
@@ -53,16 +53,51 @@ python module ffunctions ! in
 
 
         module spin_fields ! in :spin_fields:spin_fields.f90
-            function exchange_interaction_field(num_sites,state,num_interactions,j_exchange,num_neighbors,neighbors) ! in :spin_fields:spin_fields.f90:spin_fields
+            function exchange_interaction_field(num_sites,state,magnitude_spin_moment,num_interactions,j_exchange,num_neighbors,neighbors) ! in :spin_fields:spin_fields.f90:spin_fields
                 integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
                 real*8 dimension(num_sites,3),intent(in) :: state
+                real*8 dimension(num_sites),intent(in),depend(num_sites) :: magnitude_spin_moment
                 integer, intent(hide),check(len(j_exchange)==num_interactions),depend(j_exchange) :: num_interactions=len(j_exchange)
                 real*8 dimension(num_interactions),intent(in) :: j_exchange
                 integer dimension(num_sites),intent(in),depend(num_sites) :: num_neighbors
                 integer dimension(num_interactions),intent(in),depend(num_interactions) :: neighbors
                 real*8 dimension(num_sites,3),depend(num_sites) :: exchange_interaction_field
             end function exchange_interaction_field
+
+            function anisotropy_interaction_field(num_sites,state,magnitude_spin_moment,anisotropy_constant,anisotropy_vector) ! in :spin_fields:spin_fields.f90:spin_fields
+                integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
+                real*8 dimension(num_sites,3),intent(in) :: state
+                real*8 dimension(num_sites),intent(in),depend(num_sites) :: magnitude_spin_moment
+                real*8 dimension(num_sites),intent(in),depend(num_sites) :: anisotropy_constant
+                real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: anisotropy_vector
+                real*8 dimension(num_sites,3),depend(num_sites) :: anisotropy_interaction_field
+            end function anisotropy_interaction_field
         end module spin_fields
+
+        module heun ! in :heun:heun.f90
+            use external_fields
+            use spin_fields
+            function integrate(num_sites,state,magnitude_spin_moment,random_normal_matrix,temperature,damping,deltat,gyromagnetic,kb,field_intensities,field_directions,num_interactions,j_exchange,num_neighbors,neighbors,anisotropy_constant,anisotropy_vector) ! in :maricadita:heun.f90:heun
+                integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
+                real*8 dimension(num_sites,3),intent(in) :: state
+                real*8 dimension(num_sites),intent(in),depend(num_sites) :: magnitude_spin_moment
+                real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: random_normal_matrix
+                real*8 dimension(num_sites),intent(in),depend(num_sites) :: temperature
+                real*8 intent(in) :: damping
+                real*8 intent(in) :: deltat
+                real*8 intent(in) :: gyromagnetic
+                real*8 intent(in) :: kb
+                real*8 dimension(num_sites),intent(in),depend(num_sites) :: field_intensities
+                real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: field_directions
+                integer, intent(hide),check(len(j_exchange)==num_interactions),depend(j_exchange) :: num_interactions=len(j_exchange)
+                real*8 dimension(num_interactions),intent(in) :: j_exchange
+                integer dimension(num_sites),intent(in),depend(num_sites) :: num_neighbors
+                integer dimension(num_interactions),intent(in),depend(num_interactions) :: neighbors
+                real*8 dimension(num_sites),intent(in),depend(num_sites) :: anisotropy_constant
+                real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: anisotropy_vector
+                real*8 dimension(num_sites,3),depend(num_sites) :: integrate
+            end function integrate
+        end module heun
     end interface
 end python module ffunctions
 
