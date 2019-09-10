@@ -20,3 +20,8 @@ def random_directions(num_sites):
 @pytest.fixture
 def random_temperature(num_sites):
     return numpy.random.uniform(0, 1, size=num_sites)
+
+
+@pytest.fixture
+def random_magnitude_spin(num_sites):
+    return numpy.random.uniform(0, 1, size=num_sites)
