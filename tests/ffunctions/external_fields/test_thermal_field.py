@@ -79,7 +79,7 @@ def test_thermal_field_ones_matrix(num_sites):
         external_fields.thermal_field(
             numpy.ones((num_sites, 3)), [1] * num_sites,
             [1] * num_sites, 1.0, 1.0, 1.0, 1.0),
-        numpy.ones((num_sites, 3)) * numpy.sqrt(2.0))
+        numpy.ones((num_sites, 3)) * numpy.sqrt(2))
 
 
 @pytest.mark.repeat(100)
@@ -88,10 +88,16 @@ def test_thermal_field_random_matrix(num_sites, random_directions):
     assert numpy.allclose(
         external_fields.thermal_field(
             mat, [1] * num_sites,
-            [1] * num_sites, 1.0, 1.0, 1.0, 1.0), mat * numpy.sqrt(2.0))
+            [1] * num_sites, 1.0, 1.0, 1.0, 1.0), mat * numpy.sqrt(2))
 
 
 @pytest.mark.repeat(100)
-def test_thermal_field_random_temperature(num_sites):
-    
-    pass
+def test_thermal_field_random_temperature(num_sites, random_temperature):
+    tem = random_temperature
+    values = numpy.transpose(numpy.transpose(numpy.ones(
+        (num_sites, 3))) * numpy.sqrt(2 * tem))
+
+    assert numpy.allclose(
+        external_fields.thermal_field(
+            numpy.ones((num_sites, 3)), tem,
+            [1] * num_sites, 1.0, 1.0, 1.0, 1.0), values)
