@@ -10,8 +10,6 @@ from numpy.distutils.core import Extension
 
 ffunctions = Extension(name='llg.ffunctions',
                        sources=['fortran-src/signature.pyf'] +
-                       glob("fortran-src/ffunctions*") +
-                       glob("fortran-src/*.c") +
                        ["fortran-src/external_fields.f90",
                         "fortran-src/mag_functions.f90",
                         "fortran-src/spin_fields.f90",
