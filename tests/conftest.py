@@ -5,3 +5,5 @@ from ffunctions.mag_functions.pytest_fixtures import random_state
 from ffunctions.external_fields.pytest_fixtures import random_intensity
 from ffunctions.external_fields.pytest_fixtures import random_intensities
 from ffunctions.external_fields.pytest_fixtures import random_directions
+from ffunctions.external_fields.pytest_fixtures import random_temperature
+from ffunctions.external_fields.pytest_fixtures import random_magnitude_spin
