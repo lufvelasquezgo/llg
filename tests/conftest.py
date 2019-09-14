@@ -8,7 +8,6 @@ from ffunctions.external_fields.pytest_fixtures import random_directions
 from ffunctions.external_fields.pytest_fixtures import random_temperature
 from ffunctions.external_fields.pytest_fixtures import random_magnitude_spin
 
-from ffunctions.spin_fields.pytest_fixtures import length
 from ffunctions.spin_fields.pytest_fixtures import build_sample
 from ffunctions.spin_fields.pytest_fixtures import random_state_spins
 from ffunctions.spin_fields.pytest_fixtures import random_j_exchange
