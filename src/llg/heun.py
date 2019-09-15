@@ -6,6 +6,8 @@ from llg.ffunctions import spin_fields
 
 
 def dS_llg(state, Heff, damping, gyromagnetic):
+    """Computes the delta_S of a given state"""
+    
     alpha = -gyromagnetic / (1.0 + damping * damping)
     cross1 = numpy.cross(state, Heff)
     cross2 = numpy.cross(state, cross1)
@@ -16,10 +18,13 @@ def integrate(num_sites, state, magnitud_spin_moment, random_normal_matrix,
               temperature, damping, deltat, gyromagnetic, kB,
               field_intensities, field_directions, num_interactions, j_exchange,
               num_neighbors, neighbors, anisotropy_constant, anisotropy_vector):
+    """Performs one iteration of the Heun scheme on a given state"""
+    
     # compute external fields. These fields do not change
     # because they don't depend on the state
     Hext = extenal_fields.thermal_field(
-        num_sites, random_normal_matrix, temperature, magnitud_spin_moment, damping, deltat, gyromagnetic, kB)
+        num_sites, random_normal_matrix, temperature, magnitud_spin_moment, damping, deltat,
+        gyromagnetic, kB)
     Hext += external_fields.magnetic_field(num_sites,
                                            field_intensities, field_directions)
 
@@ -28,7 +33,8 @@ def integrate(num_sites, state, magnitud_spin_moment, random_normal_matrix,
     # compute the effective field as the sum of external fields and
     # spin fields
     Heff = Hext + spin_fields.exchange_interaction_field(
-        num_sites, state, magnitude_spin_moment, num_interactions, j_exchange, num_neighbors, neighbors)
+        num_sites, state, magnitude_spin_moment, num_interactions, j_exchange, num_neighbors,
+        neighbors)
     Heff += spin_fields.anisotropy_interaction_field(
         num_sites, state, magnitude_spin_moment, anisotropy_constant, anisotropy_vector)
 
@@ -45,7 +51,8 @@ def integrate(num_sites, state, magnitud_spin_moment, random_normal_matrix,
     # compute the effective field prime by using the state_prime. We
     # use the Heff variable for this in order to reutilize the memory.
     Heff = Hext + spin_fields.exchange_interaction_field(
-        num_sites, state_prime, magnitude_spin_moment, num_interactions, j_exchange, num_neighbors, neighbors)
+        num_sites, state_prime, magnitude_spin_moment, num_interactions, j_exchange,
+        num_neighbors, neighbors)
     Heff += spin_fields.anisotropy_interaction_field(
         num_sites, state_prime, magnitude_spin_moment, anisotropy_constant, anisotropy_vector)
 
