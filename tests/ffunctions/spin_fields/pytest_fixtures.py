@@ -7,7 +7,7 @@ from collections import defaultdict
 # Fixture to build a simple cubic bulk with PBC
 @pytest.fixture
 def build_sample():
-    length = numpy.random.randint(3, 10)
+    length = numpy.random.randint(1, 10)
     sites = list()
     for x, y, z in product(range(length), repeat=3):
         site = x, y, z
