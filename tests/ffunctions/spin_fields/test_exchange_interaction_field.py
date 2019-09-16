@@ -61,11 +61,12 @@ def test_exchange_interaction_field_random_spin_moments(random_state_spins, buil
 
 
 @pytest.mark.repeat(100)
-def test_exchange_interaction_field_without_neighbors(random_state_spins, build_sample, random_j_exchange):
+def test_exchange_interaction_field_null_interactions(random_state_spins, build_sample):
     num_sites, num_interactions, _, _ = build_sample
     spin_moments = numpy.ones(shape=num_sites)
+    j_exchange = []
     num_neighbors = numpy.zeros(shape=num_sites, dtype=int)
-    neighbors = numpy.empty(shape=num_interactions, dtype=int)
+    neighbors = []
     total = numpy.zeros(shape=(num_sites, 3))
     assert numpy.allclose(spin_fields.exchange_interaction_field(
-        random_state_spins, spin_moments, random_j_exchange, num_neighbors, neighbors), total)
+        random_state_spins, spin_moments, j_exchange, num_neighbors, neighbors), total)
