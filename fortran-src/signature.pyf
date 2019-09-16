@@ -57,10 +57,10 @@ python module ffunctions ! in
                 integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
                 real*8 dimension(num_sites,3),intent(in) :: state
                 real*8 dimension(num_sites),intent(in),depend(num_sites) :: magnitude_spin_moment
-                integer, intent(hide),check(len(j_exchange)==num_interactions),depend(j_exchange) :: num_interactions=len(j_exchange)
+                integer, intent(hide),check(len(j_exchange)==num_interactions, shape(neighbors, 0)==num_interactions),depend(j_exchange, neighbors) :: num_interactions=len(j_exchange)
                 real*8 dimension(num_interactions),intent(in) :: j_exchange
                 integer dimension(num_sites),intent(in),depend(num_sites) :: num_neighbors
-                integer dimension(num_interactions),intent(in),depend(num_interactions) :: neighbors
+                integer dimension(num_interactions),intent(in) :: neighbors
                 real*8 dimension(num_sites,3),depend(num_sites) :: exchange_interaction_field
             end function exchange_interaction_field
 
@@ -89,10 +89,10 @@ python module ffunctions ! in
                 real*8 intent(in) :: kb
                 real*8 dimension(num_sites),intent(in),depend(num_sites) :: field_intensities
                 real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: field_directions
-                integer, intent(hide),check(len(j_exchange)==num_interactions),depend(j_exchange) :: num_interactions=len(j_exchange)
+                integer, intent(hide),check(len(j_exchange)==num_interactions, shape(neighbors, 0)==num_interactions),depend(j_exchange, neighbors) :: num_interactions=len(j_exchange)
                 real*8 dimension(num_interactions),intent(in) :: j_exchange
                 integer dimension(num_sites),intent(in),depend(num_sites) :: num_neighbors
-                integer dimension(num_interactions),intent(in),depend(num_interactions) :: neighbors
+                integer dimension(num_interactions),intent(in) :: neighbors
                 real*8 dimension(num_sites),intent(in),depend(num_sites) :: anisotropy_constant
                 real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: anisotropy_vector
                 real*8 dimension(num_sites,3),depend(num_sites) :: integrate
