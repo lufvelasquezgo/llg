@@ -55,3 +55,15 @@ def random_j_exchange(build_sample):
 def random_spin_moments(build_sample):
     num_sites, _, _, _ = build_sample
     return numpy.random.uniform(0, 1, size=num_sites)
+
+
+@pytest.fixture
+def random_anisotropy_constant(build_sample):
+    num_sites, _, _, _ = build_sample
+    return numpy.random.uniform(-1, 1, size=num_sites)
+
+
+@pytest.fixture
+def random_anisotropy_vector(build_sample):
+    num_sites, _, _, _ = build_sample
+    return numpy.random.uniform(-1, 1, size=(num_sites, 3))

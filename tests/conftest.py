@@ -12,3 +12,5 @@ from ffunctions.spin_fields.pytest_fixtures import build_sample
 from ffunctions.spin_fields.pytest_fixtures import random_state_spins
 from ffunctions.spin_fields.pytest_fixtures import random_j_exchange
 from ffunctions.spin_fields.pytest_fixtures import random_spin_moments
+from ffunctions.spin_fields.pytest_fixtures import random_anisotropy_constant
+from ffunctions.spin_fields.pytest_fixtures import random_anisotropy_vector
