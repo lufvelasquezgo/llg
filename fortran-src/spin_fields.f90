@@ -29,7 +29,7 @@ contains
                 nbh = neighbors(j)
                 exchange_interaction_field(i, :) = exchange_interaction_field(i, :) + j_exchange(j) * state(nbh, :)
             end do
-            exchange_interaction_field(i, :) = - exchange_interaction_field(i, :) / magnitude_spin_moment(i)
+            exchange_interaction_field(i, :) = exchange_interaction_field(i, :) / magnitude_spin_moment(i)
         end do
     end function exchange_interaction_field
     
@@ -52,7 +52,7 @@ contains
                 dot_product(state(i, :), anisotropy_vector(i, :)) * &
                 anisotropy_vector(i, :)
 
-            anisotropy_interaction_field(i, :) = - anisotropy_interaction_field(i, :) / magnitude_spin_moment(i)
+            anisotropy_interaction_field(i, :) = anisotropy_interaction_field(i, :) / magnitude_spin_moment(i)
         end do        
     end function anisotropy_interaction_field
     
