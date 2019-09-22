@@ -117,7 +117,7 @@ contains
         dS_prime = dS_llg(num_sites, state_prime, Heff, damping, gyromagnetic)
         
         ! compute the new state
-        integrate = state + 0.d5 * (dS + dS_prime) * deltat
+        integrate = state + 0.5d0 * (dS + dS_prime) * deltat
         
         ! normalize the new state
         integrate = normalize(num_sites, integrate)
