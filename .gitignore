@@ -151,3 +151,6 @@ fortran-src/ffunctionsmodule.c
 
 # Untracked files
 src/llg/ffunctions.cpython-36m-darwin.so.dSYM/
+
+# Local test file
+tmp_test.py
