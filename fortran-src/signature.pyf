@@ -77,7 +77,7 @@ python module ffunctions ! in
         module heun ! in :heun:heun.f90
             use external_fields
             use spin_fields
-            function integrate(num_sites,state,magnitude_spin_moment,random_normal_matrix,temperature,damping,deltat,gyromagnetic,kb,field_intensities,field_directions,num_interactions,j_exchange,num_neighbors,neighbors,anisotropy_constant,anisotropy_vector) ! in :maricadita:heun.f90:heun
+            function integrate(num_sites,state,magnitude_spin_moment,random_normal_matrix,temperature,damping,deltat,gyromagnetic,kB,field_intensities,field_directions,num_interactions,j_exchange,num_neighbors,neighbors,anisotropy_constant,anisotropy_vector) ! in :maricadita:heun.f90:heun
                 integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
                 real*8 dimension(num_sites,3),intent(in) :: state
                 real*8 dimension(num_sites),intent(in),depend(num_sites) :: magnitude_spin_moment
@@ -86,7 +86,7 @@ python module ffunctions ! in
                 real*8 intent(in) :: damping
                 real*8 intent(in) :: deltat
                 real*8 intent(in) :: gyromagnetic
-                real*8 intent(in) :: kb
+                real*8 intent(in) :: kB
                 real*8 dimension(num_sites),intent(in),depend(num_sites) :: field_intensities
                 real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: field_directions
                 integer, intent(hide),check(len(j_exchange)==num_interactions, shape(neighbors, 0)==num_interactions),depend(j_exchange, neighbors) :: num_interactions=len(j_exchange)
