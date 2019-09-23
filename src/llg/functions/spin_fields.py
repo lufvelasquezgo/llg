@@ -1,7 +1,14 @@
+"""
+Module for the computation of the spin fields of the LLG equation.
+These spin fields are the exchange interaction field and the 
+anisotropy interaction field.
+"""
 import numpy
 
 
-def exchange_interaction_field(state, magnitude_spin_moment, j_exchange, num_neighbors, neighbors):
+def exchange_interaction_field(state, magnitude_spin_moment, j_exchange, num_neighbors,
+                               neighbors):
+    """Computes the exchange interaction field for each site of a given state"""
     state = numpy.array(state)
     magnitude_spin_moment = numpy.array(magnitude_spin_moment)
     j_exchange = numpy.array(j_exchange)
@@ -22,7 +29,9 @@ def exchange_interaction_field(state, magnitude_spin_moment, j_exchange, num_nei
     return out
 
 
-def anisotropy_interaction_field(state, magnitude_spin_moment, anisotropy_constant, anisotropy_vector):
+def anisotropy_interaction_field(state, magnitude_spin_moment, anisotropy_constant,
+                                 anisotropy_vector):
+    """Computes the anisotropy interaction field for each site of a given state"""
     state = numpy.array(state)
     magnitude_spin_moment = numpy.array(magnitude_spin_moment)
     anisotropy_constant = numpy.array(anisotropy_constant)
