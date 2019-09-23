@@ -6,7 +6,7 @@ import numpy
 def compute_anisotropy_field(num_sites, state, magnitude_spin_moment, anisotropy_constant, anisotropy_vector):
     total = numpy.zeros(shape=(num_sites, 3))
     for i in range(num_sites):
-        total[i] -= 2.0 * anisotropy_constant[i] * \
+        total[i] += 2.0 * anisotropy_constant[i] * \
             numpy.dot(state[i], anisotropy_vector[i]) * anisotropy_vector[i]
 
     total /= magnitude_spin_moment[:, numpy.newaxis]

@@ -11,7 +11,7 @@ def compute_exchange_field(num_sites, state, j_exchange, spin_moments, num_neigh
             index = j + sum_nhbs
             j_int = j_exchange[index]
             nhb = neighbors[index]
-            total[i] -= j_int * state[nhb]
+            total[i] += j_int * state[nhb]
     total /= spin_moments[:, numpy.newaxis]
     return total
 
