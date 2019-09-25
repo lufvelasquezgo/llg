@@ -27,7 +27,6 @@ def magnetization_vector_by_type(state, num_types, types):
 def total_magnetization(state):
     """Computes the norm of the magnetization vector of a given state"""
     state = numpy.array(state)
-    num_sites = len(state)
     mag = magnetization_vector(state)
     return numpy.linalg.norm(mag)
 

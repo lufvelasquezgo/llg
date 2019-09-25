@@ -8,7 +8,6 @@ import numpy
 def thermal_field(random_normal_matrix, temperature, magnitude_spin_moment, damping,
                   deltat, gyromagnetic, kB):
     """Function that returns the thermal field on each site"""
-    
     random_normal_matrix = numpy.array(random_normal_matrix)
     num_sites = len(random_normal_matrix)
     out = numpy.zeros((num_sites, 3))
