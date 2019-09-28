@@ -19,7 +19,8 @@ install:
 
 # Command to run tests, e.g. python setup.py test
 script:
-  - tox
+  # - tox
+  - pip install -e .
   - pytest  --cov-report term --cov=src/llg
 
 after_success:
