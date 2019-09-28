@@ -1,8 +1,6 @@
-"""
-Module for the computation of the spin fields of the LLG equation.
-These spin fields are the exchange interaction field and the 
-anisotropy interaction field.
-"""
+"""Module for the computation of the spin fields of the LLG equation. 
+These spin fields are the exchange interaction field and the anisotropy 
+interaction field."""
 import numpy
 
 
