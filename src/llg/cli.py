@@ -64,12 +64,12 @@ def main(file, args=None):
                                temperature, damping, deltat, gyromagnetic, kb,
                                field_int, field_dir, j_exchange, num_neighbors,
                                neighbors, anis_const, anis_vect)
-        mag = mag_functions.magnetization_vector(state)[2]
+        mag = mag_functions.total_magnetization(state)
         magnetization_arr.append(mag)
 
     pyplot.figure()
     pyplot.plot(magnetization_arr)
-    pyplot.ylim(-1, 1)
+    pyplot.ylim(0, 1)
     pyplot.savefig("magnetization.pdf")
     pyplot.close()
 
