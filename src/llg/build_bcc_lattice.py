@@ -27,22 +27,30 @@ def main(length):
     for site in sites:
         x, y, z = site
         types[site] = "Fe"
-        nhbs_dict[site].append(sites.index(
-            ((x + 0.5) % length, (y + 0.5) % length, (z + 0.5) % length)))
-        nhbs_dict[site].append(sites.index(
-            ((x + 0.5) % length, (y + 0.5) % length, (z - 0.5) % length)))
-        nhbs_dict[site].append(sites.index(
-            ((x + 0.5) % length, (y - 0.5) % length, (z + 0.5) % length)))
-        nhbs_dict[site].append(sites.index(
-            ((x + 0.5) % length, (y - 0.5) % length, (z - 0.5) % length)))
-        nhbs_dict[site].append(sites.index(
-            ((x - 0.5) % length, (y + 0.5) % length, (z + 0.5) % length)))
-        nhbs_dict[site].append(sites.index(
-            ((x - 0.5) % length, (y + 0.5) % length, (z - 0.5) % length)))
-        nhbs_dict[site].append(sites.index(
-            ((x - 0.5) % length, (y - 0.5) % length, (z + 0.5) % length)))
-        nhbs_dict[site].append(sites.index(
-            ((x - 0.5) % length, (y - 0.5) % length, (z - 0.5) % length)))
+        nhbs_dict[site].append(
+            sites.index(((x + 0.5) % length, (y + 0.5) % length, (z + 0.5) % length))
+        )
+        nhbs_dict[site].append(
+            sites.index(((x + 0.5) % length, (y + 0.5) % length, (z - 0.5) % length))
+        )
+        nhbs_dict[site].append(
+            sites.index(((x + 0.5) % length, (y - 0.5) % length, (z + 0.5) % length))
+        )
+        nhbs_dict[site].append(
+            sites.index(((x + 0.5) % length, (y - 0.5) % length, (z - 0.5) % length))
+        )
+        nhbs_dict[site].append(
+            sites.index(((x - 0.5) % length, (y + 0.5) % length, (z + 0.5) % length))
+        )
+        nhbs_dict[site].append(
+            sites.index(((x - 0.5) % length, (y + 0.5) % length, (z - 0.5) % length))
+        )
+        nhbs_dict[site].append(
+            sites.index(((x - 0.5) % length, (y - 0.5) % length, (z + 0.5) % length))
+        )
+        nhbs_dict[site].append(
+            sites.index(((x - 0.5) % length, (y - 0.5) % length, (z - 0.5) % length))
+        )
 
     neighbors = list()
     num_neighbors = list()
@@ -53,27 +61,19 @@ def main(length):
     num_interactions = sum(num_neighbors)
     num_types = len(set(types.values()))
 
-    outname = "sample.dat"
-    with open(outname, "w") as outfile:
-        outfile.write(f"{num_sites} {num_interactions} {num_types}\n")
-        for t in set(types.values()):
-            outfile.write(f"{t}\n")
+    sample = {"geometry": [], "neighbors": [], "parameters": {"num_iterations": 1000}}
 
-        for i, site in enumerate(sites):
-            outfile.write(
-                "{} {} {} {} {} {} {} {} {} {} {} {}\n".format(i, *site, mus, *field_dir, types[site], *initial_state[i]))
+    for i, site in enumerate(sites):
+        sample["geometry"].append(
+            {"index": i, "site": list(site), "type": types[site], "mu": mus}
+        )
 
-        for i, site in enumerate(sites):
-            for nhb in nhbs_dict[site]:
-                outfile.write("{} {} {}\n".format(i, nhb, jex))
+    for i, site in enumerate(sites):
+        for nhb in nhbs_dict[site]:
+            sample["neighbors"].append({"from": i, "to": nhb, "jex": jex})
 
-    parameters = {
-        "sample": outname,
-        "num_iterations": 1000,
-    }
-
-    with open("parameters.yml", "w") as outfile:
-        yaml.dump(parameters, outfile, default_flow_style=False)
+    with open("sample.yml", "w") as outfile:
+        yaml.dump(sample, outfile, default_flow_style=False)
 
 
 if __name__ == "__main__":
