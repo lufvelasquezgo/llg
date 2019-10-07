@@ -153,3 +153,6 @@ fortran-src/ffunctionsmodule.c
 *.yml
 *.dat
 *.json
+
+# pdf files
+*.pdf

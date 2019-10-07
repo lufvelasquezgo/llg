@@ -1,6 +1,6 @@
 import numpy
 import click
-import yaml
+import json
 from itertools import product
 from collections import defaultdict
 
@@ -13,15 +13,14 @@ def main(length):
     mub = 5.788e-2
     jex = 44.01
     mus = 2.22 * mub
-    field_dir = [0, 0, 1]
+    field_dir = [0.0, 0.0, 1.0]
+    kv = 0.0
+    kv_axis = [0.0, 0.0, 1.0]
     for x, y, z in product(range(length), repeat=3):
         sites.append((x, y, z))
         sites.append((x + 0.5, y + 0.5, z + 0.5))
 
     num_sites = len(sites)
-
-    initial_state = numpy.random.normal(size=(num_sites, 3))
-    initial_state /= numpy.linalg.norm(initial_state, axis=1)[:, numpy.newaxis]
 
     nhbs_dict = defaultdict(list)
     for site in sites:
@@ -58,22 +57,44 @@ def main(length):
         neighbors += nhbs
         num_neighbors.append(len(nhbs))
 
-    num_interactions = sum(num_neighbors)
-    num_types = len(set(types.values()))
-
-    sample = {"geometry": [], "neighbors": [], "parameters": {"num_iterations": 1000}}
+    sample = {
+        "geometry": [],
+        "neighbors": [],
+        "parameters": {
+            "num_iterations": 10000,
+            "units": "mev",
+            "damping": 1.0,
+            "gyromagnetic": 1.76e11,
+            "deltat": 1e-15,
+        },
+        "temperature": 0.0,
+        "field": 10.0,
+        "seed": None,
+        "initial_state": [],
+    }
 
     for i, site in enumerate(sites):
         sample["geometry"].append(
-            {"index": i, "site": list(site), "type": types[site], "mu": mus}
+            {
+                "index": i,
+                "position": list(site),
+                "type": types[site],
+                "mu": mus,
+                "anisotropy_constant": kv,
+                "anisotopy_axis": kv_axis,
+                "field_axis": field_dir,
+            }
         )
 
     for i, site in enumerate(sites):
         for nhb in nhbs_dict[site]:
-            sample["neighbors"].append({"from": i, "to": nhb, "jex": jex})
+            sample["neighbors"].append({"source": i, "target": nhb, "jex": jex})
 
-    with open("sample.yml", "w") as outfile:
-        yaml.dump(sample, outfile, default_flow_style=False)
+    for i, site in enumerate(sites):
+        sample["initial_state"].append([1, 0, 0])
+
+    with open("sample.json", "w") as outfile:
+        json.dump(sample, outfile, sort_keys=False, indent=2)
 
 
 if __name__ == "__main__":
