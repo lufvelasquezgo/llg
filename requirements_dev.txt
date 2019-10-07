@@ -18,3 +18,4 @@ pytest-cov==2.7.1
 ipython==7.8.0
 
 coverage==4.5.4
+black==19.3b0
