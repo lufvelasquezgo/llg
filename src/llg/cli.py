@@ -26,7 +26,7 @@ def build_values(structure):
     elif isinstance(structure, list):
         return structure
     elif isinstance(structure, Real):
-        return [structure, ]
+        return [structure]
     else:
         raise Exception("No supported format.")
 
@@ -93,25 +93,28 @@ def read_neighbors(links):
         "neighbors": neighbors,
     }
 
+
 def get_random_state(num_sites):
     random_state = numpy.random.normal(size=(num_sites, 3))
     norms = numpy.linalg.norm(random_state, axis=1)
     random_state = [vec / norms[i] for i, vec in enumerate(random_state)]
     return random_state
 
+
 def match_sizes(arr1, arr2):
     if len(arr1) == len(arr2):
         return arr1, arr2
-    
+
     if len(arr1) < len(arr2):
         while len(arr1) < len(arr2):
             arr1 = arr1 * 2
-        return arr1[:len(arr2)], arr2
-    
+        return arr1[: len(arr2)], arr2
+
     if len(arr2) < len(arr1):
         while len(arr2) < len(arr1):
             arr2 = arr2 * 2
-        return arr1, arr2[:len(arr1)]
+        return arr1, arr2[: len(arr1)]
+
 
 @click.command()
 @click.argument("file")
@@ -140,21 +143,19 @@ def main(file, args=None):
     else:
         kb = 1.0
 
-
     sample_info = read_geometry(data["geometry"])
     num_sites = sample_info["num_sites"]
     spin_norms = sample_info["spin_norms"]
     field_axes = sample_info["field_axes"]
     anisotropy_constants = sample_info["anisotropy_constants"]
     anisotropy_axes = sample_info["anisotropy_axes"]
-    
+
     neighbors_info = read_neighbors(data["neighbors"])
     j_exchanges = neighbors_info["j_exchanges"]
     num_neighbors = neighbors_info["num_neighbors"]
     neighbors = neighbors_info["neighbors"]
-    
+
     state = data.get("initial_state", get_random_state(num_sites))
-    
 
     for T, H in zip(temperatures, fields):
         temperatures_sites = [T] * num_sites
@@ -186,7 +187,6 @@ def main(file, args=None):
             mx_arr.append(mx)
             my_arr.append(my)
             mz_arr.append(mz)
-            
 
         pyplot.figure()
         pyplot.plot(mx_arr, label="mx")

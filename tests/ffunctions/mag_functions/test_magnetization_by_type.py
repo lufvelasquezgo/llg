@@ -16,12 +16,17 @@ def test_magnetization_by_type_random_state(num_sites, random_num_types, random_
     assert sorted(numpy.unique(types)) == list(range(0, random_num_types))
 
     magnetization_by_type = mag_functions.magnetization_by_type(
-        random_state, random_num_types, types)
+        random_state, random_num_types, types
+    )
 
     assert len(magnetization_by_type) == random_num_types
 
-    values = [numpy.linalg.norm(numpy.sum(random_state[types == t], axis=0) / (types == t).sum())
-              for t in range(random_num_types)]
+    values = [
+        numpy.linalg.norm(
+            numpy.sum(random_state[types == t], axis=0) / (types == t).sum()
+        )
+        for t in range(random_num_types)
+    ]
 
     assert numpy.allclose(magnetization_by_type, values)
 
@@ -30,8 +35,7 @@ def test_magnetization_by_type_AFM_state_x(num_sites):
     state = [[1.0, 0.0, 0.0], [-1.0, 0.0, 0.0]] * (num_sites // 2)
     types = [0, 1] * (num_sites // 2)
 
-    magnetization_by_type = mag_functions.magnetization_by_type(
-        state, 2, types)
+    magnetization_by_type = mag_functions.magnetization_by_type(state, 2, types)
 
     assert numpy.allclose(magnetization_by_type, [1.0, 1.0])
 
@@ -40,8 +44,7 @@ def test_magnetization_by_type_AFM_state_y(num_sites):
     state = [[0.0, 1.0, 0.0], [0.0, -1.0, 0.0]] * (num_sites // 2)
     types = [0, 1] * (num_sites // 2)
 
-    magnetization_by_type = mag_functions.magnetization_by_type(
-        state, 2, types)
+    magnetization_by_type = mag_functions.magnetization_by_type(state, 2, types)
 
     assert numpy.allclose(magnetization_by_type, [1.0, 1.0])
 
@@ -50,7 +53,6 @@ def test_magnetization_by_type_AFM_state_z(num_sites):
     state = [[0.0, 0.0, 1.0], [0.0, 0.0, -1.0]] * (num_sites // 2)
     types = [0, 1] * (num_sites // 2)
 
-    magnetization_by_type = mag_functions.magnetization_by_type(
-        state, 2, types)
+    magnetization_by_type = mag_functions.magnetization_by_type(state, 2, types)
 
     assert numpy.allclose(magnetization_by_type, [1.0, 1.0])
