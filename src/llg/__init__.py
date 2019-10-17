@@ -5,3 +5,7 @@ __email__ = "jdalzatec@unal.edu.co"
 __version__ = "0.1.0"
 
 from llg import ffunctions
+from llg.site import Site
+from llg.geometry import Geometry
+from llg.bucket import Bucket
+from llg.system import System

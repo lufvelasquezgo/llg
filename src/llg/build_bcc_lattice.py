@@ -20,8 +20,6 @@ def main(length):
         sites.append((x, y, z))
         sites.append((x + 0.5, y + 0.5, z + 0.5))
 
-    num_sites = len(sites)
-
     nhbs_dict = defaultdict(list)
     for site in sites:
         x, y, z = site
@@ -58,10 +56,11 @@ def main(length):
         num_neighbors.append(len(nhbs))
 
     sample = {
-        "geometry": [],
-        "neighbors": [],
+        "geometry": {
+            "sites": [],
+            "neighbors": [],
+        },
         "parameters": {
-            "num_iterations": 10000,
             "units": "mev",
             "damping": 1.0,
             "gyromagnetic": 1.76e11,
@@ -74,7 +73,7 @@ def main(length):
     }
 
     for i, site in enumerate(sites):
-        sample["geometry"].append(
+        sample["geometry"]["sites"].append(
             {
                 "index": i,
                 "position": list(site),
@@ -88,7 +87,7 @@ def main(length):
 
     for i, site in enumerate(sites):
         for nhb in nhbs_dict[site]:
-            sample["neighbors"].append({"source": i, "target": nhb, "jex": jex})
+            sample["geometry"]["neighbors"].append({"source": i, "target": nhb, "jex": jex})
 
     for i, site in enumerate(sites):
         sample["initial_state"].append([1, 0, 0])
