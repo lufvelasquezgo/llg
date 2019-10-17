@@ -9,3 +9,4 @@ from llg.site import Site
 from llg.geometry import Geometry
 from llg.bucket import Bucket
 from llg.system import System
+from llg.simulation import Simulation

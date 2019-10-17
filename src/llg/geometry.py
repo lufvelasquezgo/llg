@@ -40,9 +40,7 @@ class Geometry:
         for site_dict in site_dicts:
             site = Site.from_dict(site_dict)
             if site in output_sites:
-                raise Exception(
-                    f"Site with the index {site['index']} already exists !!!"
-                )
+                raise Exception(f"Site with the index {site.index} already exists !!!")
             output_sites.append(site)
         return output_sites
 

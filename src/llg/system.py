@@ -52,3 +52,12 @@ class System:
             f"{self.__class__.__name__} does not have an attribute {attr}"
         )
 
+    @property
+    def information(self):
+        return {
+            "num_sites": self.geometry.num_sites,
+            "parameters": self.parameters,
+            "temperatures": self.temperatures.values,
+            "fields": self.fields.values,
+            "seed": self.seed,
+        }
