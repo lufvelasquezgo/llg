@@ -56,10 +56,7 @@ def main(length):
         num_neighbors.append(len(nhbs))
 
     sample = {
-        "geometry": {
-            "sites": [],
-            "neighbors": [],
-        },
+        "geometry": {"sites": [], "neighbors": []},
         "parameters": {
             "units": "mev",
             "damping": 1.0,
@@ -70,6 +67,7 @@ def main(length):
         "field": 10.0,
         "seed": None,
         "initial_state": [],
+        "num_iterations": 100,
     }
 
     for i, site in enumerate(sites):
@@ -87,7 +85,9 @@ def main(length):
 
     for i, site in enumerate(sites):
         for nhb in nhbs_dict[site]:
-            sample["geometry"]["neighbors"].append({"source": i, "target": nhb, "jex": jex})
+            sample["geometry"]["neighbors"].append(
+                {"source": i, "target": nhb, "jex": jex}
+            )
 
     for i, site in enumerate(sites):
         sample["initial_state"].append([1, 0, 0])

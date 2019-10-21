@@ -26,7 +26,7 @@ with open("README.rst") as readme_file:
 #     history = history_file.read()
 history = ""
 
-requirements = ["Click>=6.0", "numpy>=1.17.0", "tqdm>=4.32.2"]
+requirements = ["Click>=6.0", "numpy>=1.17.0", "tqdm>=4.32.2", "h5py==2.10.0"]
 
 setup_requirements = ["pytest-runner"]
 
