@@ -6,7 +6,7 @@ from collections import defaultdict
 
 
 @click.command()
-@click.option("-length", default=7)
+@click.option("-length", default=15)
 def main(length):
     sites = list()
     types = dict()
@@ -63,11 +63,11 @@ def main(length):
             "gyromagnetic": 1.76e11,
             "deltat": 1e-15,
         },
-        "temperature": 0.0,
-        "field": 10.0,
-        "seed": None,
+        "temperature": [0.0] * 2,
+        "field": [10.0] * 2,
+        "seed": 696969,
         "initial_state": [],
-        "num_iterations": 100,
+        "num_iterations": 1000,
     }
 
     for i, site in enumerate(sites):

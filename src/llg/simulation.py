@@ -55,9 +55,9 @@ class Simulation:
         num_sites = self.system.geometry.num_sites
         state = self.initial_state
 
-        for T, H in zip(self.system.temperatures, self.system.fields):
-            temperatures_sites = [T] * num_sites
-            fields_sites = [H] * num_sites
+        for T, H in zip(self.system.temperature, self.system.field):
+            temperature_sites = [T] * num_sites
+            field_sites = [H] * num_sites
 
             for _ in tqdm(range(self.num_iterations)):
                 random_normal_matrix = numpy.random.normal(size=(num_sites, 3))
@@ -65,12 +65,12 @@ class Simulation:
                     state,
                     spin_norms,
                     random_normal_matrix,
-                    temperatures_sites,
+                    temperature_sites,
                     damping,
                     deltat,
                     gyromagnetic,
                     kb,
-                    fields_sites,
+                    field_sites,
                     field_axes,
                     j_exchanges,
                     num_neighbors,

@@ -9,14 +9,14 @@ class System:
         self,
         geometry: Geometry,
         parameters: dict,
-        temperatures: Bucket,
-        fields: Bucket,
+        temperature: Bucket,
+        field: Bucket,
         seed=random.getrandbits(32),
     ):
         self.geometry = geometry
         self.parameters = parameters
-        self.temperatures = temperatures
-        self.fields = fields
+        self.temperature = temperature
+        self.field = field
         self.seed = seed
 
         if parameters["units"] == "mev":
@@ -30,12 +30,12 @@ class System:
     def from_dict(cls, system_dict):
         geometry = Geometry.from_dict(system_dict["geometry"])
         parameters = system_dict["parameters"]
-        temperatures = Bucket(system_dict["temperature"])
-        fields = Bucket(system_dict["field"])
-        temperatures, fields = Bucket.match_sizes(temperatures, fields)
-        seed = system_dict.get("seed")
+        temperature = Bucket(system_dict["temperature"])
+        field = Bucket(system_dict["field"])
+        temperature, field = Bucket.match_sizes(temperature, field)
+        seed = system_dict.get("seed", random.getrandbits(32))
 
-        return cls(geometry, parameters, temperatures, fields, seed)
+        return cls(geometry, parameters, temperature, field, seed)
 
     @classmethod
     def from_file(cls, system_file):
@@ -57,7 +57,7 @@ class System:
         return {
             "num_sites": self.geometry.num_sites,
             "parameters": self.parameters,
-            "temperatures": self.temperatures.values,
-            "fields": self.fields.values,
+            "temperature": self.temperature.values,
+            "field": self.field.values,
             "seed": self.seed,
         }

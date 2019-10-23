@@ -24,29 +24,43 @@ def simulate(configuration_file):
     for state in simulation.run():
         print(pickle.dumps(state))
 
-    # click.echo("Replace this message by putting your code into "
-    #            "llg.cli.main")
-    # click.echo("See click documentation at http://click.pocoo.org/")
 
-
-@main.command("store")
+@main.command("store-hdf")
 @click.argument("output")
-def store_cli(output):
+def store_hdf_cli(output):
     extension = output.split(".")[-1]
     if extension not in ["hdf"]:
         raise Exception("Extension does not supported !")
 
-    with h5py.File(output, mode="w") as data_file:
-
+    with h5py.File(output, mode="w") as dataset:
         system_information = pickle.loads(eval(input()))
         num_iterations = pickle.loads(eval(input()))
         initial_state = pickle.loads(eval(input()))
 
-        for _ in range(num_iterations):
-            state = pickle.loads(eval(input()))
+        num_TH = len(system_information["temperature"])
+        num_sites = system_information["num_sites"]
+        dataset.attrs["num_sites"] = num_sites
+        dataset.attrs["seed"] = system_information["seed"]
+        dataset.attrs["units"] = system_information["parameters"]["units"]
+        dataset.attrs["damping"] = system_information["parameters"]["damping"]
+        dataset.attrs["gyromagnetic"] = system_information["parameters"]["gyromagnetic"]
+        dataset.attrs["deltat"] = system_information["parameters"]["deltat"]
+        dataset.attrs["kb"] = system_information["parameters"]["kb"]
+        dataset.attrs["num_iterations"] = num_iterations
+        dataset.attrs["num_TH"] = num_TH
 
-        print(system_information)
+        dataset["initial_state"] = initial_state
+        dataset["temperature"] = system_information["temperature"]
+        dataset["field"] = system_information["field"]
 
-
-if __name__ == "__main__":
-    store()
+        states_dataset = dataset.create_dataset(
+            "states",
+            (num_TH, num_iterations, num_sites, 3),
+            dtype=float,
+            chunks=True,
+            compression="gzip",
+        )
+        for i in range(num_TH):
+            for j in range(num_iterations):
+                state = pickle.loads(eval(input()))
+                states_dataset[i, j, :] = state
