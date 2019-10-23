@@ -16,11 +16,7 @@ def main():
 @click.argument("configuration_file")
 def simulate(configuration_file):
     simulation = Simulation.from_file(configuration_file)
-    print(pickle.dumps(simulation.system.information))
-    print(pickle.dumps(simulation.num_iterations))
-    print(pickle.dumps(simulation.system.geometry.positions))
-    print(pickle.dumps(simulation.system.geometry.types))
-    print(pickle.dumps(simulation.initial_state))
+    print(pickle.dumps(simulation.information))
     for state in simulation.run():
         print(pickle.dumps(state))
 
@@ -32,28 +28,14 @@ def store_hdf_cli(output):
     if extension not in ["hdf"]:
         raise Exception("Extension does not supported !")
 
-    system_information = pickle.loads(eval(input()))
-    num_iterations = pickle.loads(eval(input()))
-    positions = pickle.loads(eval(input()))
-    types = pickle.loads(eval(input()))
-    initial_state = pickle.loads(eval(input()))
+    simulation_information = pickle.loads(eval(input()))
+    num_TH = simulation_information["num_TH"]
+    num_iterations = simulation_information["num_iterations"]
 
     with StoreHDF(output) as hdf5_file:
-        hdf5_file.store_attributes(system_information)
-        hdf5_file.store_types(types)
+        hdf5_file.populate(simulation_information)
 
-        hdf5_file.store_positions(positions)
-        hdf5_file.store_initial_state(initial_state)
-        hdf5_file.store_temperature(system_information["temperature"])
-        hdf5_file.store_field(system_information["field"])
-
-        hdf5_file.create_states(
-            len(system_information["temperature"]),
-            num_iterations,
-            system_information["num_sites"],
-        )
-
-        for i in range(len(system_information["temperature"])):
+        for i in range(num_TH):
             for j in range(num_iterations):
                 state = pickle.loads(eval(input()))
                 hdf5_file.store_state(state, i, j)

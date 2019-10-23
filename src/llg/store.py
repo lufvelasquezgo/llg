@@ -12,37 +12,37 @@ class StoreHDF:
     def __exit__(self, a, b, c):
         self.__dataset.close()
 
-    def store_attributes(self, system_information):
-        self.__dataset.attrs["num_sites"] = system_information["num_sites"]
-        self.__dataset.attrs["seed"] = system_information["seed"]
-        self.__dataset.attrs["units"] = system_information["parameters"]["units"]
-        self.__dataset.attrs["damping"] = system_information["parameters"]["damping"]
-        self.__dataset.attrs["gyromagnetic"] = system_information["parameters"][
+    def populate(self, simulation_information):
+        num_sites = simulation_information["num_sites"]
+        num_TH = simulation_information["num_TH"]
+        num_iterations = simulation_information["num_iterations"]
+
+        # create attributes
+        self.__dataset.attrs["num_sites"] = num_sites
+        self.__dataset.attrs["num_iterations"] = num_iterations
+        self.__dataset.attrs["seed"] = simulation_information["seed"]
+        self.__dataset.attrs["units"] = simulation_information["parameters"]["units"]
+        self.__dataset.attrs["damping"] = simulation_information["parameters"][
+            "damping"
+        ]
+        self.__dataset.attrs["gyromagnetic"] = simulation_information["parameters"][
             "gyromagnetic"
         ]
-        self.__dataset.attrs["deltat"] = system_information["parameters"]["deltat"]
-        self.__dataset.attrs["kb"] = system_information["parameters"]["kb"]
-        self.__dataset.attrs["num_TH"] = len(system_information["temperature"])
+        self.__dataset.attrs["deltat"] = simulation_information["parameters"]["deltat"]
+        self.__dataset.attrs["kb"] = simulation_information["parameters"]["kb"]
+        self.__dataset.attrs["num_TH"] = len(simulation_information["temperature"])
 
-    def store_types(self, types):
+        # create types
         types_dataset = self.__dataset.create_dataset(
-            "types", (len(types),), dtype=h5py.string_dtype()
+            "types", (num_sites,), dtype=h5py.string_dtype()
         )
-        types_dataset[:] = types
+        types_dataset[:] = simulation_information["types"]
 
-    def store_positions(self, positions):
-        self.__dataset["positions"] = positions
+        self.__dataset["positions"] = simulation_information["positions"]
+        self.__dataset["initial_state"] = simulation_information["initial_state"]
+        self.__dataset["temperature"] = simulation_information["temperature"]
+        self.__dataset["field"] = simulation_information["field"]
 
-    def store_initial_state(self, initial_state):
-        self.__dataset["initial_state"] = initial_state
-
-    def store_temperature(self, temperature):
-        self.__dataset["temperature"] = temperature
-
-    def store_field(self, field):
-        self.__dataset["field"] = field
-
-    def create_states(self, num_TH, num_iterations, num_sites):
         self.__states_dataset = self.__dataset.create_dataset(
             "states",
             (num_TH, num_iterations, num_sites, 3),

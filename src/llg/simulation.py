@@ -3,6 +3,8 @@ import numpy
 from tqdm import tqdm
 from llg.ffunctions import heun
 from llg import System
+from llg import Bucket
+import random
 
 
 def get_random_state(num_sites):
@@ -13,32 +15,72 @@ def get_random_state(num_sites):
 
 
 class Simulation:
-    def __init__(self, system, num_iterations=1000, initial_state=None):
+    def __init__(
+        self,
+        system,
+        temperature: Bucket,
+        field: Bucket,
+        num_iterations=None,
+        seed=None,
+        initial_state=None,
+    ):
         self.system = system
-        self.num_iterations = num_iterations
+        self.temperature = temperature
+        self.field = field
+        self.seed = seed
 
-        numpy.random.seed(self.system.seed)
+        if num_iterations:
+            self.num_iterations = num_iterations
+        else:
+            self.num_iterations = 1000
+
+        if seed:
+            self.seed = seed
+        else:
+            self.seed = random.getrandbits(32)
+
+        numpy.random.seed(self.seed)
         if initial_state:
             self.initial_state = initial_state
         else:
             self.initial_state = get_random_state(self.system.geometry.num_sites)
 
     @classmethod
-    def from_file(cls, sample_name):
-        with open(sample_name) as file:
-            sample = json.load(file)
+    def from_file(cls, simulation_file):
+        with open(simulation_file) as file:
+            simulation_dict = json.load(file)
 
-        system = System.from_file(sample_name)
-        initial_state = sample.get("initial_state")
-        num_iterations = sample.get("num_iterations")
+        system = System.from_file(simulation_file)
+        initial_state = simulation_dict.get("initial_state")
+        num_iterations = simulation_dict.get("num_iterations")
+        temperature = Bucket(simulation_dict["temperature"])
+        field = Bucket(simulation_dict["field"])
+        seed = simulation_dict.get("seed")
 
-        return cls(system, num_iterations, initial_state)
+        temperature, field = Bucket.match_sizes(temperature, field)
+
+        return cls(system, temperature, field, num_iterations, seed, initial_state)
 
     def set_num_iterations(self, num_iterations):
         self.num_iterations = num_iterations
 
     def set_initial_state(self, initial_state):
         self.initial_state = initial_state
+
+    @property
+    def information(self):
+        return {
+            "num_sites": self.system.geometry.num_sites,
+            "parameters": self.system.parameters,
+            "temperature": self.temperature.values,
+            "field": self.field.values,
+            "seed": self.seed,
+            "num_iterations": self.num_iterations,
+            "positions": self.system.geometry.positions,
+            "types": self.system.geometry.types,
+            "initial_state": self.initial_state,
+            "num_TH": len(self.temperature),
+        }
 
     def run(self):
         spin_norms = self.system.geometry.spin_norms
@@ -55,7 +97,7 @@ class Simulation:
         num_sites = self.system.geometry.num_sites
         state = self.initial_state
 
-        for T, H in zip(self.system.temperature, self.system.field):
+        for T, H in zip(self.temperature, self.field):
             temperature_sites = [T] * num_sites
             field_sites = [H] * num_sites
 
