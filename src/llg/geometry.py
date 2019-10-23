@@ -5,7 +5,7 @@ from collections import namedtuple
 
 class Geometry:
     def __init__(self, sites):
-        self.sites = sites
+        self.__sites = sites
 
     @classmethod
     def from_file(cls, geometry_file):
@@ -34,6 +34,14 @@ class Geometry:
 
         return cls(sites)
 
+    @property
+    def positions(self):
+        return [site.position for site in self.__sites]
+
+    @property
+    def types(self):
+        return [site.type for site in self.__sites]
+
     @staticmethod
     def read_sites(site_dicts: list):
         output_sites = []
@@ -60,44 +68,44 @@ class Geometry:
     @property
     def num_interactions(self):
         count = 0
-        for site in self.sites:
+        for site in self.__sites:
             count += len(site.neighbors)
         return count
 
     @property
     def num_sites(self):
-        return len(self.sites)
+        return len(self.__sites)
 
     @property
     def spin_norms(self):
-        return [site.mu for site in self.sites]
+        return [site.mu for site in self.__sites]
 
     @property
     def field_axes(self):
-        return [site.field_axis for site in self.sites]
+        return [site.field_axis for site in self.__sites]
 
     @property
     def num_neighbors(self):
-        return [len(site.neighbors) for site in self.sites]
+        return [len(site.neighbors) for site in self.__sites]
 
     @property
     def anisotropy_constants(self):
-        return [site.anisotropy_constant for site in self.sites]
+        return [site.anisotropy_constant for site in self.__sites]
 
     @property
     def anisotropy_axes(self):
-        return [site.anisotopy_axis for site in self.sites]
+        return [site.anisotopy_axis for site in self.__sites]
 
     @property
     def exchanges(self):
         jexs = []
-        for site in self.sites:
+        for site in self.__sites:
             jexs.extend(site.jexs)
         return jexs
 
     @property
     def neighbors(self):
         neighbors_ = []
-        for site in self.sites:
+        for site in self.__sites:
             neighbors_.extend(site.jexs)
         return neighbors_

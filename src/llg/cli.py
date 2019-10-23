@@ -20,6 +20,8 @@ def simulate(configuration_file):
     simulation = Simulation.from_file(configuration_file)
     print(pickle.dumps(simulation.system.information))
     print(pickle.dumps(simulation.num_iterations))
+    print(pickle.dumps(simulation.system.geometry.positions))
+    print(pickle.dumps(simulation.system.geometry.types))
     print(pickle.dumps(simulation.initial_state))
     for state in simulation.run():
         print(pickle.dumps(state))
@@ -35,6 +37,8 @@ def store_hdf_cli(output):
     with h5py.File(output, mode="w") as dataset:
         system_information = pickle.loads(eval(input()))
         num_iterations = pickle.loads(eval(input()))
+        positions = pickle.loads(eval(input()))
+        types = pickle.loads(eval(input()))
         initial_state = pickle.loads(eval(input()))
 
         num_TH = len(system_information["temperature"])
@@ -49,6 +53,12 @@ def store_hdf_cli(output):
         dataset.attrs["num_iterations"] = num_iterations
         dataset.attrs["num_TH"] = num_TH
 
+        types_dataset = dataset.create_dataset(
+            "types", (num_sites,), dtype=h5py.string_dtype()
+        )
+        types_dataset[:] = types
+
+        dataset["positions"] = positions
         dataset["initial_state"] = initial_state
         dataset["temperature"] = system_information["temperature"]
         dataset["field"] = system_information["field"]
