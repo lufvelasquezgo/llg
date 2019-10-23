@@ -156,3 +156,6 @@ fortran-src/ffunctionsmodule.c
 
 # pdf files
 *.pdf
+
+# hdf files
+*.hdf

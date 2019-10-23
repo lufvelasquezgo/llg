@@ -6,7 +6,7 @@ from collections import defaultdict
 
 
 @click.command()
-@click.option("-length", default=7)
+@click.option("-length", default=15)
 def main(length):
     sites = list()
     types = dict()
@@ -19,8 +19,6 @@ def main(length):
     for x, y, z in product(range(length), repeat=3):
         sites.append((x, y, z))
         sites.append((x + 0.5, y + 0.5, z + 0.5))
-
-    num_sites = len(sites)
 
     nhbs_dict = defaultdict(list)
     for site in sites:
@@ -58,23 +56,22 @@ def main(length):
         num_neighbors.append(len(nhbs))
 
     sample = {
-        "geometry": [],
-        "neighbors": [],
+        "geometry": {"sites": [], "neighbors": []},
         "parameters": {
-            "num_iterations": 10000,
             "units": "mev",
             "damping": 1.0,
             "gyromagnetic": 1.76e11,
             "deltat": 1e-15,
         },
-        "temperature": 0.0,
-        "field": 10.0,
-        "seed": None,
+        "temperature": [0.0] * 2,
+        "field": [10.0] * 2,
+        "seed": 696969,
         "initial_state": [],
+        "num_iterations": 1000,
     }
 
     for i, site in enumerate(sites):
-        sample["geometry"].append(
+        sample["geometry"]["sites"].append(
             {
                 "index": i,
                 "position": list(site),
@@ -88,7 +85,9 @@ def main(length):
 
     for i, site in enumerate(sites):
         for nhb in nhbs_dict[site]:
-            sample["neighbors"].append({"source": i, "target": nhb, "jex": jex})
+            sample["geometry"]["neighbors"].append(
+                {"source": i, "target": nhb, "jex": jex}
+            )
 
     for i, site in enumerate(sites):
         sample["initial_state"].append([1, 0, 0])
