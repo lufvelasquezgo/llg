@@ -2,10 +2,8 @@
 
 """Console script for llg."""
 import click
-from llg import Simulation
-import sys
+from llg import Simulation, StoreHDF
 import pickle
-import h5py
 
 
 @click.group()
@@ -34,43 +32,28 @@ def store_hdf_cli(output):
     if extension not in ["hdf"]:
         raise Exception("Extension does not supported !")
 
-    with h5py.File(output, mode="w") as dataset:
-        system_information = pickle.loads(eval(input()))
-        num_iterations = pickle.loads(eval(input()))
-        positions = pickle.loads(eval(input()))
-        types = pickle.loads(eval(input()))
-        initial_state = pickle.loads(eval(input()))
+    system_information = pickle.loads(eval(input()))
+    num_iterations = pickle.loads(eval(input()))
+    positions = pickle.loads(eval(input()))
+    types = pickle.loads(eval(input()))
+    initial_state = pickle.loads(eval(input()))
 
-        num_TH = len(system_information["temperature"])
-        num_sites = system_information["num_sites"]
-        dataset.attrs["num_sites"] = num_sites
-        dataset.attrs["seed"] = system_information["seed"]
-        dataset.attrs["units"] = system_information["parameters"]["units"]
-        dataset.attrs["damping"] = system_information["parameters"]["damping"]
-        dataset.attrs["gyromagnetic"] = system_information["parameters"]["gyromagnetic"]
-        dataset.attrs["deltat"] = system_information["parameters"]["deltat"]
-        dataset.attrs["kb"] = system_information["parameters"]["kb"]
-        dataset.attrs["num_iterations"] = num_iterations
-        dataset.attrs["num_TH"] = num_TH
+    with StoreHDF(output) as hdf5_file:
+        hdf5_file.store_attributes(system_information)
+        hdf5_file.store_types(types)
 
-        types_dataset = dataset.create_dataset(
-            "types", (num_sites,), dtype=h5py.string_dtype()
+        hdf5_file.store_positions(positions)
+        hdf5_file.store_initial_state(initial_state)
+        hdf5_file.store_temperature(system_information["temperature"])
+        hdf5_file.store_field(system_information["field"])
+
+        hdf5_file.create_states(
+            len(system_information["temperature"]),
+            num_iterations,
+            system_information["num_sites"],
         )
-        types_dataset[:] = types
 
-        dataset["positions"] = positions
-        dataset["initial_state"] = initial_state
-        dataset["temperature"] = system_information["temperature"]
-        dataset["field"] = system_information["field"]
-
-        states_dataset = dataset.create_dataset(
-            "states",
-            (num_TH, num_iterations, num_sites, 3),
-            dtype=float,
-            chunks=True,
-            compression="gzip",
-        )
-        for i in range(num_TH):
+        for i in range(len(system_information["temperature"])):
             for j in range(num_iterations):
                 state = pickle.loads(eval(input()))
-                states_dataset[i, j, :] = state
+                hdf5_file.store_state(state, i, j)
