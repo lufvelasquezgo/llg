@@ -2,7 +2,8 @@ module Energy
     implicit none
 
 contains
-    function exchange_energy(num_sites, num_interactions, state, j_exchange, num_neighbors, neighbors)
+    function exchange_energy(num_sites, num_interactions, state, &
+        j_exchange, num_neighbors, neighbors)
         implicit none
         integer, intent(in) :: num_sites
         integer, intent(in) :: num_interactions
@@ -24,10 +25,32 @@ contains
 
             do j = start, end
                 nhb = neighbors(j)
-                exchange_energy(i, :) = exchange_energy(i, :) + j_exchange(i) * dot_product(state(i, :), state(nhb, :)) 
+                exchange_energy(i, :) = exchange_energy(i, :) - &
+                j_exchange(i) * dot_product(state(i, :), state(nhb, :)) 
             end do
         end do
 
     end function exchange_energy
+
+    function anisotropy_energy(num_sites, state, &
+        anisotropy_constant, anisotropy_vector)
+        implicit none
+        integer, intent(in) :: num_sites
+        real*8, intent(in), dimension(0:(num_sites - 1), 0:2) :: state
+        real*8, intent(in), dimension(0:(num_sites - 1)) :: anisotropy_constant
+        real*8, intent(in), dimension(0:(num_sites - 1), 0:2) :: anisotropy_vector
+
+        real*8, dimension(0:(num_sites - 1), 0:2) :: anisotropy_energy
+
+        integer :: i
+
+        anisotropy_energy = 0.d0
+        do i = 0, num_sites - 1
+            anisotropy_energy(i, :) = anisotropy_energy(i, :) - &
+            anisotropy_constant(i) * &
+            (dot_product(state(i, :), anisotropy_vector(i, :))) ** 2
+        end do
+        
+    end function anisotropy_energy
 
 end module Energy
