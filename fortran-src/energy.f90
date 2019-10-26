@@ -1,6 +1,8 @@
 module Energy
     implicit none
 
+    ! TODO: maybe, computing all the energies, by using just a function with
+    ! just a for loop, could be faster ...
 contains
     function exchange_energy(num_sites, num_interactions, state, &
         j_exchange, num_neighbors, neighbors)
