@@ -98,7 +98,6 @@ python module ffunctions ! in
                 real*8 dimension(num_sites,3),depend(num_sites) :: integrate
             end function integrate
         end module heun
-    end interface
 
         module energy ! in :energy:energy.f90
             function exchange_energy(num_sites,num_interactions,state,j_exchange,num_neighbors,neighbors) ! in :energy:energy.f90:energy
