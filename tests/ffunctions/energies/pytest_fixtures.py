@@ -61,3 +61,24 @@ def random_anisotropy_constant(build_sample):
 def random_anisotropy_vector(build_sample):
     num_sites, _, _, _ = build_sample
     return numpy.random.uniform(-1, 1, size=(num_sites, 3))
+
+
+@pytest.fixture
+def random_spin_moments(build_sample):
+    num_sites, _, _, _ = build_sample
+    return numpy.random.uniform(0, 1, size=num_sites)
+
+
+@pytest.fixture
+def random_intensity(num_sites):
+    return numpy.random.uniform(-1, 1)
+
+
+@pytest.fixture
+def random_intensities(num_sites):
+    return numpy.random.uniform(-1, 1, size=num_sites)
+
+
+@pytest.fixture
+def random_directions(num_sites):
+    return numpy.random.uniform(-1, 1, size=(num_sites, 3))

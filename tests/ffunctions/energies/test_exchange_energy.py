@@ -4,7 +4,7 @@ import numpy
 
 
 def compute_exchange_energy(num_sites, state, j_exchange, num_neighbors, neighbors):
-    total = numpy.zeros(shape=(num_sites, 3))
+    total = 0
     for i in range(num_sites):
         sum_nhbs = sum(num_neighbors[:i])
         for j in range(num_neighbors[i]):
@@ -20,7 +20,7 @@ def compute_exchange_energy(num_sites, state, j_exchange, num_neighbors, neighbo
 def test_exchange_energy__null_J_exchange(random_state_spins, build_sample):
     num_sites, num_interactions, neighbors, num_neighbors = build_sample
     j_exchange = numpy.zeros(shape=num_interactions)
-    total = numpy.zeros(shape=(num_sites, 3))
+    total = 0
     assert numpy.allclose(
         energy.exchange_energy(
             random_state_spins, j_exchange, num_neighbors, neighbors
@@ -66,7 +66,7 @@ def test_exchange_energy_random_J_exchange(
 #     j_exchange = []
 #     num_neighbors = numpy.zeros(shape=num_sites, dtype=int)
 #     neighbors = []
-#     total = numpy.zeros(shape=(num_sites, 3))
+#     total = 0
 #     assert numpy.allclose(
 #         energy.exchange_energy(
 #             random_state_spins, j_exchange, num_neighbors, neighbors
