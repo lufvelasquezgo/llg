@@ -14,7 +14,7 @@ contains
         integer, intent(in), dimension(0:(num_sites - 1)) :: num_neighbors
         integer, intent(in), dimension(0:(num_interactions - 1)) :: neighbors
 
-        real*8, dimension(0:(num_sites - 1), 0:2) :: exchange_energy
+        real*8 :: exchange_energy
 
         integer :: i, j
         integer :: start, end
@@ -27,8 +27,8 @@ contains
 
             do j = start, end
                 nhb = neighbors(j)
-                exchange_energy(i, :) = exchange_energy(i, :) - &
-                    j_exchange(i) * dot_product(state(i, :), state(nhb, :)) 
+                exchange_energy = exchange_energy - &
+                    j_exchange(j) * dot_product(state(i, :), state(nhb, :)) 
             end do
         end do
 
@@ -45,13 +45,13 @@ contains
         real*8, intent(in), dimension(0:(num_sites - 1)) :: anisotropy_constant
         real*8, intent(in), dimension(0:(num_sites - 1), 0:2) :: anisotropy_vector
 
-        real*8, dimension(0:(num_sites - 1), 0:2) :: anisotropy_energy
+        real*8 :: anisotropy_energy
 
         integer :: i
 
         anisotropy_energy = 0.d0
         do i = 0, num_sites - 1
-            anisotropy_energy(i, :) = anisotropy_energy(i, :) - &
+            anisotropy_energy = anisotropy_energy - &
                 anisotropy_constant(i) * &
                 dot_product(state(i, :), anisotropy_vector(i, :)) ** 2
         end do
@@ -59,23 +59,25 @@ contains
     end function anisotropy_energy
 
 
-    function magnetic_field(num_sites, magnitude_spin_moment, state, intensities, directions)
+    function magnetic_energy(num_sites, magnitude_spin_moment, state, intensities, directions)
         implicit none
         integer, intent(in) :: num_sites
         real*8, dimension(0:(num_sites - 1)) :: magnitude_spin_moment
         real*8, intent(in), dimension(0:(num_sites - 1), 0:2) :: state
         real*8, intent(in), dimension(0:(num_sites - 1)) :: intensities
         real*8, intent(in), dimension(0:(num_sites - 1), 0:2) :: directions
-        real*8, dimension(0:(num_sites - 1), 0:2) :: magnetic_field
+
+        real*8 :: magnetic_energy
+        
         integer :: i
 
-        magnetic_field = 0.d0
+        magnetic_energy = 0.d0
         do i = 0, num_sites - 1
-            magnetic_field(i, :) = magnetic_field(i, :) - &
+            magnetic_energy = magnetic_energy - &
                 magnitude_spin_moment(i) * &
                 dot_product(state(i, :), directions(i, :)) * intensities(i)
         end do
         
-    end function magnetic_field
+    end function magnetic_energy
 
 end module Energy

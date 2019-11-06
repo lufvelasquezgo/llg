@@ -107,23 +107,23 @@ python module ffunctions ! in
                 real*8 dimension(num_interactions),intent(in) :: j_exchange
                 integer dimension(num_sites),intent(in),depend(num_sites) :: num_neighbors
                 integer dimension(num_interactions),intent(in),depend(num_interactions) :: neighbors
-                real*8 dimension(num_sites,3) :: exchange_energy
+                real*8 :: exchange_energy
             end function exchange_energy
             function anisotropy_energy(num_sites,state,anisotropy_constant,anisotropy_vector) ! in :energy:energy.f90:energy
                 integer, intent(hide),check(shape(state,0)==num_sites),depend(state) :: num_sites=shape(state,0)
                 real*8 dimension(num_sites,3),intent(in) :: state
                 real*8 dimension(num_sites),intent(in),depend(num_sites) :: anisotropy_constant
                 real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: anisotropy_vector
-                real*8 dimension(num_sites,3) :: anisotropy_energy
+                real*8 :: anisotropy_energy
             end function anisotropy_energy
-            function magnetic_field(num_sites,magnitude_spin_moment,state,intensities,directions) ! in :energy:energy.f90:energy
+            function magnetic_energy(num_sites,magnitude_spin_moment,state,intensities,directions) ! in :energy:energy.f90:energy
                 integer, intent(hide),check(len(magnitude_spin_moment)>=num_sites),depend(magnitude_spin_moment) :: num_sites=len(magnitude_spin_moment)
                 real*8 dimension(num_sites) :: magnitude_spin_moment
                 real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: state
                 real*8 dimension(num_sites),intent(in),depend(num_sites) :: intensities
                 real*8 dimension(num_sites,3),intent(in),depend(num_sites) :: directions
-                real*8 dimension(num_sites,3) :: magnetic_field
-            end function magnetic_field
+                real*8 :: magnetic_energy
+            end function magnetic_energy
         end module energy
     end interface 
 end python module ffunctions
