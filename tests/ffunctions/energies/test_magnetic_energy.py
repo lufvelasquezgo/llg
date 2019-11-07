@@ -16,7 +16,7 @@ def compute_magnetic_energy(
     return total
 
 
-@pytest.mark.repeat(1)
+@pytest.mark.repeat(100)
 def test_magnetic_energy_null_intensity(
     num_sites, random_spin_moments, random_state_spins, random_directions, build_sample
 ):
@@ -29,6 +29,7 @@ def test_magnetic_energy_null_intensity(
         intensities,
         random_directions,
     )
+
     assert numpy.allclose(
         energy.magnetic_energy(
             random_spin_moments, random_state_spins, intensities, random_directions
