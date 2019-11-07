@@ -17,7 +17,7 @@ def main():
 def simulate(configuration_file):
     simulation = Simulation.from_file(configuration_file)
     print(pickle.dumps(simulation.information))
-    for state in simulation.run():
+    for state, _, _, _, _ in simulation.run():
         print(pickle.dumps(state))
 
 
