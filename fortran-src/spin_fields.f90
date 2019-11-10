@@ -17,7 +17,7 @@ contains
         real*8, dimension(0:(num_sites - 1), 0:2) :: exchange_interaction_field
         
         integer :: i, j
-        integer :: nbh
+        integer :: nhb
         integer :: start, final
         
         exchange_interaction_field = 0.d0
@@ -26,8 +26,8 @@ contains
             final = start + num_neighbors(i) - 1
             
             do j = start, final
-                nbh = neighbors(j)
-                exchange_interaction_field(i, :) = exchange_interaction_field(i, :) + j_exchange(j) * state(nbh, :)
+                nhb = neighbors(j)
+                exchange_interaction_field(i, :) = exchange_interaction_field(i, :) + j_exchange(j) * state(nhb, :)
             end do
             exchange_interaction_field(i, :) = exchange_interaction_field(i, :) / magnitude_spin_moment(i)
         end do

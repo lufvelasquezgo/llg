@@ -51,5 +51,49 @@ class StoreHDF:
             compression="gzip",
         )
 
+        self.__exchange_energy_dataset = self.__dataset.create_dataset(
+            "exchange_energy",
+            (num_TH, num_iterations),
+            dtype=float,
+            chunks=True,
+            compression="gzip",
+        )
+
+        self.__anisotropy_energy_dataset = self.__dataset.create_dataset(
+            "anisotropy_energy",
+            (num_TH, num_iterations),
+            dtype=float,
+            chunks=True,
+            compression="gzip",
+        )
+
+        self.__magnetic_energy_dataset = self.__dataset.create_dataset(
+            "magnetic_energy",
+            (num_TH, num_iterations),
+            dtype=float,
+            chunks=True,
+            compression="gzip",
+        )
+
+        self.__total_energy_dataset = self.__dataset.create_dataset(
+            "total_energy",
+            (num_TH, num_iterations),
+            dtype=float,
+            chunks=True,
+            compression="gzip",
+        )
+
     def store_state(self, state, i, j):
         self.__states_dataset[i, j, :] = state
+
+    def store_exchange_energy(self, exchange_energy, i, j):
+        self.__exchange_energy_dataset[i, j] = exchange_energy
+
+    def store_anisotropy_energy(self, anisotropy_energy, i, j):
+        self.__anisotropy_energy_dataset[i, j] = anisotropy_energy
+
+    def store_magnetic_energy(self, magnetic_energy, i, j):
+        self.__magnetic_energy_dataset[i, j] = magnetic_energy
+
+    def store_total_energy(self, total_energy, i, j):
+        self.__total_energy_dataset[i, j] = total_energy
