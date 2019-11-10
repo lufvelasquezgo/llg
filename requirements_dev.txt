@@ -20,4 +20,4 @@ pytest-cov==2.8.1
 ipython==7.9.0
 
 coverage==4.5.4
-black==19.3b0
+black==19.10b0
