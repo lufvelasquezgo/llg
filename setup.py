@@ -16,6 +16,7 @@ ffunctions = Extension(
         "fortran-src/external_fields.f90",
         "fortran-src/spin_fields.f90",
         "fortran-src/heun.f90",
+        "fortran-src/energy.f90",
     ],
 )
 

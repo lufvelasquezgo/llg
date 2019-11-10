@@ -2,6 +2,7 @@ import json
 import numpy
 from tqdm import tqdm
 from llg.ffunctions import heun
+from llg.ffunctions import energy
 from llg import System
 from llg import Bucket
 import random
@@ -121,4 +122,19 @@ class Simulation:
                     anisotropy_axes,
                 )
 
-                yield state
+                exchange_energy_value = energy.exchange_energy(
+                    state, j_exchanges, num_neighbors, neighbors
+                )
+                anisotropy_energy_value = energy.anisotropy_energy(
+                    state, anisotropy_constants, anisotropy_axes
+                )
+                magnetic_energy_value = energy.magnetic_energy(
+                    spin_norms, state, field_sites, field_axes
+                )
+                total_energy_value = (
+                    exchange_energy_value
+                    + anisotropy_energy_value
+                    + magnetic_energy_value
+                )
+
+                yield state, exchange_energy_value, anisotropy_energy_value, magnetic_energy_value, total_energy_value
