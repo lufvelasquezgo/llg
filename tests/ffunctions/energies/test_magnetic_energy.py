@@ -135,4 +135,3 @@ def test_magnetic_energy_all_random(random_spin_moments, random_state_spins):
 #         ),
 #         total,
 #     )
-

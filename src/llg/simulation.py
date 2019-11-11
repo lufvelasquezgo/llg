@@ -122,14 +122,19 @@ class Simulation:
                     anisotropy_axes,
                 )
 
-                exchange_energy_value = energy.exchange_energy(
-                    state, j_exchanges, num_neighbors, neighbors
+                exchange_energy_value = (
+                    energy.exchange_energy(state, j_exchanges, num_neighbors, neighbors)
+                    / num_sites
                 )
-                anisotropy_energy_value = energy.anisotropy_energy(
-                    state, anisotropy_constants, anisotropy_axes
+                anisotropy_energy_value = (
+                    energy.anisotropy_energy(
+                        state, anisotropy_constants, anisotropy_axes
+                    )
+                    / num_sites
                 )
-                magnetic_energy_value = energy.magnetic_energy(
-                    spin_norms, state, field_sites, field_axes
+                magnetic_energy_value = (
+                    energy.magnetic_energy(spin_norms, state, field_sites, field_axes)
+                    / num_sites
                 )
                 total_energy_value = (
                     exchange_energy_value
