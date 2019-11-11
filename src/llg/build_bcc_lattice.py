@@ -63,11 +63,11 @@ def main(length):
             "gyromagnetic": 1.76e11,
             "deltat": 1e-15,
         },
-        "temperature": [0.0] * 2,
-        "field": [10.0] * 2,
-        "seed": 696969,
-        "initial_state": [],
-        "num_iterations": 1000,
+        "temperature": list(numpy.linspace(15000, 5, 101)),
+        "field": 0.0,
+        # "seed": 696969,
+        # "initial_state": [],
+        "num_iterations": 10000,
     }
 
     for i, site in enumerate(sites):
@@ -89,8 +89,8 @@ def main(length):
                 {"source": i, "target": nhb, "jex": jex}
             )
 
-    for i, site in enumerate(sites):
-        sample["initial_state"].append([1, 0, 0])
+    # for i, site in enumerate(sites):
+    #     sample["initial_state"].append([1, 0, 0])
 
     with open("sample.json", "w") as outfile:
         json.dump(sample, outfile, sort_keys=False, indent=2)
