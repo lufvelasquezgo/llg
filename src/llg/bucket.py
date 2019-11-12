@@ -16,7 +16,7 @@ class Bucket:
         elif isinstance(structure, Real):
             self.values = [structure]
         else:
-            raise Exception("No supported format.")
+            raise Exception("[Bucket for temperature and field] No supported format.")
 
     def __len__(self):
         return len(self.values)
