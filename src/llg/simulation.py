@@ -6,7 +6,6 @@ from llg.ffunctions import energy
 from llg import System
 from llg import Bucket
 import random
-import click
 
 
 def get_random_state(num_sites):
@@ -55,10 +54,10 @@ class Simulation:
         system = System.from_file(simulation_file)
         initial_state = simulation_dict.get("initial_state")
         num_iterations = simulation_dict.get("num_iterations")
-        seed = simulation_dict.get("seed")
-
         temperature = Bucket(simulation_dict["temperature"])
         field = Bucket(simulation_dict["field"])
+        seed = simulation_dict.get("seed")
+
         temperature, field = Bucket.match_sizes(temperature, field)
 
         return cls(system, temperature, field, num_iterations, seed, initial_state)
