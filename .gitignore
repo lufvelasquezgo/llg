@@ -159,3 +159,6 @@ fortran-src/ffunctionsmodule.c
 
 # hdf files
 *.hdf
+
+# txt files
+*.txt
