@@ -3,10 +3,11 @@
 """Console script for llg."""
 import click
 from llg import Simulation, StoreHDF
-from llg.predefined_structures.generic_bcc import GenericBcc
+from llg.predefined_structures import GenericBcc
 import pickle
 import h5py
 import numpy
+from llg._tools import __ask_for_field, __ask_for_temperature
 
 
 @click.group()
@@ -208,4 +209,6 @@ def build_samples():
 @click.option("--length", default=10)
 def generic_bcc(length, output):
     sample = GenericBcc(length)
+    sample.temperature = __ask_for_temperature()
+    sample.field = __ask_for_field()
     sample.save(output)

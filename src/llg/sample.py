@@ -10,8 +10,8 @@ class Sample:
         self.gyromagnetic = 1.0
         self.deltat = 1.0
         self.num_iterations = 100
-        self.temperature = 0.0
-        self.field = 0.0
+        self.temperature = None
+        self.field = None
 
         self.jex = 1.0
         self.mu = 1.0
