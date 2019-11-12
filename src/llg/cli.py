@@ -3,6 +3,7 @@
 """Console script for llg."""
 import click
 from llg import Simulation, StoreHDF
+from llg.predefined_structures.generic_bcc import GenericBcc
 import pickle
 import h5py
 import numpy
@@ -113,7 +114,7 @@ def compute_averages(by_types, components, discard):
     types = numpy.array(simulation_information["types"])
     set_types = sorted(set(types))
 
-    header = "temperature field E_exchange E_anisotropy E_field E_total M_total"
+    header = "#temperature field E_exchange E_anisotropy E_field E_total M_total"
     if components:
         header += " M_total_x M_total_y M_total_z"
 
@@ -194,3 +195,17 @@ def compute_averages(by_types, components, discard):
                     )
 
         print(output)
+
+
+
+@main.group("build-samples")
+def build_samples():
+    pass
+
+
+@build_samples.command("generic-bcc")
+@click.argument("output")
+@click.option("--length", default=10)
+def generic_bcc(length, output):
+    sample = GenericBcc(length)
+    sample.save(output)
