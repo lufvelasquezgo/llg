@@ -48,3 +48,31 @@ class GenericBcc(Sample):
 
         for i, j in pairs:
             self.neighbors.append({"source": i, "target": j})
+
+
+class GenericSc(Sample):
+    def __init__(self, length):
+        super().__init__()
+
+        self.length = length
+
+        index = {}
+        for x, y, z in product(range(self.length), repeat=3):
+            index[(x, y, z)] = len(index)
+
+        for position, i in index.items():
+            site = {"index": i, "position": position}
+            self.sites.append(site)
+
+        pairs = []
+        for position, i in index.items():
+            x, y, z = position
+            pairs.append((i, index[((x + 1) % length, y, z)]))
+            pairs.append((i, index[((x - 1) % length, y, z)]))
+            pairs.append((i, index[(x, (y + 1) % length, z)]))
+            pairs.append((i, index[(x, (y - 1) % length, z)]))
+            pairs.append((i, index[(x, y, (z + 1) % length)]))
+            pairs.append((i, index[(x, y, (z - 1) % length)]))
+
+        for i, j in pairs:
+            self.neighbors.append({"source": i, "target": j})

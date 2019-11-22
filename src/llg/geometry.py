@@ -107,5 +107,5 @@ class Geometry:
     def neighbors(self):
         neighbors_ = []
         for site in self.__sites:
-            neighbors_.extend(site.jexs)
+            neighbors_.extend([nbh.index for nbh in site.neighbors])
         return neighbors_

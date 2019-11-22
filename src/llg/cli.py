@@ -3,7 +3,7 @@
 """Console script for llg."""
 import click
 from llg import Simulation, StoreHDF
-from llg.predefined_structures import GenericBcc
+from llg.predefined_structures import GenericBcc, GenericSc
 import pickle
 import h5py
 import numpy
@@ -106,7 +106,7 @@ def read_hdf(file):
 @click.option("--discard", default=0)
 def compute_averages(by_types, components, discard):
     simulation_information = pickle.loads(eval(input()))
-    
+
     if discard > simulation_information["num_iterations"]:
         raise Exception("Discard option should be less than the number of iterations !")
 
@@ -198,7 +198,6 @@ def compute_averages(by_types, components, discard):
         print(output)
 
 
-
 @main.group("build-samples")
 def build_samples():
     pass
@@ -209,6 +208,16 @@ def build_samples():
 @click.option("--length", default=10)
 def generic_bcc(length, output):
     sample = GenericBcc(length)
+    sample.temperature = __ask_for_temperature()
+    sample.field = __ask_for_field()
+    sample.save(output)
+
+
+@build_samples.command("generic-sc")
+@click.argument("output")
+@click.option("--length", default=10)
+def generic_sc(length, output):
+    sample = GenericSc(length)
     sample.temperature = __ask_for_temperature()
     sample.field = __ask_for_field()
     sample.save(output)
