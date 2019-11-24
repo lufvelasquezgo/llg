@@ -100,8 +100,8 @@ class Simulation:
         state = self.initial_state
 
         for T, H in zip(self.temperature, self.field):
-            temperature_sites = [T] * num_sites
-            field_sites = [H] * num_sites
+            temperatures = [T] * num_sites
+            field_intensities = [H] * num_sites
 
             for _ in tqdm(range(self.num_iterations)):
                 random_normal_matrix = numpy.random.normal(size=(num_sites, 3))
@@ -109,12 +109,12 @@ class Simulation:
                     state,
                     spin_norms,
                     random_normal_matrix,
-                    temperature_sites,
+                    temperatures,
                     damping,
                     deltat,
                     gyromagnetic,
                     kb,
-                    field_sites,
+                    field_intensities,
                     field_axes,
                     j_exchanges,
                     num_neighbors,
@@ -134,7 +134,9 @@ class Simulation:
                     / num_sites
                 )
                 magnetic_energy_value = (
-                    energy.magnetic_energy(spin_norms, state, field_sites, field_axes)
+                    energy.magnetic_energy(
+                        spin_norms, state, field_intensities, field_axes
+                    )
                     / num_sites
                 )
                 total_energy_value = (

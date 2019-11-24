@@ -11,8 +11,10 @@ class System:
             parameters["kb"] = 0.08618
         elif parameters["units"] == "joules":
             parameters["kb"] = 1.38064852e-23
-        else:
+        elif parameters["units"] == "adim":
             parameters["kb"] = 1.0
+        else:
+            raise Exception("units not supported.")
 
     @classmethod
     def from_dict(cls, system_dict):

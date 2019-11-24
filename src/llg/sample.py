@@ -5,11 +5,11 @@ class Sample:
     def __init__(self):
         self.sites = []
         self.neighbors = []
-        self.units = None
+        self.units = "adim"
         self.damping = 1.0
         self.gyromagnetic = 1.0
         self.deltat = 1.0
-        self.num_iterations = 100
+        self.num_iterations = 1000
         self.temperature = None
         self.field = None
 
@@ -74,4 +74,3 @@ class Sample:
     def save(self, output):
         with open(output, "w") as outfile:
             json.dump(self.build(), outfile, sort_keys=False, indent=2)
-
