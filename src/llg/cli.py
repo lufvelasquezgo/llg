@@ -8,6 +8,9 @@ import pickle
 import h5py
 import numpy
 from llg._tools import __ask_for_field, __ask_for_temperature
+from matplotlib.backends.backend_pdf import PdfPages
+from matplotlib import pyplot
+from tqdm import tqdm
 
 
 @click.group()
@@ -111,6 +114,8 @@ def compute_averages(by_types, components, discard):
     field = simulation_information["field"]
     types = numpy.array(simulation_information["types"])
     set_types = sorted(set(types))
+
+    print(f"#num_TH = {simulation_information['num_TH']}")
 
     header = "#temperature field E_exchange E_anisotropy E_field E_total M_total"
     if components:
@@ -218,3 +223,64 @@ def generic_sc(length, output):
     sample.temperature = __ask_for_temperature()
     sample.field = __ask_for_field()
     sample.save(output)
+
+
+@main.group("plot")
+def plot():
+    pass
+
+
+@plot.command("plot-averages")
+@click.argument("output")
+def plot_averages(output):
+    num_TH = int(input().split()[-1])
+    header = input()
+    labels = header.replace("#", "").split()
+
+    values = {label: [] for label in labels}
+
+    for _ in range(num_TH):
+        line = input().split()
+        for column, val in enumerate(line):
+            val = float(val)
+            values[labels[column]].append(val)
+
+    mag_types = set(
+        "_".join(label.split("_")[:2]) for label in labels if label.startswith("M")
+    ) - {"M_total"}
+
+    labels_per_page = []
+    labels_per_page.append(
+        sorted([label for label in labels if label.startswith("E_")])
+    )
+    labels_per_page.append(
+        sorted([label for label in labels if label.startswith("M_total")])
+    )
+
+    for t in mag_types:
+        labels_per_page.append(
+            sorted([label for label in labels if label.startswith(t)])
+        )
+
+    markers = ["o", "s", "<", "*"]
+    with PdfPages(output) as pdf:
+        for page in tqdm(labels_per_page):
+            fig = pyplot.figure(figsize=(16, 6))
+            ax_temperature = fig.add_subplot(121)
+            ax_field = fig.add_subplot(122)
+            for i, label in enumerate(page):
+                ax_temperature.plot(
+                    values["temperature"], values[label], marker=markers[i], label=label
+                )
+                ax_field.plot(
+                    values["field"], values[label], marker=markers[i], label=label
+                )
+            ax_temperature.set_xlabel("Temperature")
+            ax_field.set_xlabel("Field")
+            ax_temperature.grid()
+            ax_field.grid()
+            ax_temperature.legend(loc="best")
+            ax_field.legend(loc="best")
+            pyplot.tight_layout()
+            pyplot.savefig(pdf, format="pdf")
+            pyplot.close()
