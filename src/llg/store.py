@@ -2,8 +2,9 @@ import h5py
 
 
 class StoreHDF:
-    def __init__(self, filename):
+    def __init__(self, filename, compress=False):
         self.filename = filename
+        self.compress = compress
 
     def __enter__(self):
         self.__dataset = h5py.File(self.filename, mode="w")
@@ -43,44 +44,40 @@ class StoreHDF:
         self.__dataset["temperature"] = simulation_information["temperature"]
         self.__dataset["field"] = simulation_information["field"]
 
+        compression_options = (
+            {"chunks": True, "compression": "gzip"} if self.compress else {}
+        )
+
         self.__states_dataset = self.__dataset.create_dataset(
             "states",
             (num_TH, num_iterations, num_sites, 3),
             dtype=float,
-            chunks=True,
-            compression="gzip",
+            **compression_options,
         )
 
         self.__exchange_energy_dataset = self.__dataset.create_dataset(
             "exchange_energy",
             (num_TH, num_iterations),
             dtype=float,
-            chunks=True,
-            compression="gzip",
+            **compression_options,
         )
 
         self.__anisotropy_energy_dataset = self.__dataset.create_dataset(
             "anisotropy_energy",
             (num_TH, num_iterations),
             dtype=float,
-            chunks=True,
-            compression="gzip",
+            **compression_options,
         )
 
         self.__magnetic_energy_dataset = self.__dataset.create_dataset(
             "magnetic_energy",
             (num_TH, num_iterations),
             dtype=float,
-            chunks=True,
-            compression="gzip",
+            **compression_options,
         )
 
         self.__total_energy_dataset = self.__dataset.create_dataset(
-            "total_energy",
-            (num_TH, num_iterations),
-            dtype=float,
-            chunks=True,
-            compression="gzip",
+            "total_energy", (num_TH, num_iterations), dtype=float, **compression_options
         )
 
     def store_state(self, state, i, j):

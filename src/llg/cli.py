@@ -38,16 +38,13 @@ def simulate(configuration_file):
 
 @main.command("store-hdf")
 @click.argument("output")
-def store_hdf_cli(output):
-    extension = output.split(".")[-1]
-    if extension not in ["hdf"]:
-        raise Exception("Extension does not supported !")
-
+@click.option("--compress", default=False, is_flag=True, show_default=True)
+def store_hdf_cli(output, compress):
     simulation_information = pickle.loads(eval(input()))
     num_TH = simulation_information["num_TH"]
     num_iterations = simulation_information["num_iterations"]
 
-    with StoreHDF(output) as hdf5_file:
+    with StoreHDF(output, compress) as hdf5_file:
         hdf5_file.populate(simulation_information)
 
         for i in range(num_TH):
