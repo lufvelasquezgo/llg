@@ -1,39 +1,41 @@
 import vapory
 import numpy
 
+
+def Arrow(position, direction, color):
+    position = numpy.array(position)
+    direction = numpy.array(direction) * 0.9
+    base_point_cylinder = position - 0.5 * direction
+    cap_point_cone = position + 0.5 * direction
+    cap_point_cylinder = base_point_cone = base_point_cylinder + 0.5 * direction
+
+    radius_cylinder = 1 / 20
+    base_radius_cone = 1 / 6
+
+    cylinder = vapory.Cylinder(
+        base_point_cylinder,
+        cap_point_cylinder,
+        radius_cylinder,
+        vapory.Texture(vapory.Pigment("color", color)),
+    )
+
+    cone = vapory.Cone(
+        base_point_cone,
+        base_radius_cone,
+        cap_point_cone,
+        0.0,
+        vapory.Texture(vapory.Pigment("color", color)),
+    )
+
+    return vapory.Union(cone, cylinder)
+
+
 class PlotStates:
-    def __init__(self, center, directions, mode):
-        
+    def __init__(self, positions):
+        self.positions = positions
 
-    def Arrow(center, direction, color):
-        center = numpy.array(center)
-        direction = numpy.array(direction) * 0.9
-        base_point_cylinder = center - 0.5 * direction
-        cap_point_cone = center + 0.5 * direction
-        cap_point_cylinder = base_point_cone = base_point_cylinder + 0.5 * direction
-
-        radius_cylinder = 1 / 20
-        base_radius_cone = 1 / 6
-
-        cylinder = vapory.Cylinder(
-            base_point_cylinder,
-            cap_point_cylinder,
-            radius_cylinder,
-            vapory.Texture(vapory.Pigment("color", color)),
-        )
-
-        cone = vapory.Cone(
-            base_point_cone,
-            base_radius_cone,
-            cap_point_cone,
-            0.0,
-            vapory.Texture(vapory.Pigment("color", color)),
-        )
-
-        return vapory.Union(cone, cylinder)
-
-
-    def get_rgb(direction, mode="azimuthal"):
+    @staticmethod
+    def get_rgb(direction, mode):
         sx, sy, sz = direction.T
         r = numpy.sqrt(sx * sx + sy * sy + sz * sz)
         rho = numpy.sqrt(sx * sx + sy * sy)
@@ -50,9 +52,8 @@ class PlotStates:
         else:
             raise Exception(f"Mode {mode} is not supported.")
 
-
-    def scene(centers, directions, mode="azimuthal"):
-        centroid = numpy.mean(center, axis=0)
+    def scene(self, state, mode="azimuthal"):
+        centroid = numpy.mean(self.positions, axis=0)
 
         camera = vapory.Camera(
             "location",
@@ -70,9 +71,9 @@ class PlotStates:
         light = vapory.LightSource([10, 10, 10], "color", [1, 1, 1])
 
         arrows = []
-        for i in range(len(directions)):
-            color = get_rgb(directions[i], mode)
-            arrows.append(Arrow(centers[i], directions[i], color))
+        for position, direction in zip(self.positions, state):
+            color = get_rgb(direction, mode)
+            arrows.append(Arrow(position, direction, color))
 
-        return vapory.Scene(camera, objects=[background, light, *flechas])
+        return vapory.Scene(camera, objects=[background, light, *arrows])
 
