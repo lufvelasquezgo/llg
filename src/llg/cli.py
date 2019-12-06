@@ -284,3 +284,14 @@ def plot_averages(output):
             pyplot.tight_layout()
             pyplot.savefig(pdf, format="pdf")
             pyplot.close()
+
+
+@plot.command("plot-states")
+@click.argument("simulation_file")
+def plot_states(simulation_file):
+    infile = open(simulation_file, "rb")
+    new_dict = pickle.load(infile)
+    infile.close()
+
+    print(new_dict)
+
