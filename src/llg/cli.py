@@ -286,12 +286,18 @@ def plot_averages(output):
             pyplot.close()
 
 
-@plot.command("plot-states")
+@plot.command("plot-final-states")
 @click.argument("simulation_file")
-def plot_states(simulation_file):
-    infile = open(simulation_file, "rb")
-    new_dict = pickle.load(infile)
-    infile.close()
+@click.option("output", default="output")
+def plot_final_states(simulation_file, folder):
+    simulation_information = pickle.loads(eval(input()))
+    num_TH = simulation_information["num_TH"]
+    num_iterations = simulation_information["num_iterations"]
+    positions = simulation_information["positions"]
 
-    print(new_dict)
-
+    with PlotState(positions, folder) as plot_state:
+        for i in range(num_TH):
+            for j in range(num_iterations):
+                # reads
+                state = pickle.loads(eval(input()))
+            plot_state.plot(state)
