@@ -54,10 +54,11 @@ class PlotStates:
 
     def scene(self, state, mode="azimuthal"):
         centroid = numpy.mean(self.positions, axis=0)
+        location = numpy.array([1, 1, 1]) * 2 * numpy.max(self.positions, axis=0)
 
         camera = vapory.Camera(
             "location",
-            [10, 5, 10],
+            location,
             "look_at",
             centroid,
             "sky",
@@ -68,7 +69,7 @@ class PlotStates:
             [0, 1, 0],
         )
         background = vapory.Background([1, 1, 1])
-        light = vapory.LightSource([10, 10, 10], "color", [1, 1, 1])
+        light = vapory.LightSource(location, "color", [1, 1, 1])
 
         arrows = []
         for position, direction in zip(self.positions, state):
@@ -77,3 +78,6 @@ class PlotStates:
 
         return vapory.Scene(camera, objects=[background, light, *arrows])
 
+    def plot(self, state):
+
+        return
