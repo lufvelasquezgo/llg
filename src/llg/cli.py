@@ -4,6 +4,7 @@
 import click
 from llg import Simulation, StoreHDF
 from llg.predefined_structures import GenericBcc, GenericSc
+from llg.plot_states import PlotStates
 import pickle
 import h5py
 import numpy

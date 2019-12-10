@@ -14,3 +14,4 @@ from llg.store import StoreHDF
 from llg.sample import Sample
 from llg import predefined_structures
 from llg import _tools
+from llg.plot_states import PlotStates

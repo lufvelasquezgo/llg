@@ -52,7 +52,7 @@ class PlotStates:
         else:
             raise Exception(f"Mode {mode} is not supported.")
 
-    def scene(self, state, mode="azimuthal"):
+    def plot(self, state, mode="azimuthal"):
         centroid = numpy.mean(self.positions, axis=0)
         location = numpy.array([1, 1, 1]) * 2 * numpy.max(self.positions, axis=0)
 
@@ -76,8 +76,6 @@ class PlotStates:
             color = get_rgb(direction, mode)
             arrows.append(Arrow(position, direction, color))
 
-        return vapory.Scene(camera, objects=[background, light, *arrows])
+        scene = vapory.Scene(camera, objects=[background, light, *arrows])
 
-    def plot(self, state):
-
-        return
+        return scene.render("states.png", width=500, height=500, antialiasing=0)
