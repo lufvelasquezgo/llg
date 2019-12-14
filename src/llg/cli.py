@@ -4,7 +4,7 @@
 import click
 from llg import Simulation, StoreHDF
 from llg.predefined_structures import GenericBcc, GenericSc
-from llg.plot_states import PlotStates
+from llg.plot_states import PlotStatesPovray, PlotStatesMatplotlib, PlotStatesMayavi
 import pickle
 import h5py
 import numpy
@@ -288,17 +288,25 @@ def plot_averages(output):
 
 
 @plot.command("plot-final-states")
-@click.argument("simulation_file")
-@click.option("output", default="output")
-def plot_final_states(simulation_file, folder):
+@click.argument("output")
+def plot_final_states(output):
     simulation_information = pickle.loads(eval(input()))
     num_TH = simulation_information["num_TH"]
     num_iterations = simulation_information["num_iterations"]
     positions = simulation_information["positions"]
+    temperature = simulation_information["temperature"]
+    print()
 
-    with PlotState(positions, folder) as plot_state:
+    with PlotStatesMayavi(positions, output) as plot_state:
         for i in range(num_TH):
+            T = temperature[i]
             for j in range(num_iterations):
                 # reads
                 state = pickle.loads(eval(input()))
-            plot_state.plot(state)
+                _ = pickle.loads(eval(input()))
+                _ = pickle.loads(eval(input()))
+                _ = pickle.loads(eval(input()))
+                _ = pickle.loads(eval(input()))
+            plot_state.plot(state, sufix=f"_T_{T}_")
+            # TODO: print message to inform the saved figure
+

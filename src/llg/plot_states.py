@@ -1,8 +1,13 @@
 import vapory
 import numpy
+import os
+import colorsys
+from matplotlib import pyplot
+from mpl_toolkits.mplot3d import Axes3D
+from mayavi import mlab
 
 
-def Arrow(position, direction, color):
+def PovrayArrow(position, direction, color):
     position = numpy.array(position)
     direction = numpy.array(direction) * 0.9
     base_point_cylinder = position - 0.5 * direction
@@ -31,8 +36,9 @@ def Arrow(position, direction, color):
 
 
 class PlotStates:
-    def __init__(self, positions):
+    def __init__(self, positions, output):
         self.positions = positions
+        self.output = output
 
     @staticmethod
     def get_rgb(direction, mode):
@@ -52,7 +58,19 @@ class PlotStates:
         else:
             raise Exception(f"Mode {mode} is not supported.")
 
-    def plot(self, state, mode="azimuthal"):
+    def __enter__(self):
+        try:
+            os.mkdir(self.output)
+        except FileExistsError:
+            pass
+        return self
+
+    def __exit__(self, *args):
+        return
+
+
+class PlotStatesPovray(PlotStates):
+    def plot(self, state, mode="azimuthal", sufix=""):
         centroid = numpy.mean(self.positions, axis=0)
         location = numpy.array([1, 1, 1]) * 2 * numpy.max(self.positions, axis=0)
 
@@ -73,9 +91,76 @@ class PlotStates:
 
         arrows = []
         for position, direction in zip(self.positions, state):
-            color = get_rgb(direction, mode)
-            arrows.append(Arrow(position, direction, color))
+            color = PlotStates.get_rgb(direction, mode)
+            arrows.append(PovrayArrow(position, direction, color))
 
         scene = vapory.Scene(camera, objects=[background, light, *arrows])
 
-        return scene.render("states.png", width=500, height=500, antialiasing=0)
+        return scene.render(
+            f"{self.output}/plot_states{sufix}.png",
+            width=500,
+            height=500,
+            antialiasing=0,
+        )
+
+
+class PlotStatesMatplotlib(PlotStates):
+    def plot(self, state, mode="azimuthal", sufix=""):
+        fig = pyplot.figure()
+        ax = fig.add_subplot(111, projection="3d")
+
+        x, y, z = numpy.array(self.positions).T
+        sx, sy, sz = numpy.array(state).T
+        colors = numpy.array(
+            [PlotStates.get_rgb(direction, mode) for direction in state]
+        )
+
+        ax.quiver(x, y, z, sx, sy, sz, pivot="middle", normalize=True)
+        pyplot.savefig(f"{self.output}/plot_states{sufix}.png")
+        pyplot.close()
+
+
+class PlotStatesMayavi(PlotStates):
+    def plot(self, state, mode="azimuthal", sufix=""):
+        x, y, z = numpy.array(self.positions).T
+        sx, sy, sz = numpy.array(state).T
+        colors = numpy.array(
+            [PlotStates.get_rgb(direction, mode) for direction in state]
+        )
+
+        mlab.quiver3d(x, y, z, sx, sy, sz, line_width=3, scale_mode="none")
+        mlab.savefig(f"{self.output}/plot_states{sufix}.png")
+        mlab.close()
+
+        # obj = mlab.quiver3d(
+        #     x,
+        #     y,
+        #     z,
+        #     sx,
+        #     sy,
+        #     sz,
+        #     colormap="hsv",
+        #     mode="arrow",
+        #     resolution=25,
+        # )
+
+        # for i in range(x.shape[0]):
+        #     r, g, b = colors[i]
+        #     print("R: {}, G: {}, B: {}".format(r, g, b))
+        #     obj = mlab.quiver3d(
+        #         x[i],
+        #         y[i],
+        #         z[i],
+        #         sx[i],
+        #         sy[i],
+        #         sz[i],
+        #         color=(r, g, b),
+        #         colormap="hsv",
+        #         mode="arrow",
+        #         resolution=25,
+        #     )
+
+        # obj.glyph.color_mode = "color_by_scalar"
+
+        # return obj
+
