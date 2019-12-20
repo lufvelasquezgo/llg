@@ -3,8 +3,8 @@
 """Console script for llg."""
 import click
 from llg import Simulation, StoreHDF
-from llg.predefined_structures import GenericBcc, GenericSc
-from llg.plot_states import PlotStatesPovray, PlotStatesMatplotlib, PlotStatesMayavi
+from llg.predefined_structures import GenericSc, GenericBcc, GenericFcc, GenericHcp
+from llg.plot_states import PlotStatesPovray, PlotStatesMatplotlib
 import pickle
 import h5py
 import numpy
@@ -206,6 +206,16 @@ def build_samples():
     pass
 
 
+@build_samples.command("generic-sc")
+@click.argument("output")
+@click.option("--length", default=10)
+def generic_sc(length, output):
+    sample = GenericSc(length)
+    sample.temperature = __ask_for_temperature()
+    sample.field = __ask_for_field()
+    sample.save(output)
+
+
 @build_samples.command("generic-bcc")
 @click.argument("output")
 @click.option("--length", default=10)
@@ -216,15 +226,24 @@ def generic_bcc(length, output):
     sample.save(output)
 
 
-@build_samples.command("generic-sc")
+@build_samples.command("generic-fcc")
 @click.argument("output")
 @click.option("--length", default=10)
 def generic_sc(length, output):
-    sample = GenericSc(length)
+    sample = GenericFcc(length)
     sample.temperature = __ask_for_temperature()
     sample.field = __ask_for_field()
     sample.save(output)
 
+
+@build_samples.command("generic-fcc")
+@click.argument("output")
+@click.option("--length", default=10)
+def generic_sc(length, output):
+    sample = GenericFcc(length)
+    sample.temperature = __ask_for_temperature()
+    sample.field = __ask_for_field()
+    sample.save(output)
 
 @main.group("plot")
 def plot():
@@ -297,7 +316,7 @@ def plot_final_states(output):
     temperature = simulation_information["temperature"]
     print()
 
-    with PlotStatesMayavi(positions, output) as plot_state:
+    with PlotStatesMatplotlib(positions, output) as plot_state:
         for i in range(num_TH):
             T = temperature[i]
             for j in range(num_iterations):
@@ -309,4 +328,3 @@ def plot_final_states(output):
                 _ = pickle.loads(eval(input()))
             plot_state.plot(state, sufix=f"_T_{T}_")
             # TODO: print message to inform the saved figure
-

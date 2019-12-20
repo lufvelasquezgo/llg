@@ -4,7 +4,6 @@ import os
 import colorsys
 from matplotlib import pyplot
 from mpl_toolkits.mplot3d import Axes3D
-from mayavi import mlab
 
 
 def PovrayArrow(position, direction, color):
@@ -120,47 +119,17 @@ class PlotStatesMatplotlib(PlotStates):
         pyplot.close()
 
 
-class PlotStatesMayavi(PlotStates):
+# class PlotStatesMayavi(PlotStates):
+#     def plot(self, state, mode="azimuthal", sufix=""):
+#         x, y, z = numpy.array(self.positions).T
+#         sx, sy, sz = numpy.array(state).T
+#         colors = numpy.array(
+#             [PlotStates.get_rgb(direction, mode) for direction in state]
+#         )
+
+#         mlab.quiver3d(x, y, z, sx, sy, sz, line_width=3, mode=arrow, scale_mode="none")
+#         mlab.savefig(f"{self.output}/plot_states{sufix}.png")
+#         mlab.close()
+
+class PlotStatesVpython(PlotStates):
     def plot(self, state, mode="azimuthal", sufix=""):
-        x, y, z = numpy.array(self.positions).T
-        sx, sy, sz = numpy.array(state).T
-        colors = numpy.array(
-            [PlotStates.get_rgb(direction, mode) for direction in state]
-        )
-
-        mlab.quiver3d(x, y, z, sx, sy, sz, line_width=3, scale_mode="none")
-        mlab.savefig(f"{self.output}/plot_states{sufix}.png")
-        mlab.close()
-
-        # obj = mlab.quiver3d(
-        #     x,
-        #     y,
-        #     z,
-        #     sx,
-        #     sy,
-        #     sz,
-        #     colormap="hsv",
-        #     mode="arrow",
-        #     resolution=25,
-        # )
-
-        # for i in range(x.shape[0]):
-        #     r, g, b = colors[i]
-        #     print("R: {}, G: {}, B: {}".format(r, g, b))
-        #     obj = mlab.quiver3d(
-        #         x[i],
-        #         y[i],
-        #         z[i],
-        #         sx[i],
-        #         sy[i],
-        #         sz[i],
-        #         color=(r, g, b),
-        #         colormap="hsv",
-        #         mode="arrow",
-        #         resolution=25,
-        #     )
-
-        # obj.glyph.color_mode = "color_by_scalar"
-
-        # return obj
-
