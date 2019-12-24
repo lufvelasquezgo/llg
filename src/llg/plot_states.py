@@ -2,8 +2,6 @@ import vapory
 import numpy
 import os
 import colorsys
-from matplotlib import pyplot
-from mpl_toolkits.mplot3d import Axes3D
 
 
 def PovrayArrow(position, direction, color):
@@ -50,7 +48,8 @@ class PlotStates:
 
         self.centroid = numpy.mean(self.positions, axis=0)
         self.location = numpy.array([1, 1, 1]) * [
-            1 + 1.5 * numpy.max(numpy.linalg.norm(self.positions - self.centroid, axis=1))
+            1
+            + 1.5 * numpy.max(numpy.linalg.norm(self.positions - self.centroid, axis=1))
         ]
 
     @staticmethod

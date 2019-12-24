@@ -233,17 +233,7 @@ def generic_bcc(length, output):
 @build_samples.command("generic-fcc")
 @click.argument("output")
 @click.option("--length", default=10)
-def generic_sc(length, output):
-    sample = GenericFcc(length)
-    sample.temperature = __ask_for_temperature()
-    sample.field = __ask_for_field()
-    sample.save(output)
-
-
-@build_samples.command("generic-fcc")
-@click.argument("output")
-@click.option("--length", default=10)
-def generic_sc(length, output):
+def generic_fcc(length, output):
     sample = GenericFcc(length)
     sample.temperature = __ask_for_temperature()
     sample.field = __ask_for_field()
