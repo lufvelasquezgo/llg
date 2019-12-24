@@ -10,8 +10,8 @@ def PovrayArrow(position, direction, color):
     position = numpy.array(position)
     direction = numpy.array(direction) * 0.9
     base_point_cylinder = position - 0.5 * direction
-    cap_point_cone = position + 0.5 * direction
-    cap_point_cylinder = base_point_cone = base_point_cylinder + 0.5 * direction
+    cap_point_cone = position + 0.7 * direction
+    cap_point_cylinder = base_point_cone = base_point_cylinder + 0.7 * direction
 
     radius_cylinder = 1 / 20
     base_radius_cone = 1 / 6
@@ -31,7 +31,13 @@ def PovrayArrow(position, direction, color):
         vapory.Texture(vapory.Pigment("color", color)),
     )
 
-    return vapory.Union(cone, cylinder)
+    sphere = vapory.Sphere(
+        position,
+        2 * radius_cylinder,
+        vapory.Texture(vapory.Pigment("color", [0, 0, 0])),
+    )
+
+    return vapory.Union(sphere, vapory.Union(cone, cylinder))
 
 
 class PlotStates:
@@ -44,7 +50,7 @@ class PlotStates:
 
         self.centroid = numpy.mean(self.positions, axis=0)
         self.location = numpy.array([1, 1, 1]) * [
-            2 + 2 * numpy.max(numpy.linalg.norm(self.positions - self.centroid, axis=1))
+            1 + 1.5 * numpy.max(numpy.linalg.norm(self.positions - self.centroid, axis=1))
         ]
 
     @staticmethod
@@ -63,16 +69,6 @@ class PlotStates:
             return colorsys.hls_to_rgb(theta / (2 * numpy.pi), 0.5, 1)
         else:
             raise Exception(f"Mode {mode} is not supported.")
-
-    # def __enter__(self):
-    #     try:
-    #         os.mkdir(self.output)
-    #     except FileExistsError:
-    #         pass
-    #     return self
-
-    # def __exit__(self, *args):
-    #     return
 
     def plot(self, state, iteration, temperature, field, save=False):
 
@@ -113,5 +109,4 @@ class PlotStates:
 
         self.index += 1
 
-        return scene
-
+        return scene.render(width=self.size[0], height=self.size[1], antialiasing=0)

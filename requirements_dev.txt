@@ -24,3 +24,4 @@ coverage==4.5.4
 black==19.10b0
 
 h5py==2.10.0
+moviepy==1.0.1
