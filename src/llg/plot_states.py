@@ -35,14 +35,21 @@ def PovrayArrow(position, direction, color):
 
 
 class PlotStates:
-    def __init__(self, positions, output):
+    def __init__(self, positions, output, size, mode):
         self.positions = positions
         self.output = output
+        self.size = size
+        self.mode = mode
+        self.index = 1
+
+        self.centroid = numpy.mean(self.positions, axis=0)
+        self.location = numpy.array([1, 1, 1]) * [
+            2 + 2 * numpy.max(numpy.linalg.norm(self.positions - self.centroid, axis=1))
+        ]
 
     @staticmethod
     def get_rgb(direction, mode):
         sx, sy, sz = direction.T
-        r = numpy.sqrt(sx * sx + sy * sy + sz * sz)
         rho = numpy.sqrt(sx * sx + sy * sy)
 
         phi = (numpy.arctan2(sy, sx) + 2 * numpy.pi) % (2 * numpy.pi)
@@ -57,27 +64,23 @@ class PlotStates:
         else:
             raise Exception(f"Mode {mode} is not supported.")
 
-    def __enter__(self):
-        try:
-            os.mkdir(self.output)
-        except FileExistsError:
-            pass
-        return self
+    # def __enter__(self):
+    #     try:
+    #         os.mkdir(self.output)
+    #     except FileExistsError:
+    #         pass
+    #     return self
 
-    def __exit__(self, *args):
-        return
+    # def __exit__(self, *args):
+    #     return
 
-
-class PlotStatesPovray(PlotStates):
-    def plot(self, state, mode="azimuthal", sufix=""):
-        centroid = numpy.mean(self.positions, axis=0)
-        location = numpy.array([1, 1, 1]) * 2 * numpy.max(self.positions, axis=0)
+    def plot(self, state, iteration, temperature, field, save=False):
 
         camera = vapory.Camera(
             "location",
-            location,
+            self.location,
             "look_at",
-            centroid,
+            self.centroid,
             "sky",
             [0, 0, 1],
             "up",
@@ -86,50 +89,29 @@ class PlotStatesPovray(PlotStates):
             [0, 1, 0],
         )
         background = vapory.Background([1, 1, 1])
-        light = vapory.LightSource(location, "color", [1, 1, 1])
+        light = vapory.LightSource(self.location, "color", [1, 1, 1])
 
         arrows = []
         for position, direction in zip(self.positions, state):
-            color = PlotStates.get_rgb(direction, mode)
+            color = PlotStates.get_rgb(direction, self.mode)
             arrows.append(PovrayArrow(position, direction, color))
 
         scene = vapory.Scene(camera, objects=[background, light, *arrows])
 
-        return scene.render(
-            f"{self.output}/plot_states{sufix}.png",
-            width=500,
-            height=500,
-            antialiasing=0,
-        )
+        if save:
+            try:
+                os.mkdir(self.output)
+            except FileExistsError:
+                pass
 
+            scene.render(
+                f"{self.output}/figure_{self.index}.png",
+                width=self.size[0],
+                height=self.size[1],
+                antialiasing=0,
+            )
 
-class PlotStatesMatplotlib(PlotStates):
-    def plot(self, state, mode="azimuthal", sufix=""):
-        fig = pyplot.figure()
-        ax = fig.add_subplot(111, projection="3d")
+        self.index += 1
 
-        x, y, z = numpy.array(self.positions).T
-        sx, sy, sz = numpy.array(state).T
-        colors = numpy.array(
-            [PlotStates.get_rgb(direction, mode) for direction in state]
-        )
+        return scene
 
-        ax.quiver(x, y, z, sx, sy, sz, pivot="middle", normalize=True)
-        pyplot.savefig(f"{self.output}/plot_states{sufix}.png")
-        pyplot.close()
-
-
-# class PlotStatesMayavi(PlotStates):
-#     def plot(self, state, mode="azimuthal", sufix=""):
-#         x, y, z = numpy.array(self.positions).T
-#         sx, sy, sz = numpy.array(state).T
-#         colors = numpy.array(
-#             [PlotStates.get_rgb(direction, mode) for direction in state]
-#         )
-
-#         mlab.quiver3d(x, y, z, sx, sy, sz, line_width=3, mode=arrow, scale_mode="none")
-#         mlab.savefig(f"{self.output}/plot_states{sufix}.png")
-#         mlab.close()
-
-class PlotStatesVpython(PlotStates):
-    def plot(self, state, mode="azimuthal", sufix=""):

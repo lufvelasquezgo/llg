@@ -4,7 +4,7 @@
 import click
 from llg import Simulation, StoreHDF
 from llg.predefined_structures import GenericSc, GenericBcc, GenericFcc, GenericHcp
-from llg.plot_states import PlotStatesPovray, PlotStatesMatplotlib
+from llg.plot_states import PlotStates
 import pickle
 import h5py
 import numpy
@@ -305,26 +305,126 @@ def plot_averages(output):
             pyplot.savefig(pdf, format="pdf")
             pyplot.close()
 
-
-@plot.command("plot-final-states")
+@plot.command("plot-states")
 @click.argument("output")
-def plot_final_states(output):
+@click.option(
+    "--step",
+    default="max",
+    help="Step separation between plots. If step=max, it will be the amount of iterations.",
+)
+@click.option("--size", default=(500, 500), help="Figure size in pixels.")
+@click.option(
+    "--mode",
+    default="azimuthal",
+    type=click.Choice(["azimuthal", "polar"]),
+    help="Color mode",
+)
+@click.option("--colormap", default="jet", help="Colormap supported by mayavi.")
+def plot_states(output, step, size, colormap, mode):
     simulation_information = pickle.loads(eval(input()))
     num_TH = simulation_information["num_TH"]
     num_iterations = simulation_information["num_iterations"]
     positions = simulation_information["positions"]
     temperature = simulation_information["temperature"]
-    print()
+    field = simulation_information["field"]
+    initial_state = simulation_information["initial_state"]
 
-    with PlotStatesMatplotlib(positions, output) as plot_state:
-        for i in range(num_TH):
-            T = temperature[i]
-            for j in range(num_iterations):
-                # reads
-                state = pickle.loads(eval(input()))
-                _ = pickle.loads(eval(input()))
-                _ = pickle.loads(eval(input()))
-                _ = pickle.loads(eval(input()))
-                _ = pickle.loads(eval(input()))
-            plot_state.plot(state, sufix=f"_T_{T}_")
-            # TODO: print message to inform the saved figure
+    if step == "max":
+        step = num_iterations
+    else:
+        step = int(step)
+
+    if num_iterations % step != 0:
+        raise Exception("`step` is not a multiple of `num_iterations`")
+
+    plot_state = PlotStates(positions, output, size, mode)
+    plot_state.plot(initial_state, 0, None, None, save=True)
+    click.secho(f"Figure was created the initial state", fg="green")
+
+    for i in range(num_TH):
+        T = temperature[i]
+        H = field[i]
+        for j in range(num_iterations):
+            # reads
+            state = pickle.loads(eval(input()))
+            _ = pickle.loads(eval(input()))
+            _ = pickle.loads(eval(input()))
+            _ = pickle.loads(eval(input()))
+            _ = pickle.loads(eval(input()))
+            if (j + 1) % step == 0:
+                plot_state.plot(state, j + 1, T, H, save=True)
+                click.secho(
+                    f"Figure was created for T={T:.2f}, H={H:.2f}, iteration={j + 1}",
+                    fg="green",
+                )
+
+
+# @plot.command("animate-states")
+# @click.argument("output")
+# @click.option(
+#     "--step",
+#     default="max",
+#     help="Step separation between plots. If step=max, it will be the amount of iterations.",
+# )
+# @click.option("--size", default=(500, 500), help="Figure size in pixels.")
+# @click.option(
+#     "--mode",
+#     default="azimuthal",
+#     type=click.Choice(["azimuthal", "polar"]),
+#     help="Color mode",
+#     show_default=True,
+# )
+# @click.option("--colormap", default="jet", help="Colormap supported by mayavi.")
+# @click.option("--fps", default=1)
+# def animate_states(output, step, size, colormap, mode, fps):
+#     simulation_information = pickle.loads(eval(input()))
+#     num_TH = simulation_information["num_TH"]
+#     num_iterations = simulation_information["num_iterations"]
+#     positions = simulation_information["positions"]
+#     temperature = simulation_information["temperature"]
+#     field = simulation_information["field"]
+#     initial_state = simulation_information["initial_state"]
+
+#     if step == "max":
+#         step = num_iterations
+#     else:
+#         step = int(step)
+
+#     if num_iterations % step != 0:
+#         raise Exception("`step` is not a multiple of `num_iterations`")
+
+#     def image_generator():
+#         plot_state = PlotStates(positions, output, size, colormap, mode)
+#         yield plot_state.plot(initial_state, 0, None, None)
+
+#         for i in range(num_TH):
+#             T = temperature[i]
+#             H = field[i]
+#             for j in range(num_iterations):
+#                 # reads
+#                 state = pickle.loads(eval(input()))
+#                 _ = pickle.loads(eval(input()))
+#                 _ = pickle.loads(eval(input()))
+#                 _ = pickle.loads(eval(input()))
+#                 _ = pickle.loads(eval(input()))
+#                 if (j + 1) % step == 0:
+#                     yield plot_state.plot(state, j + 1, T, H)
+
+#     def make_frame(t):
+#         return next(generator)
+
+#     # plus 1 due to the initial state.
+#     duration = (num_TH * (num_iterations // step) + 1) / fps
+
+#     generator = image_generator()
+#     animation = mpy.VideoClip(make_frame, duration=duration)
+
+#     # the generator should be reseted due the in the VideoClip init, the make_frame
+#     # function is called one time.
+#     generator = image_generator()
+
+#     _, output_extension = os.path.splitext(output)
+#     if output_extension == ".gif":
+#         animation.write_gif(output, fps=fps)
+#     else:
+#         animation.write_videofile(output, fps=fps)
