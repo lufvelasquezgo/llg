@@ -315,7 +315,12 @@ def plot_averages(output):
     type=click.Choice(["azimuthal", "polar"]),
     help="Color mode",
 )
-def plot_states(output, step, size, mode):
+@click.option(
+    "--colormap",
+    default="hsv",
+    help="Color map. Matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html",
+)
+def plot_states(output, step, size, mode, colormap):
     simulation_information = pickle.loads(eval(input()))
     num_TH = simulation_information["num_TH"]
     num_iterations = simulation_information["num_iterations"]
@@ -332,7 +337,7 @@ def plot_states(output, step, size, mode):
     if num_iterations % step != 0:
         raise Exception("`step` is not a multiple of `num_iterations`")
 
-    plot_state = PlotStates(positions, output, size, mode)
+    plot_state = PlotStates(positions, output, size, mode, colormap)
     plot_state.plot(initial_state, 0, None, None, save=True)
     click.secho(f"Figure was created the initial state", fg="green")
 
@@ -369,8 +374,13 @@ def plot_states(output, step, size, mode):
     help="Color mode",
     show_default=True,
 )
+@click.option(
+    "--colormap",
+    default="hsv",
+    help="Color map. Matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html",
+)
 @click.option("--fps", default=1)
-def animate_states(output, step, size, mode, fps):
+def animate_states(output, step, size, mode, colormap, fps):
     simulation_information = pickle.loads(eval(input()))
     num_TH = simulation_information["num_TH"]
     num_iterations = simulation_information["num_iterations"]
@@ -388,7 +398,7 @@ def animate_states(output, step, size, mode, fps):
         raise Exception("`step` is not a multiple of `num_iterations`")
 
     def image_generator():
-        plot_state = PlotStates(positions, output, size, mode)
+        plot_state = PlotStates(positions, output, size, mode, colormap)
         yield plot_state.plot(initial_state, 0, None, None)
 
         for i in range(num_TH):

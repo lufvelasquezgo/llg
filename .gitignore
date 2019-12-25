@@ -166,3 +166,5 @@ fortran-src/ffunctionsmodule.c
 
 *.png
 *.gif
+*.pov
+*.mp4
