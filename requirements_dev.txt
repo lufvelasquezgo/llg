@@ -16,6 +16,7 @@ numpy==1.17.4
 matplotlib==3.1.2
 pytest-repeat==0.8.0
 pytest-cov==2.8.1
+vapory==0.1.1
 
 ipython==7.9.0
 
@@ -23,3 +24,4 @@ coverage==4.5.4
 black==19.10b0
 
 h5py==2.10.0
+moviepy==1.0.1
