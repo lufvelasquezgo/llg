@@ -3,8 +3,10 @@ bumpversion==0.5.3
 wheel==0.33.6
 watchdog==0.9.0
 flake8==3.7.9
+
+coverage==5.0.1
 tox==3.14.2
-coverage==4.5.4
+
 Sphinx==2.2.1
 twine==3.1.1
 
@@ -20,7 +22,7 @@ vapory==0.1.1
 
 ipython==7.10.2
 
-coverage==4.5.4
+coverage==5.0.1
 black==19.10b0
 
 h5py==2.10.0
