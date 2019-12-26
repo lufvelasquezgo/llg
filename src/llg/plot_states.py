@@ -1,9 +1,11 @@
-import vapory
-import numpy
 import os
-from matplotlib import pyplot
-from PIL import Image
 import tempfile
+
+import numpy
+from matplotlib import font_manager, pyplot
+from PIL import Image, ImageDraw, ImageFont
+
+import vapory
 
 
 def PovrayArrow(position, direction, color):
@@ -17,24 +19,14 @@ def PovrayArrow(position, direction, color):
     base_radius_cone = 1 / 6
 
     texture = vapory.Texture(
-            vapory.Pigment("color", color),
-            vapory.Finish("roughness", 0, "ambient", 0.2),
-        )
+        vapory.Pigment("color", color), vapory.Finish("roughness", 0, "ambient", 0.2),
+    )
 
     cylinder = vapory.Cylinder(
-        base_point_cylinder,
-        cap_point_cylinder,
-        radius_cylinder,
-        texture,
+        base_point_cylinder, cap_point_cylinder, radius_cylinder, texture,
     )
 
-    cone = vapory.Cone(
-        base_point_cone,
-        base_radius_cone,
-        cap_point_cone,
-        0.0,
-        texture
-    )
+    cone = vapory.Cone(base_point_cone, base_radius_cone, cap_point_cone, 0.0, texture)
 
     sphere = vapory.Sphere(
         position,
@@ -66,6 +58,8 @@ class PlotStates:
         ]
 
         self.colorbar_image = self.create_colorbar()
+
+        self.font = ImageFont.truetype(font_manager.findfont(None), 16)
 
     def create_colorbar(self):
         colorbar_file = tempfile.NamedTemporaryFile(suffix=".png")
@@ -139,6 +133,15 @@ class PlotStates:
         )
 
         image = PlotStates.join_images(self.colorbar_image, scene_image)
+
+        if self.index == 1:
+            title = "Initial state"
+        else:
+            title = f"T = {temperature:.2f}; H = {field:.2f}; iteration = {iteration}"
+
+        draw = ImageDraw.Draw(image)
+        draw.text((0.2 * image.width, 0), title, (0, 0, 0), font=self.font)
+
         if save:
             try:
                 os.mkdir(self.output)

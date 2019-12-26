@@ -1,21 +1,22 @@
 # -*- coding: utf-8 -*-
 
 """Console script for llg."""
-import click
-from llg import Simulation, StoreHDF
-from llg.predefined_structures import GenericSc, GenericBcc, GenericFcc, GenericHcp
-from llg.plot_states import PlotStates
-import pickle
-import h5py
-import numpy
-from llg._tools import __ask_for_field, __ask_for_temperature
-from matplotlib.backends.backend_pdf import PdfPages
-from matplotlib import pyplot
-from tqdm import tqdm
-
-import moviepy.editor as mpy
-
 import os
+import pickle
+
+import click
+import numpy
+from matplotlib import pyplot
+from matplotlib.backends.backend_pdf import PdfPages
+
+import h5py
+import moviepy.editor as mpy
+from llg import Simulation, StoreHDF
+from llg._tools import __ask_for_field, __ask_for_temperature
+from llg.plot_states import PlotStates
+from llg.predefined_structures import (GenericBcc, GenericFcc, GenericHcp,
+                                       GenericSc)
+from tqdm import tqdm
 
 
 @click.group()
