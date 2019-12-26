@@ -22,7 +22,6 @@ vapory==0.1.1
 
 ipython==7.10.2
 
-coverage==5.0.1
 black==19.10b0
 
 h5py==2.10.0
