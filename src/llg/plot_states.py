@@ -46,7 +46,7 @@ class PlotStates:
         self.colormap = colormap
         self.index = 1
 
-        self.max_angle = {"azimuthal": 2 * numpy.pi, "polar": numpy.pi}[self.mode]
+        self.max_angle = {"azimuthal": 360, "polar": 180}[self.mode]
 
         self.cmap_norm = pyplot.Normalize(vmin=0, vmax=self.max_angle)
         self.cmap = pyplot.get_cmap(colormap)
@@ -59,12 +59,12 @@ class PlotStates:
 
         self.colorbar_image = self.create_colorbar()
 
-        self.font = ImageFont.truetype(font_manager.findfont(None), 16)
+        self.font = ImageFont.truetype(font_manager.findfont(None), self.size // 25)
 
     def create_colorbar(self):
         colorbar_file = tempfile.NamedTemporaryFile(suffix=".png")
 
-        pyplot.figure(dpi=self.size[0])
+        pyplot.figure(dpi=self.size)
         scatter = pyplot.scatter([], [], c=[], norm=self.cmap_norm, cmap=self.cmap)
         cbar = pyplot.colorbar(scatter)
         cbar.set_label(f"{self.mode.capitalize()} angle")
@@ -82,9 +82,11 @@ class PlotStates:
         rho = numpy.sqrt(sx * sx + sy * sy)
 
         if mode == "azimuthal":
-            return (numpy.arctan2(sy, sx) + 2 * numpy.pi) % (2 * numpy.pi)
+            phi = (numpy.arctan2(sy, sx) + 2 * numpy.pi) % (2 * numpy.pi)
+            return numpy.degrees(phi)
         elif mode == "polar":
-            return numpy.arctan2(rho, sz)
+            theta = numpy.arctan2(rho, sz)
+            return numpy.degrees(theta)
         else:
             raise Exception(f"Mode {mode} is not supported.")
 
@@ -128,9 +130,7 @@ class PlotStates:
             arrows.append(PovrayArrow(position, direction, color))
 
         scene = vapory.Scene(camera, objects=[background, light, *arrows])
-        scene_image = scene.render(
-            width=self.size[0], height=self.size[1], antialiasing=0.1
-        )
+        scene_image = scene.render(width=self.size, height=self.size, antialiasing=0.1)
 
         image = PlotStates.join_images(self.colorbar_image, scene_image)
 

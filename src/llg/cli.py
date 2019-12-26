@@ -14,8 +14,7 @@ import moviepy.editor as mpy
 from llg import Simulation, StoreHDF
 from llg._tools import __ask_for_field, __ask_for_temperature
 from llg.plot_states import PlotStates
-from llg.predefined_structures import (GenericBcc, GenericFcc, GenericHcp,
-                                       GenericSc)
+from llg.predefined_structures import GenericBcc, GenericFcc, GenericHcp, GenericSc
 from tqdm import tqdm
 
 
@@ -309,7 +308,7 @@ def plot_averages(output):
     default="max",
     help="Step separation between plots. If step=max, it will be the amount of iterations.",
 )
-@click.option("--size", default=(500, 500), help="Figure size in pixels.")
+@click.option("--size", default=500, help="Figure length size in pixels.")
 @click.option(
     "--mode",
     default="azimuthal",
@@ -367,7 +366,7 @@ def plot_states(output, step, size, mode, colormap):
     default="max",
     help="Step separation between plots. If step=max, it will be the amount of iterations.",
 )
-@click.option("--size", default=(500, 500), help="Figure size in pixels.")
+@click.option("--size", default=500, help="Figure length size in pixels.")
 @click.option(
     "--mode",
     default="azimuthal",
