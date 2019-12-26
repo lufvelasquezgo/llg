@@ -162,3 +162,9 @@ fortran-src/ffunctionsmodule.c
 
 # txt files
 *.txt
+
+
+*.png
+*.gif
+*.pov
+*.mp4

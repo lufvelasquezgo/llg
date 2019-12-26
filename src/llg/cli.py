@@ -1,15 +1,20 @@
 # -*- coding: utf-8 -*-
 
 """Console script for llg."""
-import click
-from llg import Simulation, StoreHDF
-from llg.predefined_structures import GenericBcc, GenericSc
+import os
 import pickle
-import h5py
+
+import click
 import numpy
-from llg._tools import __ask_for_field, __ask_for_temperature
-from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib import pyplot
+from matplotlib.backends.backend_pdf import PdfPages
+
+import h5py
+import moviepy.editor as mpy
+from llg import Simulation, StoreHDF
+from llg._tools import __ask_for_field, __ask_for_temperature
+from llg.plot_states import PlotStates
+from llg.predefined_structures import GenericBcc, GenericFcc, GenericHcp, GenericSc
 from tqdm import tqdm
 
 
@@ -205,6 +210,16 @@ def build_samples():
     pass
 
 
+@build_samples.command("generic-sc")
+@click.argument("output")
+@click.option("--length", default=10)
+def generic_sc(length, output):
+    sample = GenericSc(length)
+    sample.temperature = __ask_for_temperature()
+    sample.field = __ask_for_field()
+    sample.save(output)
+
+
 @build_samples.command("generic-bcc")
 @click.argument("output")
 @click.option("--length", default=10)
@@ -215,11 +230,11 @@ def generic_bcc(length, output):
     sample.save(output)
 
 
-@build_samples.command("generic-sc")
+@build_samples.command("generic-fcc")
 @click.argument("output")
 @click.option("--length", default=10)
-def generic_sc(length, output):
-    sample = GenericSc(length)
+def generic_fcc(length, output):
+    sample = GenericFcc(length)
     sample.temperature = __ask_for_temperature()
     sample.field = __ask_for_field()
     sample.save(output)
@@ -284,3 +299,136 @@ def plot_averages(output):
             pyplot.tight_layout()
             pyplot.savefig(pdf, format="pdf")
             pyplot.close()
+
+
+@plot.command("plot-states")
+@click.argument("output")
+@click.option(
+    "--step",
+    default="max",
+    help="Step separation between plots. If step=max, it will be the amount of iterations.",
+)
+@click.option("--size", default=500, help="Figure length size in pixels.")
+@click.option(
+    "--mode",
+    default="azimuthal",
+    type=click.Choice(["azimuthal", "polar"]),
+    help="Color mode",
+)
+@click.option(
+    "--colormap",
+    default="hsv",
+    help="Color map. Matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html",
+)
+def plot_states(output, step, size, mode, colormap):
+    simulation_information = pickle.loads(eval(input()))
+    num_TH = simulation_information["num_TH"]
+    num_iterations = simulation_information["num_iterations"]
+    positions = simulation_information["positions"]
+    temperature = simulation_information["temperature"]
+    field = simulation_information["field"]
+    initial_state = simulation_information["initial_state"]
+
+    if step == "max":
+        step = num_iterations
+    else:
+        step = int(step)
+
+    if num_iterations % step != 0:
+        raise Exception("`step` is not a multiple of `num_iterations`")
+
+    plot_state = PlotStates(positions, output, size, mode, colormap)
+    plot_state.plot(initial_state, 0, None, None, save=True)
+    click.secho(f"Figure was created the initial state", fg="green")
+
+    for i in range(num_TH):
+        T = temperature[i]
+        H = field[i]
+        for j in range(num_iterations):
+            # reads
+            state = pickle.loads(eval(input()))
+            _ = pickle.loads(eval(input()))
+            _ = pickle.loads(eval(input()))
+            _ = pickle.loads(eval(input()))
+            _ = pickle.loads(eval(input()))
+            if (j + 1) % step == 0:
+                plot_state.plot(state, j + 1, T, H, save=True)
+                click.secho(
+                    f"Figure was created for T={T:.2f}, H={H:.2f}, iteration={j + 1}",
+                    fg="green",
+                )
+
+
+@plot.command("animate-states")
+@click.argument("output")
+@click.option(
+    "--step",
+    default="max",
+    help="Step separation between plots. If step=max, it will be the amount of iterations.",
+)
+@click.option("--size", default=500, help="Figure length size in pixels.")
+@click.option(
+    "--mode",
+    default="azimuthal",
+    type=click.Choice(["azimuthal", "polar"]),
+    help="Color mode",
+    show_default=True,
+)
+@click.option(
+    "--colormap",
+    default="hsv",
+    help="Color map. Matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html",
+)
+@click.option("--fps", default=1)
+def animate_states(output, step, size, mode, colormap, fps):
+    simulation_information = pickle.loads(eval(input()))
+    num_TH = simulation_information["num_TH"]
+    num_iterations = simulation_information["num_iterations"]
+    positions = simulation_information["positions"]
+    temperature = simulation_information["temperature"]
+    field = simulation_information["field"]
+    initial_state = simulation_information["initial_state"]
+
+    if step == "max":
+        step = num_iterations
+    else:
+        step = int(step)
+
+    if num_iterations % step != 0:
+        raise Exception("`step` is not a multiple of `num_iterations`")
+
+    def image_generator():
+        plot_state = PlotStates(positions, output, size, mode, colormap)
+        yield plot_state.plot(initial_state, 0, None, None)
+
+        for i in range(num_TH):
+            T = temperature[i]
+            H = field[i]
+            for j in range(num_iterations):
+                # reads
+                state = pickle.loads(eval(input()))
+                _ = pickle.loads(eval(input()))
+                _ = pickle.loads(eval(input()))
+                _ = pickle.loads(eval(input()))
+                _ = pickle.loads(eval(input()))
+                if (j + 1) % step == 0:
+                    yield plot_state.plot(state, j + 1, T, H)
+
+    def make_frame(t):
+        return next(generator)
+
+    # plus 1 due to the initial state.
+    duration = (num_TH * (num_iterations // step) + 1) / fps
+
+    generator = image_generator()
+    animation = mpy.VideoClip(make_frame, duration=duration)
+
+    # the generator should be reseted due the in the VideoClip init, the make_frame
+    # function is called one time.
+    generator = image_generator()
+
+    _, output_extension = os.path.splitext(output)
+    if output_extension == ".gif":
+        animation.write_gif(output, fps=fps)
+    else:
+        animation.write_videofile(output, fps=fps)
