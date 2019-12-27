@@ -37,6 +37,19 @@ class System:
 
     @classmethod
     def from_dict(cls, system_dict):
+        """ 
+        It is a function decorator, it creates the dictionary with the attributes 
+        that belong to the class method System.
+
+        Parameters:
+            system_dict (dict): Dictionary that contains the attributes of the System class.
+
+        Returns: 
+            dict: Object that contains index, position, type_, mu, 
+            anisotropy_constant, anisotopy_axis and field_axis (geometry). Also 
+            it contains a source, target, and jex (neighbors). Finally it 
+            contains units, damping, gyromagnetic, and deltat.  
+        """
         geometry = Geometry.from_dict(system_dict["geometry"])
         parameters = system_dict["parameters"]
 
@@ -44,12 +57,29 @@ class System:
 
     @classmethod
     def from_file(cls, system_file):
+        """ 
+        It is a function decorator, it creates the geometry file.
+
+        Parameters:
+            system_file (file): File that contains the attributes of the System class.
+        Returns: 
+            system: Object that contains index, position, type_, mu, 
+            anisotropy_constant, anisotopy_axis and field_axis (geometry). Also 
+            it contains a source, target, and jex (neighbors). Finally it 
+            contains units, damping, gyromagnetic, and deltat.
+        """
         with open(system_file) as file:
             system = json.load(file)
 
         return System.from_dict(system)
 
     def __getattr__(self, attr):
+        """
+        It is a function that contains the parameters attributes of the System class.
+
+        Parameters:
+
+        """
         if attr in self.parameters:
             return self.parameters[attr]
 
