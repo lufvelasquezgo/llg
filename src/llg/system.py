@@ -3,7 +3,26 @@ from llg import Geometry
 
 
 class System:
+    """
+    This is a class for construct and separate the geometry and parameters.
+
+    Attributes:
+        geometry (dict): It contains index, position, type, mu, anisotropy_constant, 
+        anisotopy_axis, and field_axis of each site. Also it contains a source, 
+        target, and jex.
+        parameters (dict): It contains units, damping, gyromagnetic, and deltat.
+    """
+
     def __init__(self, geometry: Geometry, parameters: dict):
+        """
+        The constructor for System class.
+
+        Parameters:
+            geometry (dict): It contains index, position, type, mu, anisotropy_constant, 
+            anisotopy_axis, and field_axis of each site. Also it contains a source, 
+            target, and jex.
+            parameters (dict): It contains units, damping, gyromagnetic, and deltat.
+        """
         self.geometry = geometry
         self.parameters = parameters
 

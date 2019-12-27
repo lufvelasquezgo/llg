@@ -19,11 +19,11 @@ def PovrayArrow(position, direction, color):
     base_radius_cone = 1 / 6
 
     texture = vapory.Texture(
-        vapory.Pigment("color", color), vapory.Finish("roughness", 0, "ambient", 0.2),
+        vapory.Pigment("color", color), vapory.Finish("roughness", 0, "ambient", 0.2)
     )
 
     cylinder = vapory.Cylinder(
-        base_point_cylinder, cap_point_cylinder, radius_cylinder, texture,
+        base_point_cylinder, cap_point_cylinder, radius_cylinder, texture
     )
 
     cone = vapory.Cone(base_point_cone, base_radius_cone, cap_point_cone, 0.0, texture)

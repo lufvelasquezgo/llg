@@ -17,6 +17,21 @@ def get_random_state(num_sites):
 
 
 class Simulation:
+    """
+    This is a class for make a simulation in order to evolve the state of the system.
+
+    Attributes:
+        system (): Object that contains index, position, type_, mu, 
+            anisotropy_constant, anisotopy_axis and field_axis (geometry). Also 
+            it contains a source, target, and jex (neighbors). Finally it 
+            contains units, damping, gyromagnetic, and deltat.
+        temperature (float-list): The temperature of the sites in the system.
+        field (float-list): The field that acts under the sites in the system.
+        num_iterations (int): The number of iterations for evolve the system.
+        seed (int): The seed for the random state.
+        initial_state (list): The initial state of the sites in te system.
+    """
+
     def __init__(
         self,
         system,
@@ -26,6 +41,20 @@ class Simulation:
         seed=None,
         initial_state=None,
     ):
+        """
+        The constructor for Simulation class.
+
+        Parameters:
+            system (): Object that contains index, position, type_, mu, 
+            anisotropy_constant, anisotopy_axis and field_axis (geometry). Also 
+            it contains a source, target, and jex (neighbors). Finally it 
+            contains units, damping, gyromagnetic, and deltat.
+            temperature (float-list): The temperature of the sites in the system.
+            field (float-list): 
+            num_iterations (int): The number of iterations for evolve the system.
+            seed (int): The seed for the random state. 
+            initial_state (list): The initial state of the sites in te system.
+        """
         self.system = system
         self.temperature = temperature
         self.field = field
@@ -49,6 +78,17 @@ class Simulation:
 
     @classmethod
     def from_file(cls, simulation_file):
+        """ 
+        It is a function decorator, it creates the simulation file.
+
+        Parameters:
+            simulation_file (file): File that contains index, position, type, 
+            mu, anisotropy_constant, anisotopy_axis, and field_axis of each 
+            site. Also it contains a source, target, and jex. 
+
+        Returns: 
+            simulation: Object that contains the. 
+        """
         with open(simulation_file) as file:
             simulation_dict = json.load(file)
 
@@ -64,9 +104,21 @@ class Simulation:
         return cls(system, temperature, field, num_iterations, seed, initial_state)
 
     def set_num_iterations(self, num_iterations):
+        """
+        It is a function to set the number of iterations.
+
+        Parameters:
+            num_iterations (int): The number of iterations for evolve the system.
+        """
         self.num_iterations = num_iterations
 
     def set_initial_state(self, initial_state):
+        """
+        It is a function to set the initial state for each site.
+
+        Parameters:
+            initial_state (list): The initial state of the sites in te system.
+        """
         self.initial_state = initial_state
 
     @property
