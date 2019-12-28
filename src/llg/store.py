@@ -2,18 +2,47 @@ import h5py
 
 
 class StoreHDF:
+    """
+    This is a class for store the information in a hdf file, as a result of the 
+    ``Simulate`` class. 
+
+    Attributes:
+        filename (file): This is the file with the information of the simulation.
+        compress (bool): This is an option to compress the file in which the 
+        logical size of a file is reduced. It allows faster transmission over a network.
+        It serialize the entire file.
+    """
+
     def __init__(self, filename, compress=False):
+        """
+        The constructor for StoreHDF class.
+
+        Parameters:
+           filename (file): This is the file with the information of the simulation.
+            compress (bool): This is an option to compress the file in which the 
+            logical size of a file is reduced. It allows faster transmission over a network.
+            It serialize the entire file. 
+        """
         self.filename = filename
         self.compress = compress
 
     def __enter__(self):
+        # make a database connection and return it
         self.__dataset = h5py.File(self.filename, mode="w")
         return self
 
     def __exit__(self, a, b, c):
+        # make sure the dbconnection gets closed
         self.__dataset.close()
 
     def populate(self, simulation_information):
+        """
+        It is a function responsible of set the information of the simulation file
+        and the results of the system evolve. 
+        
+        It receives the ``simulation_information``, and it contains the information 
+        of the simulation file and the results of the system evolve
+        """
         num_sites = simulation_information["num_sites"]
         num_TH = simulation_information["num_TH"]
         num_iterations = simulation_information["num_iterations"]
