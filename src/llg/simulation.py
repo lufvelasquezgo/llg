@@ -1,12 +1,11 @@
 import json
-import numpy
-from tqdm import tqdm
-from llg.ffunctions import heun
-from llg.ffunctions import energy
-from llg import System
-from llg import Bucket
 import random
+
 import click
+import numpy
+from llg import Bucket, System
+from llg.ffunctions import energy, heun
+from tqdm import tqdm
 
 
 def get_random_state(num_sites):
@@ -53,7 +52,7 @@ class Simulation:
             field (float-list): 
             num_iterations (int): The number of iterations for evolve the system.
             seed (int): The seed for the random state. 
-            initial_state (list): The initial state of the sites in te system.
+            initial_state (list): The initial state of the sites in the system.
         """
         self.system = system
         self.temperature = temperature
@@ -87,7 +86,8 @@ class Simulation:
             site. Also it contains a source, target, and jex. 
 
         Returns: 
-            simulation: Object that contains the. 
+            simulation: Object that contains the ``system object``, temperature, 
+            field, num_iterations, seed and initial_state. 
         """
         with open(simulation_file) as file:
             simulation_dict = json.load(file)
@@ -123,6 +123,22 @@ class Simulation:
 
     @property
     def information(self):
+        """
+        It is a function decorator, it creates an object with the complete
+        information needed for the ``run`` function.
+
+        Returns:
+            num_sites.
+            parameters.
+            temperature.
+            field.
+            seed.
+            num_iterations.
+            positions.
+            types.
+            initial_state.
+            num_TH.
+        """
         return {
             "num_sites": self.system.geometry.num_sites,
             "parameters": self.system.parameters,
@@ -137,6 +153,27 @@ class Simulation:
         }
 
     def run(self):
+        """
+        This function creates a generator. It calculates the evolve of the states
+        through the implementation of the LLG equation. Also, it uses these 
+        states for calculate the exchange energy, anisotropy energy, magnetic energy, 
+        and hence, the total energy of the system.
+
+        Parameters:
+            spin_norms (list): It receives the spin norms of the system.
+            damping (float): It receives the damping constant of the system.
+            deltat (float): It receives the step of time.
+            gyromagnetic (float): It receives the gyromagnetic constant of the system.
+            kb (float): It receives the Boltzmann constant in an specific units.
+            field_axes (float/list): It receives the field axis of the system.
+            j_exchanges (list): It receives the list of the exchanges interactions of the system.
+            num_neighbors (list): It receives the number of neighbors per site of the system.
+            neighbors (list): It receives the list of neighbors of the sites in the system.
+            anisotropy_constants (float/list): It receives the anisotropy constants of the system
+            anisotropy_axes (list): It receives the anisotropy axis of the system
+            num_sites (list): It receives the total of spin magnetic moments.
+            state (list): It receives the initial state of the system.
+        """
         spin_norms = self.system.geometry.spin_norms
         damping = self.system.damping
         deltat = self.system.deltat

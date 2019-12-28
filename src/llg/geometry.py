@@ -47,8 +47,8 @@ class Geometry:
         """ 
         It is a function decorator, it creates the geometry dictionary. 
         The dictionary contain the indexes as keys but the values are the same 
-        objects,such as, if we alter `sites_dict` values, we also alter the 
-        corresponding one in `sites`.
+        objects,such as, if we alter ``sites_dict`` values, we also alter the 
+        corresponding one in ``sites``.
 
         Parameters:
             geometry_dict (dict): Dictionary that contains index, position, 
@@ -59,9 +59,6 @@ class Geometry:
         neighbors = geometry_dict["neighbors"]
 
         sites = Geometry.read_sites(sites)
-        # dictionary with the indexes as keys but the values are the same objects,
-        # such as, if we alter `sites_dict` values, we also alter the corresponding
-        # one in `sites`.
         sites_dict = {site.index: site for site in sites}
 
         neighbors = Geometry.read_neighbors(neighbors)
