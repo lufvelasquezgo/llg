@@ -9,7 +9,7 @@ class Site:
         index (int): The index of each site of the system
         position (float): The position of each site of the system
         type (str): The type of each site in the system
-        mu (float): The
+        mu (float): The spin norms of each site of the system.
         anisotropy_constant (float): The anisotropy constant of the system
         anisotropy_axis (float): The anisotropy axis of the system
         field_axis (float): The field axis of the system
