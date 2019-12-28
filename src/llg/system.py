@@ -78,7 +78,8 @@ class System:
         It is a function that contains the parameters attributes of the System class.
 
         Parameters:
-
+            attr: It receives the attribute parameter, that contains the units, 
+            the damping constant, the gyromagnetic constant, and the deltat.
         """
         if attr in self.parameters:
             return self.parameters[attr]
