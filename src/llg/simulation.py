@@ -160,17 +160,17 @@ class Simulation:
         and hence, the total energy of the system.
 
         Parameters:
-            spin_norms (list): It receives the spin norms of the system.
-            damping (float): It receives the damping constant of the system.
+            spin_norms (list): It receives the spin norms of the sites in the system.
+            damping (float): It receives the damping constant of the sites in the system.
             deltat (float): It receives the step of time.
-            gyromagnetic (float): It receives the gyromagnetic constant of the system.
+            gyromagnetic (float): It receives the gyromagnetic constant of the sites in the system.
             kb (float): It receives the Boltzmann constant in an specific units.
-            field_axes (float/list): It receives the field axis of the system.
-            j_exchanges (list): It receives the list of the exchanges interactions of the system.
+            field_axes (float/list): It receives the field axis of the sites in the system.
+            j_exchanges (list): It receives the list of the exchanges interactions of the sites in the system.
             num_neighbors (list): It receives the number of neighbors per site of the system.
             neighbors (list): It receives the list of neighbors of the sites in the system.
-            anisotropy_constants (float/list): It receives the anisotropy constants of the system
-            anisotropy_axes (list): It receives the anisotropy axis of the system
+            anisotropy_constants (float): It receives the anisotropy constants of the sites in the system.
+            anisotropy_axes (list): It receives the anisotropy axis of the sites in the system.
             num_sites (list): It receives the total of spin magnetic moments.
             state (list): It receives the initial state of the system.
         """
