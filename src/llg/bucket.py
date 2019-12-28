@@ -24,7 +24,7 @@ class Bucket:
         Parameters:
             structure (float/list/dict): It receives the two attributes 
             (one at a time), temperature or field. It is responsible for 
-            determining the ``type`` of attribute with which it will work.
+            determining the ``type`` of attribute .
         """
         if isinstance(structure, dict):
             start = structure["start"]
@@ -41,11 +41,15 @@ class Bucket:
 
     def __len__(self):
         """
-
+        It is a function to determine the lenght of the two attributes.
         """
         return len(self.values)
 
     def __iter__(self):
+        """
+        It is a function that create an object which can be iterated one element 
+        at a time.
+        """
         return iter(self.values)
 
     @staticmethod
