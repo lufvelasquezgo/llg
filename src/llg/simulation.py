@@ -1,11 +1,12 @@
 import json
-import random
-
-import click
 import numpy
-from llg import Bucket, System
-from llg.ffunctions import energy, heun
 from tqdm import tqdm
+from llg.ffunctions import heun
+from llg.ffunctions import energy
+from llg import System
+from llg import Bucket
+import random
+import click
 
 
 def get_random_state(num_sites):

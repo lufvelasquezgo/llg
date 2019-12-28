@@ -17,7 +17,6 @@ from llg.plot_states import PlotStates
 from llg.predefined_structures import GenericBcc, GenericFcc, GenericHcp, GenericSc
 from tqdm import tqdm
 
-
 @click.group()
 def main():
     """Console script for llg."""
