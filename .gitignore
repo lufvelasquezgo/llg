@@ -163,8 +163,12 @@ fortran-src/ffunctionsmodule.c
 # txt files
 *.txt
 
-
+# images and videos
 *.png
 *.gif
 *.pov
 *.mp4
+
+# docs files
+llg.rst
+modules.rst

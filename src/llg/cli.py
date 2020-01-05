@@ -232,7 +232,7 @@ def build_samples():
 
 @build_samples.command("generic-sc")
 @click.argument("output")
-@click.option("--length", default=10,help="It represents the size of the sytem")
+@click.option("--length", default=10, help="It represents the size of the sytem")
 def generic_sc(length, output):
     sample = GenericSc(length)
     sample.temperature = __ask_for_temperature()
@@ -242,7 +242,7 @@ def generic_sc(length, output):
 
 @build_samples.command("generic-bcc")
 @click.argument("output")
-@click.option("--length", default=10,help="It represents the size of the sytem")
+@click.option("--length", default=10, help="It represents the size of the sytem")
 def generic_bcc(length, output):
     sample = GenericBcc(length)
     sample.temperature = __ask_for_temperature()
@@ -252,7 +252,7 @@ def generic_bcc(length, output):
 
 @build_samples.command("generic-fcc")
 @click.argument("output")
-@click.option("--length", default=10,help="It represents the size of the sytem")
+@click.option("--length", default=10, help="It represents the size of the sytem")
 def generic_fcc(length, output):
     sample = GenericFcc(length)
     sample.temperature = __ask_for_temperature()
