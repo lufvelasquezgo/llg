@@ -2,19 +2,26 @@ from numbers import Real
 
 
 class Site:
-    """ 
-    This is a class for create an object of sites. 
+    """This is a class for create an object of sites. 
 
-    Attributes: 
-        index (int): The index of each site of the system
-        position (float): The position of each site of the system
-        type (str): The type of each site in the system
-        mu (float): The spin norms of each site of the system.
-        anisotropy_constant (float): The anisotropy constant of the system
-        anisotropy_axis (float): The anisotropy axis of the system
-        field_axis (float): The field axis of the system
-        neighbors (list): The list of neighbors of the sites in the system.
-        jexs (list): The list of the exchanges interactions of the sites in the system.
+    :param index: The index of each site of the system
+    :type index: int
+    :param position: The position of each site of the system
+    :type position: float
+    :param type: The type of each site in the system
+    :type type: str
+    :param mu: The spin norms of each site of the system.
+    :type mu: float
+    :param anisotropy_constant: The anisotropy constant of the system
+    :type anisotropy_constant: float
+    :param anisotropy_axis: The anisotropy axis of the system
+    :type anisotropy_axis: float
+    :param field_axis: The field axis of the system
+    :type field_axis: float
+    :param neighbors: The list of neighbors of the sites in the system.
+    :type neighbors: list
+    :param jexs: The list of the exchanges interactions of the sites in the system.
+    :type jexs: list
     """
 
     def __init__(
@@ -27,17 +34,22 @@ class Site:
         anisotopy_axis,
         field_axis,
     ):
-        """ 
-        The constructor for Site class. 
+        """The constructor for Site class. 
 
-        Parameters: 
-            index (int): The index of each site of the system
-            position (float): The position of each site of the system
-            type__ (str): The type of each site in the system
-            mu (float): The
-            anisotropy_constant (float): The anisotropy constant of the system
-            anisotropy_axis (float): The anisotropy axis of the system
-            field_axis (float): The field axis of the system
+        :param index: The index of each site of the system.
+        :type index: int
+        :param position: The position of each site of the system.
+        :type position: float
+        :param type__: The type of each site in the system.
+        :type type__: str
+        :param mu: The .
+        :type mu: float
+        :param anisotropy_constant: The anisotropy constant of the system.
+        :type anisotropy_constant: float
+        :param anisotropy_axis: The anisotropy axis of the system.
+        :type anisotropy_axis: float
+        :param field_axis: The field axis of the system.
+        :type field_axis: float
         """
         self.index = index
         self.position = position
@@ -51,17 +63,13 @@ class Site:
 
     @classmethod
     def from_dict(cls, site_dict):
-        """ 
-        The dictionary of the values for Site class. 
+        """ The dictionary of the values for Site class. It is a function decorator, it creates the dictionary with the attributes that belong to the class method Site.
 
-        It is a function decorator, it creates the dictionary with the attributes 
-        that belong to the class method Site.
+        :param site_dict: Dictionary that contains the attributes.
+        :type site_dict: dict
 
-        Parameters:
-            site_dict (dict): Dictionary that contains the attributes.
-
-        Returns: 
-            dict: Object that contains the values index, position, type_, mu, anisotropy_constant, anisotopy_axis and field_axis. 
+        :return: Object that contains the values index, position, type_, mu, anisotropy_constant, anisotopy_axis and field_axis. 
+        :rtype: dict
         """
         index = site_dict["index"]
         position = site_dict["position"]
@@ -76,12 +84,12 @@ class Site:
         )
 
     def append_neighbor(self, neighbor, jex: float):
-        """ 
-        Function to append the neighbors and it own jexs for Site class.
+        """Function to append the neighbors and it own jexs for Site class.
 
-        Parameters: 
-            neighbor (int): The neighbors of each site in the system.
-            jex (float): The exchange interaction of each site in the system. 
+        :param neighbor: The neighbors of each site in the system.
+        :type neighbor: int
+        :param jex: The exchange interaction of each site in the system. 
+        :type jex: float
         """
         if not isinstance(neighbor, Site):
             raise Exception("`neighbor` is not an instance of Site.")
@@ -93,35 +101,29 @@ class Site:
         self.__jexs.append(jex)
 
     def set_neighbors(self, neighbors: list, jexs: list):
-        """ 
-        It is a function to set the neighbors. 
+        """It is a function to set the neighbors. 
 
-        Parameters:   
-            neighbors (list): The list of neighbors of the sites in the system.
-            jexs (list): The list of the exchanges interactions of the sites in the system.
+        :param neighbors: The list of neighbors of the sites in the system.
+        :type neighbors: list
+        :param jexs: The list of the exchanges interactions of the sites in the system.
+        :type jexs: list
         """
         for neighbor, jex in zip(neighbors, jexs):
             self.append_neighbor(neighbor, jex)
 
     @property
     def neighbors(self):
-        """ 
-        It is a function decorator, it provides an interface to instance attribute neighbors. 
-        It encapsulates instance attribute neighbors and provides a property Site class. 
+        """It is a function decorator, it provides an interface to instance attribute neighbors. It encapsulates instance attribute neighbors and provides a property Site class. 
 
-        Returns:
-            neighbors: Return a property attribute of neighbors.
+        return: Return a property attribute of neighbors.
         """
         return self.__neighbors
 
     @property
     def jexs(self):
-        """ 
-        It is a function decorator, it provides an interface to instance attribute exchanges interactions. 
-        It encapsulates instance attribute jexs and provides a property Site class. 
+        """It is a function decorator, it provides an interface to instance attribute exchanges interactions. It encapsulates instance attribute jexs and provides a property Site class. 
 
-        Returns: 
-            jexs: Return a property attribute of exchanges interactions.
+        return: Return a property attribute of exchanges interactions.
         """
         return self.__jexs
 

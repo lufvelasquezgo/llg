@@ -2,10 +2,7 @@ import click
 
 
 def __ask_for_temperature():
-    """
-    It is a function which asks for valid input according to the ``confirm()``
-    function. It asks for confirmation (yes/no) about if the user want to insert
-    some values for temperature.
+    """It is a function which asks for valid input according to the ``confirm()`` function. It asks for confirmation (yes/no) about if the user want to insert some values for temperature.
     """
     click.secho(
         "Your sample file will not contain a valid value for temperature.", fg="yellow"
@@ -37,10 +34,7 @@ def __ask_for_temperature():
 
 
 def __ask_for_field():
-    """
-    It is a function which asks for valid input according to the ``confirm()``
-    function. It asks for confirmation (yes/no) about if the user want to insert
-    some values for field.
+    """It is a function which asks for valid input according to the ``confirm()`` function. It asks for confirmation (yes/no) about if the user want to insert some values for field.
     """
     click.secho(
         "Your sample file will not contain a valid value for field.", fg="yellow"

@@ -4,27 +4,19 @@ import numpy
 
 
 class Bucket:
-    """
-    This is a class to match the sizes of two attributes. For this case, the 
-    attributes are the ``temperature`` and the ``field``.
+    """This is a class to match the sizes of two attributes. For this case, the attributes are the ``temperature`` and the ``field``.
 
-    Attributes:
-        bucket_1 (float/list/dict): It gets the temperature information 
-        of the ``simulation_file``. It receives one of the two attributes, 
-        temperature or field.
-        bucket_2 (float/list/dict): It gets the field information of the 
-        ``simulation_file``. It receives one of the two attributes, 
-        temperature or field.
+    :param bucket_1: It gets the temperature information of the ``simulation_file``. It receives one of the two attributes, temperature or field.
+    :type bucket_1: float/list/dict
+    :param bucket_2: It gets the field information of the ``simulation_file``. It receives one of the two attributes, temperature or field.
+    :type bucket_2: float/list/dict
     """
 
     def __init__(self, structure):
-        """
-        The constructor for Bucket class.
-
-        Parameters:
-            structure (float/list/dict): It receives the two attributes 
-            (one at a time), temperature or field. It is responsible for 
-            determining the ``type`` of attribute .
+        """The constructor for Bucket class.
+        
+        :param structure: It receives the two attributes (one at a time), temperature or field. It is responsible for determining the ``type`` of attribute .
+        :type structure: float/list/dict
         """
         if isinstance(structure, dict):
             start = structure["start"]
@@ -40,33 +32,28 @@ class Bucket:
             raise Exception("[Bucket for temperature and field] No supported format.")
 
     def __len__(self):
-        """
-        It is a function to determine the lenght of the two attributes.
+        """It is a function to determine the lenght of the two attributes.
         """
         return len(self.values)
 
     def __iter__(self):
-        """
-        It is a function that create an object which can be iterated one element 
-        at a time.
+        """It is a function that create an object which can be iterated one element at a time.
         """
         return iter(self.values)
 
     @staticmethod
     def match_sizes(bucket_1, bucket_2):
-        """
-        It is a function decorator, it is an instance for read the attributes and 
-        match it sizes. 
+        """It is a function decorator, it is an instance for read the attributes and match it sizes. 
 
-        Parameters:
-            bucket_1 (float/list): It gets the temperature information 
-        of the ``simulation_file``.
-            bucket_2 (float/list): It gets the field information of the 
-        ``simulation_file``.
+        :param bucket_1: It gets the temperature information of the ``simulation_file``.
+        :type bucket_1: float/list
+        :param bucket_2: It gets the field information of the ``simulation_file``.
+        :type bucket_2: float/list
 
-        Returns: 
-            bucket_1: An object that has the same size of bucket_2.
-            bucket_2: An object that has the same size of bucket_1.
+        :return: An object that has the same size of bucket_2.
+        :rtype: Object
+        :return: An object that has the same size of bucket_1.
+        :rtype: Object
         """
         if len(bucket_1) == len(bucket_2):
             return bucket_1, bucket_2

@@ -3,25 +3,16 @@ from llg import Geometry
 
 
 class System:
-    """
-    This is a class for construct and separate the geometry and parameters.
+    """This is a class for construct and separate the geometry and parameters.
 
-    Attributes:
-        geometry (dict): It contains index, position, type, mu, anisotropy_constant, 
-        anisotopy_axis, and field_axis of each site. Also it contains a source, 
-        target, and jex.
-        parameters (dict): It contains units, damping, gyromagnetic, and deltat.
+    :param geometry: It contains index, position, type, mu, anisotropy_constant, anisotopy_axis, and field_axis of each site. Also it contains a source, target, and jex.
+    :type geometry: dict
+    :param parameters: It contains units, damping, gyromagnetic, and deltat.
+    :type parameters: dict
     """
 
     def __init__(self, geometry: Geometry, parameters: dict):
-        """
-        The constructor for System class.
-
-        Parameters:
-            geometry (dict): It contains index, position, type, mu, anisotropy_constant, 
-            anisotopy_axis, and field_axis of each site. Also it contains a source, 
-            target, and jex.
-            parameters (dict): It contains units, damping, gyromagnetic, and deltat.
+        """The constructor for System class.
         """
         self.geometry = geometry
         self.parameters = parameters
@@ -37,18 +28,13 @@ class System:
 
     @classmethod
     def from_dict(cls, system_dict):
-        """ 
-        It is a function decorator, it creates the dictionary with the attributes 
-        that belong to the class method System.
+        """ It is a function decorator, it creates the dictionary with the attributes that belong to the class method System.
 
-        Parameters:
-            system_dict (dict): Dictionary that contains the attributes of the System class.
+        :param system_dict: Dictionary that contains the attributes of the System class.
+        :type system_dict: dict
 
-        Returns: 
-            dict: Object that contains index, position, type_, mu, 
-            anisotropy_constant, anisotopy_axis and field_axis (geometry). Also 
-            it contains a source, target, and jex (neighbors). Finally it 
-            contains units, damping, gyromagnetic, and deltat.  
+        :return: Object that contains index, position, type_, mu, anisotropy_constant, anisotopy_axis and field_axis (geometry). Also it contains a source, target, and jex (neighbors). Finally it contains units, damping, gyromagnetic, and deltat.  
+        :rtype: Object
         """
         geometry = Geometry.from_dict(system_dict["geometry"])
         parameters = system_dict["parameters"]
@@ -57,16 +43,13 @@ class System:
 
     @classmethod
     def from_file(cls, system_file):
-        """ 
-        It is a function decorator, it creates the geometry file.
+        """It is a function decorator, it creates the geometry file.
 
-        Parameters:
-            system_file (file): File that contains the attributes of the System class.
-        Returns: 
-            system: Object that contains index, position, type_, mu, 
-            anisotropy_constant, anisotopy_axis and field_axis (geometry). Also 
-            it contains a source, target, and jex (neighbors). Finally it 
-            contains units, damping, gyromagnetic, and deltat.
+        :param system_file: File that contains the attributes of the System class.
+        :type system_file: file
+        
+        :return: Object that contains index, position, type_, mu, anisotropy_constant, anisotopy_axis and field_axis (geometry). Also it contains a source, target, and jex (neighbors). Finally it contains units, damping, gyromagnetic, and deltat.
+        :rtype: Object
         """
         with open(system_file) as file:
             system = json.load(file)
@@ -74,12 +57,9 @@ class System:
         return System.from_dict(system)
 
     def __getattr__(self, attr):
-        """
-        It is a function that contains the parameters attributes of the System class.
+        """It is a function that contains the parameters attributes of the System class.
 
-        Parameters:
-            attr: It receives the attribute parameter, that contains the units, 
-            the damping constant, the gyromagnetic constant, and the deltat.
+        :param attr: It receives the attribute parameter, that contains the units, the damping constant, the gyromagnetic constant, and the deltat.
         """
         if attr in self.parameters:
             return self.parameters[attr]

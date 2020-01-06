@@ -2,8 +2,7 @@ import json
 
 
 class Sample:
-    """This is a class for construct the sample with all the attributes presented 
-    below.
+    """This is a class for construct the sample with all the attributes presented below.
 
     :param sites: It receives a list with the index values, and the positions of the sites in the system.
     :type sites: list

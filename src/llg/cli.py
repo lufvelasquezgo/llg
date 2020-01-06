@@ -14,7 +14,7 @@ import moviepy.editor as mpy
 from llg import Simulation, StoreHDF
 from llg._tools import __ask_for_field, __ask_for_temperature
 from llg.plot_states import PlotStates
-from llg.predefined_structures import GenericBcc, GenericFcc, GenericHcp, GenericSc
+from llg.predefined_structures import GenericBcc, GenericFcc, GenericSc
 from tqdm import tqdm
 
 
