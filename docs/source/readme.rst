@@ -4,7 +4,7 @@ Readme
 The llg library has been used to simulate the spin evolution of magnetics
 materials. It consists on pass a sample with the following form
 
-.. code-block:: json
+.. code-block::
 
    {
       "geometry":{

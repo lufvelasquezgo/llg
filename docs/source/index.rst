@@ -10,11 +10,11 @@ Welcome to llg's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   authors
    readme
+   code
    usage
    installation
-   authors
-
 
 Indices and tables
 ==================
