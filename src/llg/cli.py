@@ -399,7 +399,7 @@ def plot_states(output, step, size, mode, colormap):
     default="hsv",
     help="Color map. Matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html",
 )
-@click.option("--fps", default=1)
+@click.option("--fps", default=1, help="Frames per second.")
 def animate_states(output, step, size, mode, colormap, fps):
     simulation_information = pickle.loads(eval(input()))
     num_TH = simulation_information["num_TH"]

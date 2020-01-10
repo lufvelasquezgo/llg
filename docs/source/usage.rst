@@ -32,6 +32,17 @@ The library can be used in the command line through pipes, as follow:
     Select an option to the field (value, list, dict, file) [value]: __
     Insert the field value: __
 
+For this example, we put the following parameters:
+
+.. code-block::
+
+    "temperature": {
+    "start": 5.0,
+    "final": 0.05,
+    "step": 0.05
+    },
+    "field": 1.0,
+
 This will generate a sample.json file in the same directory where the
 repository is saved.
 
@@ -62,12 +73,13 @@ It creates a PDF document with each plot.
 * The third one is a graph of temperature versus magnetization.
 * The last one is a graph of field versus magnetization.
 
+The plot that we get with this command of the library is the follow:
+
+.. image:: /images/image1.png
+.. image:: /images/image2.png
+
 Furthermore, the command ``compute-averages`` has other options for calculate
 the averages of energy and magnetization.
-
-For this example, the image is as follow:
-
-.. figure:: images
 
 .. code-block:: console
 
@@ -81,10 +93,62 @@ For this example, the image is as follow:
                         compute avarages.
     --help             Show this message and exit.
 
+Also, if we want to get a graph of the spin system evolution we can do it
+with the library as follow:
 
+.. code-block:: console
+
+    $ llg read-hdf sample.hdf | llg plot plot-states figure
+
+The library create a folder with the name that you give when you used the
+command. In our example we named `figure`. This is a picture of how and where
+it is created.
+
+.. image:: /images/image3.png
+.. image:: /images/image4.png
+
+We get an amount of images. Each one represents an state of the spin system.
+This is the first plot that we get:
+
+.. image:: /images/image5.png
+
+Moreover, the command ``plot-states`` has other options for plot the
+spin system evolution.
+
+.. code-block:: console
+
+    $ llg plot plot-states --help
+    Usage: llg plot plot-states [OPTIONS] OUTPUT
+
+    Options:
+    --step TEXT               Step separation between plots. If step=max, it
+                                will be the amount of iterations.
+    --size INTEGER            Figure length size in pixels.
+    --mode [azimuthal|polar]  Color mode
+    --colormap TEXT           Color map. Matplotlib supported colormaps: https:/
+                                /matplotlib.org/examples/color/colormaps_reference
+                                .html
+    --help                    Show this message and exit.
+
+Finally, we can get an animation video with the spin system evolution.
+
+.. code-block:: console
+
+    $ llg read-hdf sample.hdf | llg plot animate-states video.mp4
+    Moviepy - Building video video.mp4.
+    Moviepy - Writing video video.mp4
+
+    Moviepy - Done !
+    Moviepy - video ready video.mp4
+
+It creates a video mp4 in the folder where the library is.
+
+.. image:: /images/image6.png
 
 Example two
 -----------
+
+The library can be used in a program file, as follow:
 
 .. code-block:: python
 
@@ -111,4 +175,4 @@ You can do the following in an interactive Python session:
 This will generate a sample.json file in the same directory as the original
 FILENAME.py file.
 
-
+Also, you can do everything that we did in the previous example.
