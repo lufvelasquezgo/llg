@@ -172,3 +172,6 @@ fortran-src/ffunctionsmodule.c
 # docs files
 llg.rst
 modules.rst
+
+# images of the docs
+!docs/source/images
