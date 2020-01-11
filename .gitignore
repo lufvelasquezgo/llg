@@ -174,4 +174,4 @@ llg.rst
 modules.rst
 
 # images of the docs
-!docs/source/images
+!docs/source/images/*
