@@ -21,7 +21,7 @@ Viewing documentation using IPython
 
 __author__ = """Juan David Alzate Cardona"""
 __email__ = "jdalzatec@unal.edu.co"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 from llg import ffunctions
 from llg.site import Site
