@@ -2,10 +2,6 @@
 llg
 ===
 
-
-.. image:: https://img.shields.io/pypi/v/llg.svg
-        :target: https://pypi.python.org/pypi/llg
-
 .. image:: https://img.shields.io/travis/jdalzatec/llg.svg
         :target: https://travis-ci.org/jdalzatec/llg
 
