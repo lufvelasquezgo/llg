@@ -24,6 +24,7 @@ author = "Luisa Fernanda Velásquez González"
 
 # The full version, including alpha/beta/rc tags
 release = "2020"
+master_doc = "index"
 
 
 # -- General configuration ---------------------------------------------------
