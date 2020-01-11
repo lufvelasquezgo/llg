@@ -14,7 +14,7 @@ import moviepy.editor as mpy
 from llg import Simulation, StoreHDF
 from llg._tools import __ask_for_field, __ask_for_temperature
 from llg.plot_states import PlotStates
-from llg.predefined_structures import GenericBcc, GenericFcc, GenericHcp, GenericSc
+from llg.predefined_structures import GenericBcc, GenericFcc, GenericSc
 from tqdm import tqdm
 
 
@@ -46,7 +46,13 @@ def simulate(configuration_file):
 
 @main.command("store-hdf")
 @click.argument("output")
-@click.option("--compress", default=False, is_flag=True, show_default=True)
+@click.option(
+    "--compress",
+    default=False,
+    is_flag=True,
+    show_default=True,
+    help="It reduces the overall number of bits and bytes of the file, but it takes much more time",
+)
 def store_hdf_cli(output, compress):
     simulation_information = pickle.loads(eval(input()))
     num_TH = simulation_information["num_TH"]
@@ -106,9 +112,23 @@ def read_hdf(file):
 
 
 @main.command("compute-averages")
-@click.option("--by-types", default=False, is_flag=True)
-@click.option("--components", default=False, is_flag=True)
-@click.option("--discard", default=0)
+@click.option(
+    "--by-types",
+    default=False,
+    is_flag=True,
+    help="It allows to compute avarages by type.",
+)
+@click.option(
+    "--components",
+    default=False,
+    is_flag=True,
+    help="It allows to compute avarages by components.",
+)
+@click.option(
+    "--discard",
+    default=0,
+    help="It allows to discard some iterations at the time to compute avarages.",
+)
 def compute_averages(by_types, components, discard):
     simulation_information = pickle.loads(eval(input()))
 
@@ -212,7 +232,7 @@ def build_samples():
 
 @build_samples.command("generic-sc")
 @click.argument("output")
-@click.option("--length", default=10)
+@click.option("--length", default=10, help="It represents the size of the sytem")
 def generic_sc(length, output):
     sample = GenericSc(length)
     sample.temperature = __ask_for_temperature()
@@ -222,7 +242,7 @@ def generic_sc(length, output):
 
 @build_samples.command("generic-bcc")
 @click.argument("output")
-@click.option("--length", default=10)
+@click.option("--length", default=10, help="It represents the size of the sytem")
 def generic_bcc(length, output):
     sample = GenericBcc(length)
     sample.temperature = __ask_for_temperature()
@@ -232,7 +252,7 @@ def generic_bcc(length, output):
 
 @build_samples.command("generic-fcc")
 @click.argument("output")
-@click.option("--length", default=10)
+@click.option("--length", default=10, help="It represents the size of the sytem")
 def generic_fcc(length, output):
     sample = GenericFcc(length)
     sample.temperature = __ask_for_temperature()
@@ -379,7 +399,7 @@ def plot_states(output, step, size, mode, colormap):
     default="hsv",
     help="Color map. Matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html",
 )
-@click.option("--fps", default=1)
+@click.option("--fps", default=1, help="Frames per second.")
 def animate_states(output, step, size, mode, colormap, fps):
     simulation_information = pickle.loads(eval(input()))
     num_TH = simulation_information["num_TH"]

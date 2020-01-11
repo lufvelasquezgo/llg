@@ -20,13 +20,13 @@ script: tox
 # create the Github repo and add it to Travis, run the
 # following command to finish PyPI deployment setup:
 # $ travis encrypt --add deploy.password
-# deploy:
-#   provider: pypi
-#   distributions: sdist bdist_wheel
-#   user: jdalzatec
-#   password:
-#     secure: PLEASE_REPLACE_ME
-#   on:
-#     tags: true
-#     repo: jdalzatec/llg
-#     python: 3.6
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  user: jdalzatec
+  password:
+    secure: "zQ3v6YXGNr2pQUJT5v5z763vQ36smu62O+EauD9NTdxOxs71JilgUW7hnCxOVV04P16rUlnviBdp9FNjk4unuawtB1MR/s7IaeQl+H/naqQkyhq2Sn7SQNTC5yswVSVC3HIJh9+cOMdb7DojgWzCfBP9KBCknhHqQIBx4FooruNRzXOalL8PYifKowMwuJcyPyQzfoLVzT+kZxh/4dxTjAvn/f09h+jbyxDqZmGAIGpYEXSQ64XfGGUr8qfL9FRq2VsVhutci5WDIpkrIVmgxLZgrEyA/OeQ8L3/PLHjaoHql4oh0juujxxocvlUOKIk0R8r3SAaZZgnldh5j5NXC8PjwPjq7I2eUHGAVEdwNOi9kSpdEof41jEXg5pqXg81jK2bzFAD+atUPDiZ91os6i2cWgY/h+24rLRG1IZvEa2LdE1hf/9oQY1GwtTc5rFw2cLJTtDZYIk/6Nzz4oWSlb6wKUvXVjFMh3ywHOWfHZZrwQpGb9vKzpIibtgsIbfZb0diOnD3SahHgh5C+LPd0L5YlsEix/j2/k70DoYmrh6rzYlo7hLTkrz5cuXMjmBumyGZVV60vVHFywhiT9/k2wrMon+tdWojmZFfo+a3neVkQvCAHbvzkxTUfthb0BtZdP+/krbOkbnlnojcX8nSMImzOCflq0i1Ak12/G5VmAE="
+  on:
+    tags: true
+    repo: jdalzatec/llg
+    python: 3.6
