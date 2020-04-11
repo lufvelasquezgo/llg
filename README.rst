@@ -2,15 +2,15 @@
 llg
 ===
 
-.. image:: https://img.shields.io/travis/jdalzatec/llg.svg
-        :target: https://travis-ci.org/jdalzatec/llg
+.. image:: https://img.shields.io/travis/lufvelasquezgo/llg.svg
+        :target: https://travis-ci.org/lufvelasquezgo/llg
 
 .. image:: https://readthedocs.org/projects/llg/badge/?version=latest
         :target: https://llg.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/jdalzatec/llg/shield.svg
-     :target: https://pyup.io/repos/github/jdalzatec/llg/
+.. image:: https://pyup.io/repos/github/lufvelasquezgo/llg/shield.svg
+     :target: https://pyup.io/repos/github/lufvelasquezgo/llg/
      :alt: Updates
 
 
