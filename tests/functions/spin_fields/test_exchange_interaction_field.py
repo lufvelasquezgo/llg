@@ -25,13 +25,11 @@ def test_exchange_interaction_field_null_J_exchange(random_state_spins, build_sa
     j_exchange = numpy.zeros(shape=num_interactions)
     exchanges = j_exchange.reshape(num_sites, 6)
     neighbors_ = numpy.array(neighbors).reshape(num_sites, 6)
-    total = numpy.zeros(shape=(num_sites, 3))
-    assert numpy.allclose(
-        spin_fields.exchange_interaction_field(
-            random_state_spins, spin_moments, exchanges, neighbors_
-        ),
-        total,
+    expected = numpy.zeros(shape=(num_sites, 3))
+    total = spin_fields.exchange_interaction_field(
+        random_state_spins, spin_moments, exchanges, neighbors_
     )
+    assert numpy.allclose(expected, total)
 
 
 @pytest.mark.repeat(100)
@@ -115,10 +113,9 @@ def test_exchange_interaction_field_null_magnetic_moments(
     neighbors_ = numpy.array(neighbors).reshape(num_sites, 6)
     null_moments = numpy.array([0.0] * num_sites)
     expected = numpy.full((num_sites, 3), numpy.inf)
-    with pytest.warns(RuntimeWarning):
-        total = numpy.abs(
-            spin_fields.exchange_interaction_field(
-                random_state_spins, null_moments, exchanges, neighbors_
-            )
+    total = numpy.abs(
+        spin_fields.exchange_interaction_field(
+            random_state_spins, null_moments, exchanges, neighbors_
         )
-        assert numpy.allclose(total, expected)
+    )
+    assert numpy.allclose(total, expected)

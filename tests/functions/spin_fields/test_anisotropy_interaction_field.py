@@ -29,17 +29,16 @@ def test_anisotropy_interaction_field_null_spin_moments(
 ):
     num_sites, _, _, _ = build_sample
     spin_moments = numpy.zeros(shape=num_sites)
-    with pytest.warns(RuntimeWarning):
-        assert numpy.all(
-            numpy.isinf(
-                spin_fields.anisotropy_interaction_field(
-                    random_state_spins,
-                    spin_moments,
-                    random_anisotropy_constant,
-                    random_anisotropy_vector,
-                )
+    assert numpy.all(
+        numpy.isinf(
+            spin_fields.anisotropy_interaction_field(
+                random_state_spins,
+                spin_moments,
+                random_anisotropy_constant,
+                random_anisotropy_vector,
             )
         )
+    )
 
 
 @pytest.mark.repeat(100)

@@ -6,8 +6,10 @@ from llg.functions.spin_fields import (
     exchange_interaction_field,
     anisotropy_interaction_field,
 )
+from numba import jit
 
 
+@jit(nopython=True)
 def dS_llg(
     state: NDArray[(Any, 3), float],
     Heff: NDArray[(Any, 3), float],
@@ -20,9 +22,12 @@ def dS_llg(
     return alpha * (cross1 + damping * cross2)
 
 
+@jit(nopython=True)
 def normalize(matrix: NDArray[(Any, 3), float]) -> NDArray[(Any, 3), float]:
-    norms = numpy.linalg.norm(matrix, axis=1)
-    return matrix / numpy.array([norms, norms, norms]).T
+    norms = numpy.sqrt((matrix * matrix).sum(axis=1))
+    norms_repeated = numpy.repeat(norms, 3)
+    norms_repeated_reshaped = norms_repeated.reshape((len(norms), 3))
+    return matrix / norms_repeated_reshaped
 
 
 def integrate(

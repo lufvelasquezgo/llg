@@ -24,6 +24,7 @@ requirements = [
     "moviepy>=1.0.1",
     "vapory>=0.1.1",
     "nptyping>=1.0.1",
+    "numba>=0.48.0",
 ]
 
 setup_requirements = ["pytest-runner"]
