@@ -15,8 +15,8 @@ def dS_llg(
     gyromagnetic: float,
 ) -> NDArray[(Any, 3), float]:
     alpha = -gyromagnetic / (1 + damping * damping)
-    cross1 = state @ Heff
-    cross2 = state @ cross1
+    cross1 = numpy.cross(state, Heff)
+    cross2 = numpy.cross(state, cross1)
     return alpha * (cross1 + damping * cross2)
 
 

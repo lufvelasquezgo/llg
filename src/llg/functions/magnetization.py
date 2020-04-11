@@ -4,7 +4,7 @@ from typing import Any
 
 
 def magnetization_vector(state: NDArray[(Any, 3), float]) -> NDArray[(Any, 3), float]:
-    return state.mean(axis=1)
+    return state.mean(axis=0)
 
 
 def magnetization_vector_by_type(
@@ -13,7 +13,7 @@ def magnetization_vector_by_type(
     out = numpy.zeros(shape=(num_types, 3))
     for t in range(num_types):
         mask = types == t
-        out[t] = state[mask].mean(axis=1)
+        out[t] = state[mask].mean(axis=0)
     return out
 
 
