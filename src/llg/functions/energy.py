@@ -1,35 +1,32 @@
 import numpy
+from nptyping import NDArray
+from typing import Any
 
 
-def compute_exchange_energy(num_sites, state, j_exchange, num_neighbors, neighbors):
+def compute_exchange_energy(
+    state: NDArray[(Any, 3), float],
+    exchanges: NDArray[(Any, Any), float],
+    neighbors: NDArray[(Any, Any), float],
+) -> float:
     total = 0
-    for i in range(num_sites):
-        sum_nhbs = sum(num_neighbors[:i])
-        for j in range(num_neighbors[i]):
-            index = j + sum_nhbs
-            j_int = j_exchange[index]
-            nhb = neighbors[index]
-            total -= j_int * numpy.dot(state[i], state[nhb])
-    total = 0.5 * total
-    return total
+    for i, state_i in enumerate(state):
+        exchanges_i = exchanges[i]
+        neighbors_i = state[neighbors[i]]
+        total += (exchanges_i * (state_i * neighbors_i).sum(axis=1)).sum()
+    return -total
 
 
-def compute_anisotropy_energy(num_sites, state, anisotropy_constant, anisotropy_vector):
-    total = numpy.zeros(shape=(num_sites, 3))
-    for i in range(num_sites):
-        total -= anisotropy_constant[i] * numpy.dot(state[i], anisotropy_vector[i]) ** 2
-
-    return total
+def compute_anisotropy_energy(
+    state: NDArray[(Any, 3), float],
+    anisotropy_constants: NDArray[Any, float],
+    anisotropy_vectors: NDArray[(Any, 3), float],
+) -> float:
+    return -(anisotropy_constants * (state * anisotropy_vectors).sum(axis=1)).sum()
 
 
 def compute_magnetic_energy(
-    num_sites, magnitude_spin_moment, state, intensities, directions
-):
-    total = 0
-    for i in range(num_sites):
-        total -= (
-            magnitude_spin_moment[i]
-            * numpy.dot(state[i], directions[i])
-            * intensities[i]
-        )
-    return total
+    magnitude_spin_moment: NDArray[Any, float],
+    state: NDArray[(Any, 3), float],
+    magnetic_fields: NDArray[(Any, 3), float],
+) -> float:
+    return -(magnitude_spin_moment * (state * magnetic_fields).sum(axis=1)).sum()
