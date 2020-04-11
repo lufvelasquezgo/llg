@@ -145,10 +145,6 @@ Pipfile.lock
 # vscode folder
 .vscode/
 
-# fortran wrappers
-fortran-src/ffunctions-f2pywrappers2.f90
-fortran-src/ffunctionsmodule.c
-
 # config files
 *.yml
 *.dat

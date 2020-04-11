@@ -4,21 +4,8 @@
 """The setup script."""
 
 from glob import glob
-from setuptools import find_packages
-from numpy.distutils.core import setup
-from numpy.distutils.core import Extension
+from setuptools import find_packages, setup
 
-ffunctions = Extension(
-    name="llg.ffunctions",
-    sources=[
-        "fortran-src/signature.pyf",
-        "fortran-src/mag_functions.f90",
-        "fortran-src/external_fields.f90",
-        "fortran-src/spin_fields.f90",
-        "fortran-src/heun.f90",
-        "fortran-src/energy.f90",
-    ],
-)
 
 with open("README.rst") as readme_file:
     readme = readme_file.read()
@@ -31,11 +18,12 @@ requirements = [
     "Click>=6.0",
     "numpy>=1.17.0",
     "tqdm>=4.32.2",
-    "h5py==2.10.0",
-    "matplotlib==3.1.2",
-    "Pillow==7.0.0",
-    "moviepy==1.0.1",
-    "vapory==0.1.1",
+    "h5py>=2.10.0",
+    "matplotlib>=3.1.2",
+    "Pillow>=7.0.0",
+    "moviepy>=1.0.1",
+    "vapory>=0.1.1",
+    "nptyping>=1.0.1",
 ]
 
 setup_requirements = ["pytest-runner"]
@@ -53,7 +41,6 @@ setup(
     ],
     description="Python package to solve the LLG equation by using the Heun scheme.",
     entry_points={"console_scripts": ["llg=llg.cli:main"]},
-    ext_modules=[ffunctions],
     install_requires=requirements,
     license="MIT license",
     long_description=readme + "\n\n" + history,
