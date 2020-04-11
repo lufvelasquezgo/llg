@@ -1,8 +1,8 @@
 import json
 import numpy
 from tqdm import tqdm
-from llg.ffunctions import heun
-from llg.ffunctions import energy
+from llg.functions import heun
+from llg.functions import energy
 from llg import System
 from llg import Bucket
 import random
@@ -66,6 +66,8 @@ class Simulation:
         else:
             self.initial_state = get_random_state(self.system.geometry.num_sites)
 
+        self.initial_state = numpy.array(self.initial_state)
+
     @classmethod
     def from_file(cls, simulation_file):
         """ It is a function decorator, it creates the simulation file.
@@ -104,7 +106,7 @@ class Simulation:
         :param initial_state: The initial state of the sites in te system.
         :type initial_state: list
         """
-        self.initial_state = initial_state
+        self.initial_state = numpy.array(initial_state)
 
     @property
     def information(self):
@@ -167,8 +169,8 @@ class Simulation:
         :type neighbors: list
         :param anisotropy_constants: It receives the anisotropy constants of the sites in the system.
         :type anisotropy_constants: float
-        :param anisotropy_axes: It receives the anisotropy axis of the sites in the system.
-        :type anisotropy_axes: list
+        :param anisotropy_vectors: It receives the anisotropy axis of the sites in the system.
+        :type anisotropy_vectors: list
         :param num_sites: It receives the total of spin magnetic moments.
         :type num_sites: list
         :param state: It receives the initial state of the system.
@@ -180,53 +182,41 @@ class Simulation:
         gyromagnetic = self.system.gyromagnetic
         kb = self.system.kb
         field_axes = self.system.geometry.field_axes
-        j_exchanges = self.system.geometry.exchanges
-        num_neighbors = self.system.geometry.num_neighbors
+        exchanges = self.system.geometry.exchanges
         neighbors = self.system.geometry.neighbors
         anisotropy_constants = self.system.geometry.anisotropy_constants
-        anisotropy_axes = self.system.geometry.anisotropy_axes
+        anisotropy_vectors = self.system.geometry.anisotropy_axes
         num_sites = self.system.geometry.num_sites
         state = self.initial_state
 
         for T, H in zip(self.temperature, self.field):
             temperatures = [T] * num_sites
-            field_intensities = [H] * num_sites
+            magnetic_fields = H * field_axes
 
             for _ in tqdm(range(self.num_iterations)):
-                random_normal_matrix = numpy.random.normal(size=(num_sites, 3))
                 state = heun.integrate(
                     state,
                     spin_norms,
-                    random_normal_matrix,
                     temperatures,
                     damping,
                     deltat,
                     gyromagnetic,
                     kb,
-                    field_intensities,
-                    field_axes,
-                    j_exchanges,
-                    num_neighbors,
+                    magnetic_fields,
+                    exchanges,
                     neighbors,
                     anisotropy_constants,
-                    anisotropy_axes,
+                    anisotropy_vectors,
                 )
 
-                exchange_energy_value = (
-                    energy.exchange_energy(state, j_exchanges, num_neighbors, neighbors)
-                    / num_sites
+                exchange_energy_value = energy.compute_exchange_energy(
+                    state, exchanges, neighbors
                 )
-                anisotropy_energy_value = (
-                    energy.anisotropy_energy(
-                        state, anisotropy_constants, anisotropy_axes
-                    )
-                    / num_sites
+                anisotropy_energy_value = energy.compute_anisotropy_energy(
+                    state, anisotropy_constants, anisotropy_vectors
                 )
-                magnetic_energy_value = (
-                    energy.magnetic_energy(
-                        spin_norms, state, field_intensities, field_axes
-                    )
-                    / num_sites
+                magnetic_energy_value = energy.compute_magnetic_energy(
+                    state, spin_norms, magnetic_fields
                 )
                 total_energy_value = (
                     exchange_energy_value

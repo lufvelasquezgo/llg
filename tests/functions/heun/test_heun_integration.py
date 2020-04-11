@@ -1,6 +1,6 @@
 import numpy
 import pytest
-from llg.ffunctions import heun
+from llg.functions import heun
 
 
 def sech(x):
@@ -25,7 +25,7 @@ def test_single_spin():
     # significant loss of numerical precision
     deltat = 1e-15
 
-    state = [[1, 0, 0]]
+    state = numpy.array([[1, 0, 0]])
 
     # Here, we are asserting that for every time step, both implementations
     # are in agreement with each other and with the analytical solution
@@ -34,20 +34,17 @@ def test_single_spin():
         t = (it + 1) * deltat
         state = heun.integrate(
             state,
-            [1.0],
-            [[0.0] * 3],
-            [0.0],
+            numpy.array([1.0]),
+            numpy.array([0.0]),
             damping,
             deltat,
             gyromagnetic,
             1.0,
-            [H],
-            [[0, 0, 1]],
-            [],
-            [0],
-            [],
-            [0.0],
-            [[0.0] * 3],
+            numpy.array([[0, 0, H]]),
+            numpy.array([[0]]),
+            numpy.array([[0]]),
+            numpy.array([0]),
+            numpy.array([[0.0] * 3]),
         )
         analytical = single_spin_analytical(H, damping, gyromagnetic, t)
         assert numpy.allclose(analytical, state[0])

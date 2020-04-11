@@ -5,17 +5,17 @@
 
 import numpy
 import pytest
-from llg.ffunctions import mag_functions
+from llg.functions import magnetization
 
 
 @pytest.mark.repeat(100)
 def test_magnetization_by_type_random_state(num_sites, random_num_types, random_state):
     assert random_num_types <= num_sites
 
-    types = numpy.random.randint(0, random_num_types, size=num_sites)
+    types = numpy.array(numpy.random.randint(0, random_num_types, size=num_sites))
     assert sorted(numpy.unique(types)) == list(range(0, random_num_types))
 
-    magnetization_by_type = mag_functions.magnetization_by_type(
+    magnetization_by_type = magnetization.magnetization_by_type(
         random_state, random_num_types, types
     )
 
@@ -32,27 +32,27 @@ def test_magnetization_by_type_random_state(num_sites, random_num_types, random_
 
 
 def test_magnetization_by_type_AFM_state_x(num_sites):
-    state = [[1.0, 0.0, 0.0], [-1.0, 0.0, 0.0]] * (num_sites // 2)
-    types = [0, 1] * (num_sites // 2)
+    state = numpy.array([[1.0, 0.0, 0.0], [-1.0, 0.0, 0.0]] * (num_sites // 2))
+    types = numpy.array([0, 1] * (num_sites // 2))
 
-    magnetization_by_type = mag_functions.magnetization_by_type(state, 2, types)
+    magnetization_by_type = magnetization.magnetization_by_type(state, 2, types)
 
     assert numpy.allclose(magnetization_by_type, [1.0, 1.0])
 
 
 def test_magnetization_by_type_AFM_state_y(num_sites):
-    state = [[0.0, 1.0, 0.0], [0.0, -1.0, 0.0]] * (num_sites // 2)
-    types = [0, 1] * (num_sites // 2)
+    state = numpy.array([[0.0, 1.0, 0.0], [0.0, -1.0, 0.0]] * (num_sites // 2))
+    types = numpy.array([0, 1] * (num_sites // 2))
 
-    magnetization_by_type = mag_functions.magnetization_by_type(state, 2, types)
+    magnetization_by_type = magnetization.magnetization_by_type(state, 2, types)
 
     assert numpy.allclose(magnetization_by_type, [1.0, 1.0])
 
 
 def test_magnetization_by_type_AFM_state_z(num_sites):
-    state = [[0.0, 0.0, 1.0], [0.0, 0.0, -1.0]] * (num_sites // 2)
-    types = [0, 1] * (num_sites // 2)
+    state = numpy.array([[0.0, 0.0, 1.0], [0.0, 0.0, -1.0]] * (num_sites // 2))
+    types = numpy.array([0, 1] * (num_sites // 2))
 
-    magnetization_by_type = mag_functions.magnetization_by_type(state, 2, types)
+    magnetization_by_type = magnetization.magnetization_by_type(state, 2, types)
 
     assert numpy.allclose(magnetization_by_type, [1.0, 1.0])
