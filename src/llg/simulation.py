@@ -190,7 +190,7 @@ class Simulation:
         state = self.initial_state
 
         for T, H in zip(self.temperature, self.field):
-            temperatures = [T] * num_sites
+            temperatures = numpy.array([T] * num_sites)
             magnetic_fields = H * field_axes
 
             for _ in tqdm(range(self.num_iterations)):
