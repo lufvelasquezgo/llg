@@ -7,7 +7,7 @@ def exchange_interaction_field(
     state: NDArray[(Any, 3), float],
     magnitude_spin_moment: NDArray[Any, float],
     exchanges: NDArray[(Any, Any), float],
-    neighbors: NDArray[(Any, Any), float],
+    neighbors: NDArray[(Any, Any), float]
 ) -> NDArray[(Any, 3), float]:
     N = len(magnitude_spin_moment)
     out = numpy.zeros(shape=(N, 3))
@@ -22,7 +22,7 @@ def anisotropy_interaction_field(
     state: NDArray[(Any, 3), float],
     magnitude_spin_moment: NDArray[Any, float],
     anisotropy_constants: NDArray[Any, float],
-    anisotropy_vectors: NDArray[(Any, 3), float],
+    anisotropy_vectors: NDArray[(Any, 3), float]
 ) -> NDArray[(Any, 3), float]:
     value = (
         anisotropy_constants
