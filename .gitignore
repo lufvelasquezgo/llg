@@ -159,15 +159,6 @@ Pipfile.lock
 # txt files
 *.txt
 
-# images and videos
-*.png
-*.gif
-*.pov
-*.mp4
-
 # docs files
 llg.rst
 modules.rst
-
-# images of the docs
-!docs/source/images/*
