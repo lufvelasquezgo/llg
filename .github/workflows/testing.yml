@@ -1,0 +1,31 @@
+name: Tests and style enforcement
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8, 3.9]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install flake8
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8==3.8.4
+      - name: Lint with flake8
+        run: flake8 . --show-source --statistics --max-line-length=88
+      - name: Install povray
+        run: sudo apt install povray
+      - name: Install requirements
+        run: |
+          pip install -r requirements_dev.txt
+          pip install -e .
+      - name: Run tests
+        run: pytest
