@@ -18,7 +18,7 @@ pytest-runner==5.3.0
 
 numpy==1.20.2
 pytest-repeat==0.8.0
-pytest-cov==2.8.1
+pytest-cov==2.11.1
 
 
 nptyping>=1.0.1
