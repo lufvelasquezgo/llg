@@ -16,7 +16,7 @@ def compute_magnetic_energy(
     return total
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_magnetic_energy_null_intensity(random_spin_moments, random_state_spins):
     num_sites = len(random_spin_moments)
     intensities = [0.0] * num_sites
@@ -33,7 +33,7 @@ def test_magnetic_energy_null_intensity(random_spin_moments, random_state_spins)
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_magnetic_energy_random_intensity(random_spin_moments, random_state_spins):
     num_sites = len(random_spin_moments)
     random_intensities = numpy.random.normal(size=(num_sites))
@@ -55,7 +55,7 @@ def test_magnetic_energy_random_intensity(random_spin_moments, random_state_spin
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_magnetic_energy_null_directions(random_spin_moments, random_state_spins):
     num_sites = len(random_spin_moments)
     intensities = [1.0] * num_sites
@@ -73,7 +73,7 @@ def test_magnetic_energy_null_directions(random_spin_moments, random_state_spins
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_magnetic_energy_random_directions(random_spin_moments, random_state_spins):
     num_sites = len(random_spin_moments)
     intensities = [1.0] * num_sites
@@ -94,7 +94,7 @@ def test_magnetic_energy_random_directions(random_spin_moments, random_state_spi
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_magnetic_energy_all_random(random_spin_moments, random_state_spins):
     num_sites = len(random_spin_moments)
     random_intensities = numpy.random.normal(size=(num_sites))

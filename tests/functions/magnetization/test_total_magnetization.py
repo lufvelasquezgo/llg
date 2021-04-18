@@ -8,7 +8,7 @@ import pytest
 from llg.functions import magnetization
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_total_magnetization_random_state(num_sites, random_state):
     assert numpy.allclose(
         magnetization.total_magnetization(random_state),

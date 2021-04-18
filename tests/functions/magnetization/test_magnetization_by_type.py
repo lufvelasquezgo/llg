@@ -8,7 +8,7 @@ import pytest
 from llg.functions import magnetization
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_magnetization_by_type_random_state(num_sites, random_num_types, random_state):
     assert random_num_types <= num_sites
 
