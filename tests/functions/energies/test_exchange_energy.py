@@ -16,7 +16,7 @@ def compute_exchange_energy(num_sites, state, j_exchange, num_neighbors, neighbo
     return total
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_exchange_energy_null_J_exchange(random_state_spins, build_sample):
     num_sites, _, neighbors, _ = build_sample
     exchanges = numpy.zeros(shape=(num_sites, 6))
@@ -26,7 +26,7 @@ def test_exchange_energy_null_J_exchange(random_state_spins, build_sample):
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_exchange__energy_constant_J_exchange(random_state_spins, build_sample):
     num_sites, num_interactions, neighbors, num_neighbors = build_sample
     j_exchange = numpy.full(num_interactions, numpy.random.uniform(-10, 10))
@@ -39,7 +39,7 @@ def test_exchange__energy_constant_J_exchange(random_state_spins, build_sample):
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_exchange_energy_random_J_exchange(
     random_state_spins, build_sample, random_j_exchange
 ):

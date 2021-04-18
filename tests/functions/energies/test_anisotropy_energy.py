@@ -11,7 +11,7 @@ def compute_anisotropy_energy(num_sites, state, anisotropy_constant, anisotropy_
     return total
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_energy_null_anisotropy_constant(
     random_state_spins, build_sample, random_anisotropy_vector
 ):
@@ -26,7 +26,7 @@ def test_anisotropy_energy_null_anisotropy_constant(
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_energy_null_anisotropy_vector(
     random_state_spins, build_sample, random_anisotropy_constant
 ):
@@ -41,7 +41,7 @@ def test_anisotropy_energy_null_anisotropy_vector(
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_energy_random_anisotropy_constant(
     random_state_spins, build_sample, random_anisotropy_constant
 ):
@@ -56,7 +56,7 @@ def test_anisotropy_energy_random_anisotropy_constant(
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_energy_random_anisotropy_vector(
     random_state_spins, build_sample, random_anisotropy_vector
 ):

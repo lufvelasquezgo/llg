@@ -20,7 +20,7 @@ def compute_anisotropy_field(
     return total
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_interaction_field_null_spin_moments(
     random_state_spins,
     build_sample,
@@ -41,7 +41,7 @@ def test_anisotropy_interaction_field_null_spin_moments(
     )
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_interaction_field_null_anisotropy_constant(
     random_state_spins, build_sample, random_anisotropy_vector
 ):
@@ -66,7 +66,7 @@ def test_anisotropy_interaction_field_null_anisotropy_constant(
     )
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_interaction_field_null_anisotropy_vector(
     random_state_spins, build_sample, random_anisotropy_constant
 ):
@@ -91,7 +91,7 @@ def test_anisotropy_interaction_field_null_anisotropy_vector(
     )
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_interaction_field_random_spin_moments(
     random_state_spins, build_sample, random_spin_moments
 ):
@@ -116,7 +116,7 @@ def test_anisotropy_interaction_field_random_spin_moments(
     )
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_interaction_field_random_anisotropy_constant(
     random_state_spins, build_sample, random_anisotropy_constant
 ):
@@ -141,7 +141,7 @@ def test_anisotropy_interaction_field_random_anisotropy_constant(
     )
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_anisotropy_interaction_field_random_anisotropy_vector(
     random_state_spins, build_sample, random_anisotropy_vector
 ):

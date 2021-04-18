@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 """The setup script."""
 
 from glob import glob
@@ -10,8 +7,6 @@ from setuptools import find_packages, setup
 with open("README.rst") as readme_file:
     readme = readme_file.read()
 
-# with open('HISTORY.rst') as history_file:
-#     history = history_file.read()
 history = ""
 
 requirements = [
@@ -37,8 +32,9 @@ setup(
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
     ],
     description="Python package to solve the LLG equation by using the Heun scheme.",
     entry_points={"console_scripts": ["llg=llg.cli:main"]},

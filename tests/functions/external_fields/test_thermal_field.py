@@ -3,7 +3,7 @@ import numpy
 import pytest
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_thermal_field_null_temperature(num_sites):
     assert numpy.allclose(
         external_fields.thermal_field(
@@ -18,7 +18,7 @@ def test_thermal_field_null_temperature(num_sites):
     )
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_thermal_field_zero_denominator(num_sites):
     with pytest.warns(RuntimeWarning):
         assert numpy.all(
@@ -62,7 +62,7 @@ def test_thermal_field_zero_denominator(num_sites):
 
 
 @pytest.mark.filterwarnings("ignore:api v1")
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_thermal_field_invalid_argument_for_square_root(num_sites):
     with pytest.warns(RuntimeWarning):
         assert numpy.all(

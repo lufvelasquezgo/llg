@@ -15,7 +15,7 @@ def single_spin_analytical(field, damping, gyromagnetic, t):
     return [Sx, Sy, Sz]
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_single_spin():
     H = numpy.random.uniform(-1, 1)
     damping = numpy.random.uniform(0, 1)

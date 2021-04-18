@@ -18,7 +18,7 @@ def compute_exchange_field(
     return total
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_exchange_interaction_field_null_J_exchange(random_state_spins, build_sample):
     num_sites, num_interactions, neighbors, num_neighbors = build_sample
     spin_moments = numpy.ones(shape=num_sites)
@@ -32,7 +32,7 @@ def test_exchange_interaction_field_null_J_exchange(random_state_spins, build_sa
     assert numpy.allclose(expected, total)
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_exchange_interaction_field_constant_J_exchange(
     random_state_spins, build_sample
 ):
@@ -57,7 +57,7 @@ def test_exchange_interaction_field_constant_J_exchange(
     )
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_exchange_interaction_field_random_J_exchange(
     random_state_spins, build_sample, random_j_exchange
 ):
@@ -81,7 +81,7 @@ def test_exchange_interaction_field_random_J_exchange(
     )
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_exchange_interaction_field_random_spin_moments(
     random_state_spins, build_sample, random_spin_moments, random_j_exchange
 ):
@@ -104,7 +104,7 @@ def test_exchange_interaction_field_random_spin_moments(
     )
 
 
-@pytest.mark.repeat(100)
+@pytest.mark.repeat(10)
 def test_exchange_interaction_field_null_magnetic_moments(
     random_state_spins, build_sample, random_j_exchange
 ):
