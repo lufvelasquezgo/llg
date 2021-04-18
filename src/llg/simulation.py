@@ -3,10 +3,9 @@ import numpy
 from tqdm import tqdm
 from llg.functions import heun
 from llg.functions import energy
-from llg import System
-from llg import Bucket
+from llg.system import System
+from llg.bucket import Bucket
 import random
-import click
 
 
 def get_random_state(num_sites):
@@ -19,8 +18,11 @@ def get_random_state(num_sites):
 class Simulation:
     """This is a class for make a simulation in order to evolve the state of the system.
 
-    :param system: Object that contains index, position, type_, mu, anisotropy_constant, anisotopy_axis and field_axis (geometry). Also it contains a source, target, and jex (neighbors). Finally it contains units, damping, gyromagnetic, and deltat.
-    :type system: 
+    :param system: Object that contains index, position, type_, mu,
+    anisotropy_constant, anisotopy_axis and field_axis (geometry). Also it contains a
+    source, target, and jex (neighbors). Finally it contains units, damping,
+    gyromagnetic, and deltat.
+    :type system:
     :param temperature: The temperature of the sites in the system.
     :type temperature: float/list
     :param field: The field that acts under the sites in the system.
@@ -70,13 +72,16 @@ class Simulation:
 
     @classmethod
     def from_file(cls, simulation_file):
-        """ It is a function decorator, it creates the simulation file.
+        """It is a function decorator, it creates the simulation file.
 
-        :param simulation_file: File that contains index, position, type, mu, anisotropy_constant, anisotopy_axis, and field_axis of each site. Also it contains a source, target, and jex. 
+        :param simulation_file: File that contains index, position, type, mu,
+        anisotropy_constant, anisotopy_axis, and field_axis of each site. Also it
+        contains a source, target, and jex.
         :type simulation_file: file
 
-        :return: Object that contains the ``system object``, temperature, field, num_iterations, seed and initial_state.
-        :rtype: Object 
+        :return: Object that contains the ``system object``, temperature, field,
+        num_iterations, seed and initial_state.
+        :rtype: Object
         """
         with open(simulation_file) as file:
             simulation_dict = json.load(file)
@@ -110,7 +115,8 @@ class Simulation:
 
     @property
     def information(self):
-        """It is a function decorator, it creates an object with the complete information needed for the ``run`` function.
+        """It is a function decorator, it creates an object with the complete
+        information needed for the ``run`` function.
 
         :return: num_sites
         :rtype: int
@@ -147,7 +153,10 @@ class Simulation:
         }
 
     def run(self):
-        """This function creates a generator. It calculates the evolve of the states through the implementation of the LLG equation. Also, it uses these states for calculate the exchange energy, anisotropy energy, magnetic energy, and hence, the total energy of the system.
+        """This function creates a generator. It calculates the evolve of the states
+        through the implementation of the LLG equation. Also, it uses these states for
+        calculate the exchange energy, anisotropy energy, magnetic energy, and hence,
+        the total energy of the system.
 
         :param spin_norms: It receives the spin norms of the sites in the system.
         :type spin_norms: list
@@ -155,21 +164,26 @@ class Simulation:
         :type damping: float
         :param deltat: It receives the step of time.
         :type deltat: float
-        :param gyromagnetic: It receives the gyromagnetic constant of the sites in the system.
+        :param gyromagnetic: It receives the gyromagnetic constant of the sites in the
+        system.
         :type gyromagnetic: float
         :param kb: It receives the Boltzmann constant in an specific units.
         :type kb: float
         :param field_axes: It receives the field axis of the sites in the system.
         :type field_axes: float/list
-        :param j_exchanges: It receives the list of the exchanges interactions of the sites in the system.
+        :param j_exchanges: It receives the list of the exchanges interactions of the
+        sites in the system.
         :type j_exchanges: list
-        :param num_neighbors: It receives the number of neighbors per site of the system.
+        :param num_neighbors: It receives the number of neighbors per site of the
+        system.
         :type num_neighbors: list
         :param neighbors: It receives the list of neighbors of the sites in the system.
         :type neighbors: list
-        :param anisotropy_constants: It receives the anisotropy constants of the sites in the system.
+        :param anisotropy_constants: It receives the anisotropy constants of the sites
+        in the system.
         :type anisotropy_constants: float
-        :param anisotropy_vectors: It receives the anisotropy axis of the sites in the system.
+        :param anisotropy_vectors: It receives the anisotropy axis of the sites in the
+        system.
         :type anisotropy_vectors: list
         :param num_sites: It receives the total of spin magnetic moments.
         :type num_sites: list
@@ -224,4 +238,10 @@ class Simulation:
                     + magnetic_energy_value
                 )
 
-                yield state, exchange_energy_value, anisotropy_energy_value, magnetic_energy_value, total_energy_value
+                yield (
+                    state,
+                    exchange_energy_value,
+                    anisotropy_energy_value,
+                    magnetic_energy_value,
+                    total_energy_value,
+                )

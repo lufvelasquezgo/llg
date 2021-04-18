@@ -1,4 +1,3 @@
-import numpy
 from nptyping import NDArray
 from typing import Any
 from numba import jit

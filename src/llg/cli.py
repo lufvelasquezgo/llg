@@ -11,7 +11,8 @@ from matplotlib.backends.backend_pdf import PdfPages
 
 import h5py
 import moviepy.editor as mpy
-from llg import Simulation, StoreHDF
+from llg.simulation import Simulation
+from llg.store import StoreHDF
 from llg._tools import __ask_for_field, __ask_for_temperature
 from llg.plot_states import PlotStates
 from llg.predefined_structures import GenericBcc, GenericFcc, GenericSc
@@ -51,7 +52,8 @@ def simulate(configuration_file):
     default=False,
     is_flag=True,
     show_default=True,
-    help="It reduces the overall number of bits and bytes of the file, but it takes much more time",
+    help="It reduces the overall number of bits and bytes of the file, but it takes "
+    "much more time",
 )
 def store_hdf_cli(output, compress):
     simulation_information = pickle.loads(eval(input()))
@@ -210,7 +212,10 @@ def compute_averages(by_types, components, discard):
                     )
                     mag_x_by_types[t], mag_y_by_types[t], mag_z_by_types[t] = mag
 
-        output = f"{temperature[i]} {field[i]} {E_exchange} {E_anisotropy} {E_field} {E_total} {M_total}"
+        output = (
+            f"{temperature[i]} {field[i]} {E_exchange} "
+            f"{E_anisotropy} {E_field} {E_total} {M_total}"
+        )
         if components:
             output += f" {M_total_x} {M_total_y} {M_total_z}"
 
@@ -326,7 +331,8 @@ def plot_averages(output):
 @click.option(
     "--step",
     default="max",
-    help="Step separation between plots. If step=max, it will be the amount of iterations.",
+    help="Step separation between plots. If step=max, it will be the amount of "
+    "iterations.",
 )
 @click.option("--size", default=500, help="Figure length size in pixels.")
 @click.option(
@@ -338,7 +344,8 @@ def plot_averages(output):
 @click.option(
     "--colormap",
     default="hsv",
-    help="Color map. Matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html",
+    help="Color map. Matplotlib supported colormaps: "
+    "https://matplotlib.org/examples/color/colormaps_reference.html",
 )
 def plot_states(output, step, size, mode, colormap):
     simulation_information = pickle.loads(eval(input()))
@@ -359,7 +366,7 @@ def plot_states(output, step, size, mode, colormap):
 
     plot_state = PlotStates(positions, output, size, mode, colormap)
     plot_state.plot(initial_state, 0, None, None, save=True)
-    click.secho(f"Figure was created the initial state", fg="green")
+    click.secho("Figure was created the initial state", fg="green")
 
     for i in range(num_TH):
         T = temperature[i]
@@ -384,7 +391,8 @@ def plot_states(output, step, size, mode, colormap):
 @click.option(
     "--step",
     default="max",
-    help="Step separation between plots. If step=max, it will be the amount of iterations.",
+    help="Step separation between plots. If step=max, it will be the amount of "
+    "iterations.",
 )
 @click.option("--size", default=500, help="Figure length size in pixels.")
 @click.option(
@@ -397,7 +405,8 @@ def plot_states(output, step, size, mode, colormap):
 @click.option(
     "--colormap",
     default="hsv",
-    help="Color map. Matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html",
+    help="Color map. Matplotlib supported colormaps: "
+    "https://matplotlib.org/examples/color/colormaps_reference.html",
 )
 @click.option("--fps", default=1, help="Frames per second.")
 def animate_states(output, step, size, mode, colormap, fps):

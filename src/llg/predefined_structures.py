@@ -1,12 +1,13 @@
 from itertools import product
-from collections import defaultdict
-from llg import Sample
+from llg.sample import Sample
 
 
 class GenericSc(Sample):
-    """This is a class for create a simple cubic structure. The unit cell therefore contains in total one atom.
+    """This is a class for create a simple cubic structure. The unit cell therefore
+    contains in total one atom.
 
-    :param sites: : It receives a list with the index values, and the positions of the sites in the system.
+    :param sites: : It receives a list with the index values, and the positions of the
+    sites in the system.
     :type sites: list
     :param neighbors: : It receives the list of neighbors of the sites in the system.
     :type neighbors: list
@@ -14,13 +15,15 @@ class GenericSc(Sample):
     :type units: str
     :param damping: : It receives the damping constant of the sites in the system.
     :type damping: float
-    :param gyromagnetic: : It receives the gyromagnetic constant of the sites in the system.
+    :param gyromagnetic: : It receives the gyromagnetic constant of the sites in the
+    system.
     :type gyromagnetic: float
     :param deltat: : It receives the step of time.
     :type deltat: float
     :param num_iterations: : It receives the number of iterations per simulation.
     :type num_iterations: int
-    :param temperature: It receives the temperature information of the sites in the system.
+    :param temperature: It receives the temperature information of the sites in the
+    system.
     :type temperature: float/list/dict
     :param field: : It receives the field information of the sites in the system.
     :type field: float/list/dict
@@ -32,11 +35,13 @@ class GenericSc(Sample):
     :type field_axis: list
     :param type: : It receives the type of the sites in the system.
     :type type: str
-    :param anisotropy_constant: : It receives the anisotropy constants of the sites in the system.
+    :param anisotropy_constant: : It receives the anisotropy constants of the sites in
+    the system.
     :type anisotropy_constant: float
     :param anisotopy_axis: : It receives the anisotropy axis of the sites in the system.
     :type anisotopy_axis: list
-    :param seed: : It receives the number of the seed, this is because we want to generate the same number every time before calling ``random.randint()``.
+    :param seed: : It receives the number of the seed, this is because we want to
+    generate the same number every time before calling ``random.randint()``.
     :type seed: int
     :param initial_state: : It receives the initial state of the sites in the system.
     :type initial_state: list
@@ -74,9 +79,11 @@ class GenericSc(Sample):
 
 class GenericBcc(Sample):
     """
-    This is a class for create a body-centered cubic structure. The unit cell therefore contains in total two atoms.
+    This is a class for create a body-centered cubic structure. The unit cell therefore
+    contains in total two atoms.
 
-    :param sites: : It receives a list with the index values, and the positions of the sites in the system.
+    :param sites: : It receives a list with the index values, and the positions of the
+    sites in the system.
     :type sites: list
     :param neighbors: : It receives the list of neighbors of the sites in the system.
     :type neighbors: list
@@ -84,13 +91,15 @@ class GenericBcc(Sample):
     :type units: str
     :param damping: : It receives the damping constant of the sites in the system.
     :type damping: float
-    :param gyromagnetic: : It receives the gyromagnetic constant of the sites in the system.
+    :param gyromagnetic: : It receives the gyromagnetic constant of the sites in the
+    system.
     :type gyromagnetic: float
     :param deltat: : It receives the step of time.
     :type deltat: float
     :param num_iterations: : It receives the number of iterations per simulation.
     :type num_iterations: int
-    :param temperature: It receives the temperature information of the sites in the system.
+    :param temperature: It receives the temperature information of the sites in the
+    system.
     :type temperature: float/list/dict
     :param field: : It receives the field information of the sites in the system.
     :type field: float/list/dict
@@ -102,11 +111,13 @@ class GenericBcc(Sample):
     :type field_axis: list
     :param type: : It receives the type of the sites in the system.
     :type type: str
-    :param anisotropy_constant: : It receives the anisotropy constants of the sites in the system.
+    :param anisotropy_constant: : It receives the anisotropy constants of the sites in
+    the system.
     :type anisotropy_constant: float
     :param anisotopy_axis: : It receives the anisotropy axis of the sites in the system.
     :type anisotopy_axis: list
-    :param seed: : It receives the number of the seed, this is because we want to generate the same number every time before calling ``random.randint()``.
+    :param seed: : It receives the number of the seed, this is because we want to
+    generate the same number every time before calling ``random.randint()``.
     :type seed: int
     :param initial_state: : It receives the initial state of the sites in the system.
     :type initial_state: list
@@ -163,9 +174,11 @@ class GenericBcc(Sample):
 
 class GenericFcc(Sample):
     """
-    This is a class for create a face-centered cubic structure. The unit cell therefore contains in total four atoms.
+    This is a class for create a face-centered cubic structure. The unit cell therefore
+    contains in total four atoms.
 
-    :param sites: : It receives a list with the index values, and the positions of the sites in the system.
+    :param sites: : It receives a list with the index values, and the positions of the
+    sites in the system.
     :type sites: list
     :param neighbors: : It receives the list of neighbors of the sites in the system.
     :type neighbors: list
@@ -173,13 +186,15 @@ class GenericFcc(Sample):
     :type units: str
     :param damping: : It receives the damping constant of the sites in the system.
     :type damping: float
-    :param gyromagnetic: : It receives the gyromagnetic constant of the sites in the system.
+    :param gyromagnetic: : It receives the gyromagnetic constant of the sites in the
+    system.
     :type gyromagnetic: float
     :param deltat: : It receives the step of time.
     :type deltat: float
     :param num_iterations: : It receives the number of iterations per simulation.
     :type num_iterations: int
-    :param temperature: It receives the temperature information of the sites in the system.
+    :param temperature: It receives the temperature information of the sites in the
+    system.
     :type temperature: float/list/dict
     :param field: : It receives the field information of the sites in the system.
     :type field: float/list/dict
@@ -191,11 +206,13 @@ class GenericFcc(Sample):
     :type field_axis: list
     :param type: : It receives the type of the sites in the system.
     :type type: str
-    :param anisotropy_constant: : It receives the anisotropy constants of the sites in the system.
+    :param anisotropy_constant: : It receives the anisotropy constants of the sites in
+    the system.
     :type anisotropy_constant: float
     :param anisotopy_axis: : It receives the anisotropy axis of the sites in the system.
     :type anisotopy_axis: list
-    :param seed: : It receives the number of the seed, this is because we want to generate the same number every time before calling ``random.randint()``.
+    :param seed: : It receives the number of the seed, this is because we want to
+    generate the same number every time before calling ``random.randint()``.
     :type seed: int
     :param initial_state: : It receives the initial state of the sites in the system.
     :type initial_state: list

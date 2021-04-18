@@ -2,7 +2,7 @@ from numbers import Real
 
 
 class Site:
-    """This is a class for create an object of sites. 
+    """This is a class for create an object of sites.
 
     :param index: The index of each site of the system
     :type index: int
@@ -34,7 +34,7 @@ class Site:
         anisotopy_axis,
         field_axis,
     ):
-        """The constructor for Site class. 
+        """The constructor for Site class.
 
         :param index: The index of each site of the system.
         :type index: int
@@ -63,12 +63,14 @@ class Site:
 
     @classmethod
     def from_dict(cls, site_dict):
-        """ The dictionary of the values for Site class. It is a function decorator, it creates the dictionary with the attributes that belong to the class method Site.
+        """The dictionary of the values for Site class. It is a function decorator, it
+        creates the dictionary with the attributes that belong to the class method Site.
 
         :param site_dict: Dictionary that contains the attributes.
         :type site_dict: dict
 
-        :return: Object that contains the values index, position, type_, mu, anisotropy_constant, anisotopy_axis and field_axis. 
+        :return: Object that contains the values index, position, type_, mu,
+        anisotropy_constant, anisotopy_axis and field_axis.
         :rtype: dict
         """
         index = site_dict["index"]
@@ -88,7 +90,7 @@ class Site:
 
         :param neighbor: The neighbors of each site in the system.
         :type neighbor: int
-        :param jex: The exchange interaction of each site in the system. 
+        :param jex: The exchange interaction of each site in the system.
         :type jex: float
         """
         if not isinstance(neighbor, Site):
@@ -101,7 +103,7 @@ class Site:
         self.__jexs.append(jex)
 
     def set_neighbors(self, neighbors: list, jexs: list):
-        """It is a function to set the neighbors. 
+        """It is a function to set the neighbors
 
         :param neighbors: The list of neighbors of the sites in the system.
         :type neighbors: list
@@ -113,7 +115,9 @@ class Site:
 
     @property
     def neighbors(self):
-        """It is a function decorator, it provides an interface to instance attribute neighbors. It encapsulates instance attribute neighbors and provides a property Site class. 
+        """It is a function decorator, it provides an interface to instance attribute
+        neighbors. It encapsulates instance attribute neighbors and provides a property
+        Site class.
 
         return: Return a property attribute of neighbors.
         """
@@ -121,7 +125,9 @@ class Site:
 
     @property
     def jexs(self):
-        """It is a function decorator, it provides an interface to instance attribute exchanges interactions. It encapsulates instance attribute jexs and provides a property Site class. 
+        """It is a function decorator, it provides an interface to instance attribute
+        exchanges interactions. It encapsulates instance attribute jexs and provides a
+        property Site class.
 
         return: Return a property attribute of exchanges interactions.
         """

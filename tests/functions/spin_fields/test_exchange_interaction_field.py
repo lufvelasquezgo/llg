@@ -75,7 +75,10 @@ def test_exchange_interaction_field_random_J_exchange(
     )
     assert numpy.allclose(
         spin_fields.exchange_interaction_field(
-            random_state_spins, spin_moments, exchanges, neighbors_,
+            random_state_spins,
+            spin_moments,
+            exchanges,
+            neighbors_,
         ),
         expected,
     )
@@ -98,7 +101,10 @@ def test_exchange_interaction_field_random_spin_moments(
     )
     assert numpy.allclose(
         spin_fields.exchange_interaction_field(
-            random_state_spins, random_spin_moments, exchanges, neighbors_,
+            random_state_spins,
+            random_spin_moments,
+            exchanges,
+            neighbors_,
         ),
         expected,
     )

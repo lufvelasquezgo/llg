@@ -10,16 +10,20 @@ import vapory
 
 def PovrayArrow(position, direction, color):
     """
-    This function creates the arrow with the library vapory (https://pypi.org/project/Vapory/). It helps to process the image.
+    This function creates the arrow with the library vapory
+    (https://pypi.org/project/Vapory/). It helps to process the image.
 
     :param position: It is the position where the object is going to be ubicated.
     :type position: list
     :param direction: It is the course along which the object moves.
     :type direction: list
-    :param color: It is representes by the RGB color model. It is an additive color model in which red, green, and blue light are added together in various ways to reproduce a broad array of colors.
+    :param color: It is representes by the RGB color model. It is an additive color
+    model in which red, green, and blue light are added together in various ways to
+    reproduce a broad array of colors.
     :type color: list
 
-    :return: It returns an ``Union()`` of three 3D figures, that represent the ``PovrayArrow()``.
+    :return: It returns an ``Union()`` of three 3D figures, that represent the
+    ``PovrayArrow()``.
     :rtype: ``Union()``
     """
     position = numpy.array(position)
@@ -51,63 +55,74 @@ def PovrayArrow(position, direction, color):
 
 
 class PlotStates:
-    """This is a class for processing an image that contains the evolution of the state. It can be written to a file with the extesion ``.png``.
+    """This is a class for processing an image that contains the evolution of the
+    state. It can be written to a file with the extesion ``.png``.
 
-    :param positions: It is the position where the object is going to be ubicated. 
+    :param positions: It is the position where the object is going to be ubicated.
     :type positions: list
     :param output: It is the name of the file.
     :type output: str
     :param size: It is the size of the complete image.
     :type size: tuple
-    :param mode: It is one of the two possibles modes (azimuthal/polar). 
+    :param mode: It is one of the two possibles modes (azimuthal/polar).
     :type mode: str
-    :param colormap: It is a matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html
+    :param colormap: It is a matplotlib supported colormaps:
+    https://matplotlib.org/examples/color/colormaps_reference.html
     :type colormap: str
     :param index: It is the index of the positions.
     :type index: int
-    :param max_angle: It is the maximum angle. It depends on the mode, if it is ``polar`` the range is between 0° to 180°. On the other hand if it is ``azimuthal`` the range is between 0° to 360°. 
+    :param max_angle: It is the maximum angle. It depends on the mode, if it is
+    ``polar`` the range is between 0° to 180°. On the other hand if it is ``azimuthal``
+    the range is between 0° to 360°.
     :type max_angle: float
     :param cmap_norm: It is the colormap normalized.
     :type cmap_norm: list
-    :param cmap: It is a colormap instance. This colormap used to map normalized data values to RGBA colors.
+    :param cmap: It is a colormap instance. This colormap used to map normalized data
+    values to RGBA colors.
     :type cmap: str
-    :param centroid: It is the geometric center of the plane image. It is the arithmetic mean position of all the points in the image. 
+    :param centroid: It is the geometric center of the plane image. It is the arithmetic
+    mean position of all the points in the image.
     :type centroid: float
     :param location: It is a ``numpy.array()`` of one looking site.
     :type location: list
-    :param colorbar_image: It creates the colorbar. 
-    :type colorbar_image:  
+    :param colorbar_image: It creates the colorbar.
+    :type colorbar_image:
     :param font: It is the font default for the text in the image.
     :type font: str
     """
 
     def __init__(self, positions, output, size, mode, colormap):
         """It is the constructor for PlotStates class.
-        
-        :param positions: It is the position where the object is going to be ubicated. 
+
+        :param positions: It is the position where the object is going to be ubicated.
         :type positions: list
         :param output: It is the name of the file.
         :type output: str
         :param size: It is the size of the complete image.
         :type size: tuple
-        :param mode: It is one of the two possibles modes (azimuthal/polar). 
+        :param mode: It is one of the two possibles modes (azimuthal/polar).
         :type mode: str
-        :param colormap: It is a matplotlib supported colormaps: https://matplotlib.org/examples/color/colormaps_reference.html
+        :param colormap: It is a matplotlib supported colormaps:
+        https://matplotlib.org/examples/color/colormaps_reference.html
         :type colormap: str
         :param index: It is the index of the positions.
         :type index: int
-        :param max_angle: It is the maximum angle. It depends on the mode, if it is ``polar`` the range is between 0° to 180°. On the other hand if it is ``azimuthal`` the range is between 0° to 360°. 
+        :param max_angle: It is the maximum angle. It depends on the mode, if it is
+        ``polar`` the range is between 0° to 180°. On the other hand if it is
+        ``azimuthal`` the range is between 0° to 360°.
         :type max_angle: float
         :param cmap_norm: It is the colormap normalized.
         :type cmap_norm: list
-        :param cmap: It is a colormap instance. This colormap used to map normalized data values to RGBA colors.
+        :param cmap: It is a colormap instance. This colormap used to map normalized
+        data values to RGBA colors.
         :type cmap: str
-        :param centroid: It is the geometric center of the plane image. It is the arithmetic mean position of all the points in the image. 
+        :param centroid: It is the geometric center of the plane image. It is the
+        arithmetic mean position of all the points in the image.
         :type centroid: float
         :param location: It is a ``numpy.array()`` of one looking site.
         :type location: list
-        :param colorbar_image: It creates the colorbar. 
-        :type colorbar_image:  
+        :param colorbar_image: It creates the colorbar.
+        :type colorbar_image:
         :param font: It is the font default for the text in the image.
         :type font: str
         """
@@ -134,15 +149,18 @@ class PlotStates:
         self.font = ImageFont.truetype(font_manager.findfont(None), self.size // 25)
 
     def create_colorbar(self):
-        """It is a function responsible of create the image of the colorbar with the library matplotlib (https://matplotlib.org/). It creates a temporary file with the image due to we do not want to show this images. Finally it returns an array.
+        """It is a function responsible of create the image of the colorbar with the
+        library matplotlib (https://matplotlib.org/). It creates a temporary file with
+        the image due to we do not want to show this images. Finally it returns an
+        array.
 
         :param size: It is the size of the complete image.
         :type size: tuple
-        :param mode: It is one of the two possibles modes (azimuthal/polar). 
+        :param mode: It is one of the two possibles modes (azimuthal/polar).
         :type mode: str
         :param cmap_norm: It is the colormap normalized.
         :type cmap_norm: list
-        :param cmap: It is a colormap instance. This colormap used to map 
+        :param cmap: It is a colormap instance. This colormap used to map
         :type cmap: str
         """
         colorbar_file = tempfile.NamedTemporaryFile(suffix=".png")
@@ -161,11 +179,12 @@ class PlotStates:
 
     @staticmethod
     def get_angle(direction, mode):
-        """It is a function decarator. It is the responsible of get the angle that the arrow is going to be directed. It depends on the mode that the User chose.
+        """It is a function decarator. It is the responsible of get the angle that the
+        arrow is going to be directed. It depends on the mode that the User chose.
 
         :param direction: It is the course along which the object moves.
         :type direction: list.
-        :param mode: It is one of the two possibles modes (azimuthal/polar). 
+        :param mode: It is one of the two possibles modes (azimuthal/polar).
         :type mode: str.
         """
         sx, sy, sz = direction.T
@@ -185,11 +204,11 @@ class PlotStates:
 
         :param direction: It is the course along which the object moves.
         :type direction: list
-        :param mode: It is one of the two possibles modes (azimuthal/polar). 
+        :param mode: It is one of the two possibles modes (azimuthal/polar).
         :type mode: str
 
         :return: It returns the rgb format instead rgba.
-        :rtype: array 
+        :rtype: array
         """
         angle = PlotStates.get_angle(direction, mode)
         color = self.cmap(self.cmap_norm(angle))
@@ -197,14 +216,18 @@ class PlotStates:
 
     @staticmethod
     def join_images(im1_array, im2_array):
-        """It is a function decorator. It is responsible of join the two images arrays, the colormap image array and the state image array. It uses the PIL library (https://pillow.readthedocs.io/en/stable/) to create an image memory from two images arrays interface (using the buffer protocol).
+        """It is a function decorator. It is responsible of join the two images arrays,
+        the colormap image array and the state image array. It uses the PIL library
+        (https://pillow.readthedocs.io/en/stable/) to create an image memory from two
+        images arrays interface (using the buffer protocol).
 
         :param im1_array: It is the array of the colormap array.
         :type im1_array: array
         :param im2_array: It is the array of the processing image of the states.
         :type im2_array: array
-        
-        :return: It returns an image of the colomap and the processing image of the states.
+
+        :return: It returns an image of the colomap and the processing image of the
+        states.
         :rtype: array
         """
         im1 = Image.fromarray(im1_array)
@@ -219,7 +242,9 @@ class PlotStates:
         return dst
 
     def plot(self, state, iteration, temperature, field, save=False):
-        """It is a function that creates the complete scene of the evolve of the states. It join the two array of the images. Also, it allows to put a text on the top of the scene.
+        """It is a function that creates the complete scene of the evolve of the
+        states. It join the two array of the images. Also, it allows to put a text on
+        the top of the scene.
 
         :param state:  It gets the states information from the simulation hdf file.
         :type state: list

@@ -111,6 +111,8 @@ def test_magnetic_energy_all_random(random_spin_moments, random_state_spins):
         random_directions,
     )
     total = energy.compute_magnetic_energy(
-        random_state_spins, random_spin_moments, magnetic_fields,
+        random_state_spins,
+        random_spin_moments,
+        magnetic_fields,
     )
     assert numpy.allclose(expected, total)

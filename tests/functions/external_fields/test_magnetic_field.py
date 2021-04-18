@@ -19,7 +19,8 @@ def test_magnetic_field_null_intensity(num_sites, random_directions):
 @pytest.mark.repeat(10)
 def test_magnetic_field_intensity_1(num_sites, random_directions):
     assert numpy.allclose(
-        external_fields.magnetic_field(random_directions), random_directions,
+        external_fields.magnetic_field(random_directions),
+        random_directions,
     )
 
 
@@ -57,18 +58,27 @@ def test_magnetic_field_null_direction(num_sites, random_intensities):
 def test_magnetic_field_constant_direction_x(num_sites, random_intensities):
     values = numpy.zeros((num_sites, 3))
     values[:, 0] = random_intensities
-    assert numpy.allclose(external_fields.magnetic_field(values), values,)
+    assert numpy.allclose(
+        external_fields.magnetic_field(values),
+        values,
+    )
 
 
 @pytest.mark.repeat(10)
 def test_magnetic_field_constant_direction_y(num_sites, random_intensities):
     values = numpy.zeros((num_sites, 3))
     values[:, 1] = random_intensities
-    assert numpy.allclose(external_fields.magnetic_field(values), values,)
+    assert numpy.allclose(
+        external_fields.magnetic_field(values),
+        values,
+    )
 
 
 @pytest.mark.repeat(10)
 def test_magnetic_field_constant_direction_z(num_sites, random_intensities):
     values = numpy.zeros((num_sites, 3))
     values[:, 2] = random_intensities
-    assert numpy.allclose(external_fields.magnetic_field(values), values,)
+    assert numpy.allclose(
+        external_fields.magnetic_field(values),
+        values,
+    )
