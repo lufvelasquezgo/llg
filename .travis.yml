@@ -29,5 +29,5 @@ deploy:
     secure: "vrmFWAXgcElGSQyS2zJ7NFQxRZdKj6YZ5N9KzSdjWAcMFkD91tZ0yPSqk4EGcLBUI+IGIbt4Qumz8TKwGV2Oy6ecd5egrXnr0LnItFQZOFTPEoAxJhTPInGUYYlTmde87m3vuiT0nlSsRNoMdS0j5txum00ziCp8d5TdNfkxm+qVzdIyBjV75PB0Rob7Qx9NKGgZ2yyJOl4jqMdZj9W0z30S17k7Uk+KmDPNNH57tCqnqg9/3X4lqpeHe/5xPRwlLtrYr3YNbkqC9G+nQuD9uKGY679HDp0tYAQGO8AgmPd8O5jahz/0l8SV+R/+NhIO9a9YaiRqz4/ctCpQw1r4r4gsOQBZ5C6cUlHouldV0H9sutkBqwaKqiA1rZQVj2hvl7fGxBfEy+0bo+R2bxsy4WPQB3Evq4tX3957WLfWcDt4kTTRy/Gn4IkZWksoeIvxXPhCw4VPzz9kGnEI5ZAVYuvX78iQJJNwdU12+Kvcjp0ewxhLPxSe1Ok56TX+fsrU2CK2RonRtkBiQhfFujIAHy069rM/BOYLgqpEoFV/xx8Ufu/WCHI0a6LiDU+m20xmUQnQAHfh7YNC/jiv/YcfGVHRLiyLxGnSz+Avne3gnDRCAq328Z9PVnDgH+mfeX00HW4Ym2PzJVhmeAOFFyvJXuMWYyaj/80cWicXJmse4XU="
   on:
     tags: true
-    repo: lufvelasquezgo/llg
+    repo: jdalzatec/llg
     python: 3.7
