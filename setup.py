@@ -27,8 +27,8 @@ setup_requirements = ["pytest-runner"]
 test_requirements = ["pytest"]
 
 setup(
-    author="Juan David Alzate Cardona",
-    author_email="jdalzatec@unal.edu.co",
+    author="Luisa Fernanda Velásquez González",
+    author_email="lufvelasquezgo@unal.edu.co",
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
@@ -49,7 +49,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite="tests",
     tests_require=test_requirements,
-    url="https://github.com/jdalzatec/llg",
-    version="1.0.1",
+    url="https://github.com/lufvelasquezgo/llg",
+    version="1.1.0",
     zip_safe=False,
 )
