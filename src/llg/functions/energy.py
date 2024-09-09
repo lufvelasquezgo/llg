@@ -1,13 +1,14 @@
-from nptyping import NDArray
 from typing import Any
+
 from numba import jit
+from numpy import ndarray
 
 
 @jit(nopython=True)
 def compute_exchange_energy(
-    state: NDArray[(Any, 3), float],
-    exchanges: NDArray[(Any, Any), float],
-    neighbors: NDArray[(Any, Any), float],
+    state: ndarray[(Any, 3), float],
+    exchanges: ndarray[(Any, Any), float],
+    neighbors: ndarray[(Any, Any), float],
 ) -> float:
     total = 0
     N = len(state)
@@ -21,17 +22,17 @@ def compute_exchange_energy(
 
 @jit(nopython=True)
 def compute_anisotropy_energy(
-    state: NDArray[(Any, 3), float],
-    anisotropy_constants: NDArray[Any, float],
-    anisotropy_vectors: NDArray[(Any, 3), float],
+    state: ndarray[(Any, 3), float],
+    anisotropy_constants: ndarray[Any, float],
+    anisotropy_vectors: ndarray[(Any, 3), float],
 ) -> float:
     return -(anisotropy_constants * (state * anisotropy_vectors).sum(axis=1) ** 2).sum()
 
 
 @jit(nopython=True)
 def compute_magnetic_energy(
-    state: NDArray[(Any, 3), float],
-    magnitude_spin_moment: NDArray[Any, float],
-    magnetic_fields: NDArray[(Any, 3), float],
+    state: ndarray[(Any, 3), float],
+    magnitude_spin_moment: ndarray[Any, float],
+    magnetic_fields: ndarray[(Any, 3), float],
 ) -> float:
     return -(magnitude_spin_moment * (state * magnetic_fields).sum(axis=1)).sum()

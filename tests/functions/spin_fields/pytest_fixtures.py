@@ -1,7 +1,8 @@
+from collections import defaultdict
+from itertools import product
+
 import numpy
 import pytest
-from itertools import product
-from collections import defaultdict
 
 
 # Fixture to build a simple cubic bulk with PBC

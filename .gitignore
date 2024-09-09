@@ -162,3 +162,5 @@ Pipfile.lock
 # docs files
 llg.rst
 modules.rst
+
+.idea/

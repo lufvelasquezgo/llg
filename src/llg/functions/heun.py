@@ -1,21 +1,23 @@
-import numpy
-from nptyping import NDArray
 from typing import Any
-from llg.functions.external_fields import thermal_field, magnetic_field
-from llg.functions.spin_fields import (
-    exchange_interaction_field,
-    anisotropy_interaction_field,
-)
+
+import numpy
 from numba import jit
+from numpy import ndarray
+
+from llg.functions.external_fields import magnetic_field, thermal_field
+from llg.functions.spin_fields import (
+    anisotropy_interaction_field,
+    exchange_interaction_field,
+)
 
 
 @jit(nopython=True)
 def dS_llg(
-    state: NDArray[(Any, 3), float],
-    Heff: NDArray[(Any, 3), float],
+    state: ndarray[(Any, 3), float],
+    Heff: ndarray[(Any, 3), float],
     damping: float,
     gyromagnetic: float,
-) -> NDArray[(Any, 3), float]:
+) -> ndarray[(Any, 3), float]:
     alpha = -gyromagnetic / (1 + damping * damping)
     cross1 = numpy.cross(state, Heff)
     cross2 = numpy.cross(state, cross1)
@@ -23,7 +25,7 @@ def dS_llg(
 
 
 @jit(nopython=True)
-def normalize(matrix: NDArray[(Any, 3), float]) -> NDArray[(Any, 3), float]:
+def normalize(matrix: ndarray[(Any, 3), float]) -> ndarray[(Any, 3), float]:
     norms = numpy.sqrt((matrix * matrix).sum(axis=1))
     norms_repeated = numpy.repeat(norms, 3)
     norms_repeated_reshaped = norms_repeated.reshape((len(norms), 3))
@@ -31,18 +33,18 @@ def normalize(matrix: NDArray[(Any, 3), float]) -> NDArray[(Any, 3), float]:
 
 
 def integrate(
-    state: NDArray[(Any, 3), float],
-    magnitude_spin_moment: NDArray[Any, float],
-    temperature: NDArray[Any, float],
+    state: ndarray[(Any, 3), float],
+    magnitude_spin_moment: ndarray[Any, float],
+    temperature: ndarray[Any, float],
     damping: float,
     deltat: float,
     gyromagnetic: float,
     kB: float,
-    magnetic_fields: NDArray[(Any, 3), float],
-    exchanges: NDArray[(Any, Any), float],
-    neighbors: NDArray[(Any, Any), float],
-    anisotropy_constants: NDArray[Any, float],
-    anisotropy_vectors: NDArray[(Any, 3), float],
+    magnetic_fields: ndarray[(Any, 3), float],
+    exchanges: ndarray[(Any, Any), float],
+    neighbors: ndarray[(Any, Any), float],
+    anisotropy_constants: ndarray[Any, float],
+    anisotropy_vectors: ndarray[(Any, 3), float],
 ) -> float:
     # compute external fields. These fields does not change
     # because they don't depend on the state

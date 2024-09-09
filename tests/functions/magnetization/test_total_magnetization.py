@@ -1,10 +1,6 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-"""Tests for `ffortran/functions` package."""
-
 import numpy
 import pytest
+
 from llg.functions import magnetization
 
 
