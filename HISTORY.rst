@@ -2,13 +2,7 @@
 History
 =======
 
-0.1.0 (2019-08-19)
-------------------
-
-* First release on PyPI.
-
-
-1.0.2 (2024-09-09)
+(Pending release)
 ------------------
 
 * Migrate from Travis CI to GitHub Actions.
@@ -19,3 +13,9 @@ History
 * Update CONTRIBUTING.rst.
 * Fix some type hints.
 * Remove `nptyping` in pro of `numpy.typing`.
+
+
+0.1.0 (2019-08-19)
+------------------
+
+* First release on PyPI.

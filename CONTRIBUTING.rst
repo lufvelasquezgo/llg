@@ -71,7 +71,7 @@ Ready to contribute? Here's how to set up `llg` for local development.
 
     $ poetry run pre-commit install
 
-4. Create a branch for local development:
+4. Create a branch for local development from `develop`:
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
@@ -115,10 +115,13 @@ Then run:
 
 $ poetry version VERSION # possible: patch, minor, major
 
-Make new branch release/VERSION and push it to GitHub:
+Create a release branch from `develop`:
 
-$ git push
-$ git push --tags
+    $ git checkout develop
+    $ git pull
+    $ git checkout -b release/VERSION
+    $ git push
+    $ git push --tags
 
 Once merged, the GitHub Actions will deploy the package to test-PyPI.
 Check that everything is working as expected, and then create a pull request to merge the release branch into main.
