@@ -1,11 +1,10 @@
-.. highlight:: shell
+.. highlight: shell
 
 ============
 Contributing
 ============
 
-Contributions are welcome, and they are greatly appreciated! Every little bit
-helps, and credit will always be given.
+Contributions are welcome, and they are greatly appreciated! Every little bit helps.
 
 You can contribute in many ways:
 
@@ -15,7 +14,7 @@ Types of Contributions
 Report Bugs
 ~~~~~~~~~~~
 
-Report bugs at https://github.com/jdalzatec/llg/issues.
+Report bugs at https://github.com/lufvelasquezgo/llg/issues.
 
 If you are reporting a bug, please include:
 
@@ -38,14 +37,14 @@ and "help wanted" is open to whoever wants to implement it.
 Write Documentation
 ~~~~~~~~~~~~~~~~~~~
 
-llg could always use more documentation, whether as part of the
-official llg docs, in docstrings, or even on the web in blog posts,
+`llg` could always use more documentation, whether as part of the
+official `llg` docs, in docstrings, or even on the web in blog posts,
 articles, and such.
 
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/jdalzatec/llg/issues.
+The best way to send feedback is to file an issue at https://github.com/lufvelasquezgo/llg/issues.
 
 If you are proposing a feature:
 
@@ -60,32 +59,33 @@ Get Started!
 Ready to contribute? Here's how to set up `llg` for local development.
 
 1. Fork the `llg` repo on GitHub.
-2. Clone your fork locally::
+2. Clone your fork locally:
 
     $ git clone git@github.com:your_name_here/llg.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. We use [Poetry](https://python-poetry.org/) to manage dependencies. Install it (we recommend to use [pipx](https://github.com/pypa/pipx)) and install the dependencies:
 
-    $ mkvirtualenv llg
-    $ cd llg/
-    $ python setup.py develop
+    $ poetry install
 
-4. Create a branch for local development::
+4. Install pre-commit hooks:
+
+    $ poetry run pre-commit install
+
+4. Create a branch for local development:
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the
-   tests, including testing other Python versions with tox::
+5. When you're done making changes, check that your changes pass pre-commit hooks and tests. You can only run the tests into the python you are using, using pytest:
 
-    $ flake8 llg tests
-    $ python setup.py test or py.test
-    $ tox
+    $ pytest
 
-   To get flake8 and tox, just pip install them into your virtualenv.
+   But we highly recommend to run the tests in all supported Python versions. You can use tox for that:
 
-6. Commit your changes and push your branch to GitHub::
+    $ poetry run tox
+
+6. Commit your changes and push your branch to GitHub:
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
@@ -100,18 +100,10 @@ Before you submit a pull request, check that it meets these guidelines:
 
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put
-   your new functionality into a function with a docstring, and add the
-   feature to the list in README.rst.
-3. The pull request should work for Python 2.7, 3.4, 3.5 and 3.6, and for PyPy. Check
-   https://travis-ci.org/jdalzatec/llg/pull_requests
+   your new functionality into a function with a docstring.
+3. The pull request should work for Python >= 3.9. Check
+   [https://github.com/lufvelasquezgo/llg/actions](https://github.com/lufvelasquezgo/llg/actions)
    and make sure that the tests pass for all supported Python versions.
-
-Tips
-----
-
-To run a subset of tests::
-
-$ py.test tests.test_llg
 
 
 Deploying
@@ -119,10 +111,16 @@ Deploying
 
 A reminder for the maintainers on how to deploy.
 Make sure all your changes are committed (including an entry in HISTORY.rst).
-Then run::
+Then run:
 
-$ bumpversion patch # possible: major / minor / patch
+$ poetry version VERSION # possible: patch, minor, major
+
+Make new branch release/VERSION and push it to GitHub:
+
 $ git push
 $ git push --tags
 
-Travis will then deploy to PyPI if tests pass.
+Once merged, the GitHub Actions will deploy the package to test-PyPI.
+Check that everything is working as expected, and then create a pull request to merge the release branch into main.
+
+Finally, create a new release on GitHub with the version number and the changes made.
