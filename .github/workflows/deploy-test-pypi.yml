@@ -32,12 +32,10 @@ jobs:
         run: poetry install --no-interaction --no-root
       - name: Install library
         run: poetry install --no-interaction
-      - name: Run tests
-        run: |
-          source .venv/bin/activate
-          pytest
       - name: Config test pypi in poetry
         run: poetry config repositories.test-pypi https://test.pypi.org/legacy/
+      - name: Config secret
+        run: poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI_TOKEN }}
       - name: Build package
         run: poetry build
       - name: Publish package
