@@ -2,7 +2,7 @@
 name = "llg"
 version = "1.0.1"
 description = "Python package to solve the LLG equation by using the Heun scheme."
-authors = ["Juan David Alzate Cardona <jdalzatec@unal.edu.co>", "Luisa Fernanda Velásquez González <lfvelasquezg@gmail.com>"]
+authors = ["Luisa Fernanda Velásquez González <lfvelasquezg@gmail.com>", "Juan David Alzate Cardona <jdalzatec@unal.edu.co>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/lufvelasquezgo/llg"
