@@ -2,10 +2,9 @@ import os
 import tempfile
 
 import numpy
+import vapory
 from matplotlib import font_manager, pyplot
 from PIL import Image, ImageDraw, ImageFont
-
-import vapory
 
 
 def PovrayArrow(position, direction, color):

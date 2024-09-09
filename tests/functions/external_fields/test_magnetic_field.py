@@ -1,6 +1,7 @@
-from llg.functions import external_fields
-import pytest
 import numpy
+import pytest
+
+from llg.functions import external_fields
 
 
 def test_magnetic_field_shapes(num_sites, random_intensities, random_directions):

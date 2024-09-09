@@ -1,6 +1,7 @@
-from llg.functions import energy
-import pytest
 import numpy
+import pytest
+
+from llg.functions import energy
 
 
 def compute_magnetic_energy(

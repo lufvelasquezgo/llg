@@ -1,6 +1,7 @@
-from llg.functions import spin_fields
-import pytest
 import numpy
+import pytest
+
+from llg.functions import spin_fields
 
 
 def compute_anisotropy_field(

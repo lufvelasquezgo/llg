@@ -1,5 +1,6 @@
 import numpy
 import pytest
+
 from llg.functions import heun
 
 

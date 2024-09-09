@@ -1,9 +1,9 @@
-name: Deploy to pypi
+name: Deploy to test-pypi
 
 on:
   push:
     branches:
-      - main
+      - release/*
 
 jobs:
   test:
@@ -36,7 +36,9 @@ jobs:
         run: |
           source .venv/bin/activate
           pytest
+      - name: Config test pypi in poetry
+        run: poetry config repositories.test-pypi https://test.pypi.org/legacy/
       - name: Build package
         run: poetry build
       - name: Publish package
-        run: poetry publish
+        run: poetry publish --repository test-pypi
