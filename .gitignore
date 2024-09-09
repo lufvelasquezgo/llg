@@ -146,7 +146,6 @@ Pipfile.lock
 .vscode/
 
 # config files
-*.yml
 *.dat
 *.json
 
