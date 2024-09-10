@@ -1,4 +1,5 @@
 from itertools import product
+
 from llg.sample import Sample
 
 

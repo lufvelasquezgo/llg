@@ -1,0 +1,54 @@
+[tool.poetry]
+name = "llg"
+version = "1.0.2"
+description = "Python package to solve the LLG equation by using the Heun scheme."
+authors = ["Luisa Fernanda Velásquez González <lfvelasquezg@gmail.com>", "Juan David Alzate Cardona <jdalzatec@unal.edu.co>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/lufvelasquezgo/llg"
+keywords = ["llg", "magnetism", "physics", "simulation"]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English"
+]
+
+
+[tool.poetry.scripts]
+llg = 'llg.cli:main'
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+numpy = ">=1.22,<2.1"
+h5py = "^3.11.0"
+click = "^8.1.7"
+tqdm = "^4.66.5"
+matplotlib = "^3.9.2"
+pillow = "^10.4.0"
+moviepy = "^1.0.3"
+Vapory = "^0.1.2"
+numba = "^0.60.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.8.0"
+tox = "^4.18.1"
+pytest = "^8.3.2"
+pytest-repeat = "^0.9.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 88
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "src"
+
+[tool.isort]
+profile = "black"

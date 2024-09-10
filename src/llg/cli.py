@@ -5,18 +5,18 @@ import os
 import pickle
 
 import click
+import h5py
+import moviepy.editor as mpy
 import numpy
 from matplotlib import pyplot
 from matplotlib.backends.backend_pdf import PdfPages
+from tqdm import tqdm
 
-import h5py
-import moviepy.editor as mpy
-from llg.simulation import Simulation
-from llg.store import StoreHDF
 from llg._tools import __ask_for_field, __ask_for_temperature
 from llg.plot_states import PlotStates
 from llg.predefined_structures import GenericBcc, GenericFcc, GenericSc
-from tqdm import tqdm
+from llg.simulation import Simulation
+from llg.store import StoreHDF
 
 
 @click.group()

@@ -1,17 +1,18 @@
-import numpy
-from nptyping import NDArray
 from typing import Any
+
+import numpy
 from numba import jit
+from numpy import ndarray
 
 
 def thermal_field(
-    temperature: NDArray[(Any, 3), float],
-    magnitude_spin_moment: NDArray[Any, float],
+    temperature: ndarray[(Any, 3), float],
+    magnitude_spin_moment: ndarray[Any, float],
     damping: float,
     deltat: float,
     gyromagnetic: float,
     kB: float,
-) -> NDArray[(Any, 3), float]:
+) -> ndarray[(Any, 3), float]:
     N = len(magnitude_spin_moment)
     gamma = numpy.random.normal(size=(N, 3))
     values = (2 * damping * kB * temperature) / (
@@ -24,6 +25,6 @@ def thermal_field(
 
 @jit(nopython=True)
 def magnetic_field(
-    magnetic_fields: NDArray[(Any, 3), float]
-) -> NDArray[(Any, 3), float]:
+    magnetic_fields: ndarray[(Any, 3), float]
+) -> ndarray[(Any, 3), float]:
     return magnetic_fields

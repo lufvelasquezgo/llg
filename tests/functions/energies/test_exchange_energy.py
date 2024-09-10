@@ -1,6 +1,7 @@
-from llg.functions import energy
-import pytest
 import numpy
+import pytest
+
+from llg.functions import energy
 
 
 def compute_exchange_energy(num_sites, state, j_exchange, num_neighbors, neighbors):

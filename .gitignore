@@ -146,7 +146,6 @@ Pipfile.lock
 .vscode/
 
 # config files
-*.yml
 *.dat
 *.json
 
@@ -162,3 +161,5 @@ Pipfile.lock
 # docs files
 llg.rst
 modules.rst
+
+.idea/

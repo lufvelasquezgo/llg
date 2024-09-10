@@ -1,7 +1,9 @@
-from llg.site import Site
 import json
 from collections import namedtuple
+
 import numpy
+
+from llg.site import Site
 
 
 class Geometry:

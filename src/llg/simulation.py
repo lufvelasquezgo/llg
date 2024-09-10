@@ -1,11 +1,12 @@
 import json
+import random
+
 import numpy
 from tqdm import tqdm
-from llg.functions import heun
-from llg.functions import energy
-from llg.system import System
+
 from llg.bucket import Bucket
-import random
+from llg.functions import energy, heun
+from llg.system import System
 
 
 def get_random_state(num_sites):

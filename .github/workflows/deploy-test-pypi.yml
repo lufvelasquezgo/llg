@@ -1,22 +1,21 @@
-name: Run tests
+name: Deploy to test-pypi
 
-on: [push]
+on:
+  push:
+    branches:
+      - release/*
 
 jobs:
   test:
-    strategy:
-      fail-fast: true
-      matrix:
-        python-version: [ "3.9", "3.10", "3.11", "3.12" ]
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-      - name: Set up python ${{ matrix.python-version }}
+      - name: Set up python
         id: setup-python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.12
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
@@ -33,5 +32,11 @@ jobs:
         run: poetry install --no-interaction --no-root
       - name: Install library
         run: poetry install --no-interaction
-      - name: Run tests
-        run: poetry run pytest
+      - name: Config test pypi in poetry
+        run: poetry config repositories.test-pypi https://test.pypi.org/legacy/
+      - name: Config secret
+        run: poetry config pypi-token.test-pypi ${{ secrets.TEST_PYPI_TOKEN }}
+      - name: Build package
+        run: poetry build
+      - name: Publish package
+        run: poetry publish --repository test-pypi

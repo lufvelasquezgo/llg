@@ -1,6 +1,7 @@
-from llg.functions import external_fields
 import numpy
 import pytest
+
+from llg.functions import external_fields
 
 
 @pytest.mark.repeat(10)
