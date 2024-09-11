@@ -12,6 +12,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from tqdm import tqdm
 
 from llg.cli.build_samples import build_samples
+from llg.core.system import System
 from llg.plot_states import PlotStates
 from llg.simulation import Simulation
 from llg.store import StoreHDF
@@ -29,20 +30,21 @@ main.add_command(cast(Command, build_samples))
 @main.command("simulate")
 @click.argument("configuration_file")
 def simulate(configuration_file):
-    simulation = Simulation.from_file(configuration_file)
+    system = System.from_file(configuration_file)
+    simulation = Simulation(system)
     print(pickle.dumps(simulation.information))
     for values in simulation.run():
         (
             state,
             exchange_energy,
             anisotropy_energy,
-            magnetic_energy,
+            magnetic_field_energy_value,
             total_energy,
         ) = values
         print(pickle.dumps(state))
         print(pickle.dumps(exchange_energy))
         print(pickle.dumps(anisotropy_energy))
-        print(pickle.dumps(magnetic_energy))
+        print(pickle.dumps(magnetic_field_energy_value))
         print(pickle.dumps(total_energy))
 
 

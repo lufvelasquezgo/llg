@@ -41,16 +41,18 @@ class StoreHDF:
         self.__dataset.attrs["num_sites"] = num_sites
         self.__dataset.attrs["num_iterations"] = num_iterations
         self.__dataset.attrs["seed"] = simulation_information["seed"]
-        self.__dataset.attrs["units"] = simulation_information["parameters"]["units"]
-        self.__dataset.attrs["damping"] = simulation_information["parameters"][
-            "damping"
-        ]
-        self.__dataset.attrs["gyromagnetic"] = simulation_information["parameters"][
-            "gyromagnetic"
-        ]
-        self.__dataset.attrs["deltat"] = simulation_information["parameters"]["deltat"]
-        self.__dataset.attrs["kb"] = simulation_information["parameters"]["kb"]
-        self.__dataset.attrs["num_TH"] = len(simulation_information["temperature"])
+        self.__dataset.attrs["energy_unit"] = simulation_information[
+            "parameters"
+        ].energy_unit.value
+        self.__dataset.attrs["damping"] = simulation_information["parameters"].damping
+        self.__dataset.attrs["gyromagnetic"] = simulation_information[
+            "parameters"
+        ].gyromagnetic
+        self.__dataset.attrs["delta_time"] = simulation_information[
+            "parameters"
+        ].delta_time
+        self.__dataset.attrs["kb"] = simulation_information["parameters"].kb
+        self.__dataset.attrs["num_TH"] = len(simulation_information["temperatures"])
 
         # create types
         types_dataset = self.__dataset.create_dataset(
@@ -60,8 +62,10 @@ class StoreHDF:
 
         self.__dataset["positions"] = simulation_information["positions"]
         self.__dataset["initial_state"] = simulation_information["initial_state"]
-        self.__dataset["temperature"] = simulation_information["temperature"]
-        self.__dataset["field"] = simulation_information["field"]
+        self.__dataset["temperatures"] = simulation_information["temperatures"]
+        self.__dataset["magnetic_field_intensities"] = simulation_information[
+            "magnetic_field_intensities"
+        ]
 
         compression_options = (
             {"chunks": True, "compression": "gzip"} if self.compress else {}

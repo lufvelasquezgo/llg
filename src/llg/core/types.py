@@ -25,5 +25,5 @@ class SiteDict(TypedDict):
     mu: float
     anisotropy_constant: float
     anisotropy_axis: List[Scalar]
-    field_axis: List[Scalar]
+    magnetic_field_axis: List[Scalar]
     jex_interactions: List[JexInteractionDict]

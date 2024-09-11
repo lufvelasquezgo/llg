@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import List, Optional
 
@@ -19,7 +21,7 @@ class Site:
         mu: float,
         anisotropy_constant: float,
         anisotropy_axis: Vector,
-        field_axis: Vector,
+        magnetic_field_axis: Vector,
         jex_interactions: Optional[List[JexInteraction]] = None,
     ):
         self._index = index
@@ -28,7 +30,7 @@ class Site:
         self._mu = mu
         self._anisotropy_constant = anisotropy_constant
         self._anisotropy_axis = anisotropy_axis
-        self._field_axis = field_axis
+        self._magnetic_field_axis = magnetic_field_axis
         self._jex_interactions = jex_interactions or []
 
     def __repr__(self) -> str:
@@ -40,7 +42,7 @@ class Site:
             f"mu={self._mu!r}, "
             f"anisotropy_constant={self._anisotropy_constant!r}, "
             f"anisotropy_axis={self._anisotropy_axis!r}, "
-            f"field_axis={self._field_axis!r})"
+            f"magnetic_field_axis={self._magnetic_field_axis!r})"
         )
 
     @property
@@ -68,8 +70,8 @@ class Site:
         return self._anisotropy_axis
 
     @property
-    def field_axis(self) -> Vector:
-        return self._field_axis
+    def magnetic_field_axis(self) -> Vector:
+        return self._magnetic_field_axis
 
     @property
     def jex_interactions(self) -> List[JexInteraction]:
@@ -86,7 +88,7 @@ class Site:
             "mu": self._mu,
             "anisotropy_constant": self._anisotropy_constant,
             "anisotropy_axis": list(self._anisotropy_axis),
-            "field_axis": list(self._field_axis),
+            "magnetic_field_axis": list(self._magnetic_field_axis),
             "jex_interactions": [
                 {
                     "neighbor_index": jex_interaction.neighbor_index,
@@ -95,3 +97,33 @@ class Site:
                 for jex_interaction in self._jex_interactions
             ],
         }
+
+    @classmethod
+    def from_dict(cls, site_dict: SiteDict) -> Site:
+        return cls(
+            index=site_dict["index"],
+            position=(
+                site_dict["position"][0],
+                site_dict["position"][1],
+                site_dict["position"][2],
+            ),
+            type_=site_dict["type"],
+            mu=site_dict["mu"],
+            anisotropy_constant=site_dict["anisotropy_constant"],
+            anisotropy_axis=(
+                site_dict["anisotropy_axis"][0],
+                site_dict["anisotropy_axis"][1],
+                site_dict["anisotropy_axis"][2],
+            ),
+            magnetic_field_axis=(
+                site_dict["magnetic_field_axis"][0],
+                site_dict["magnetic_field_axis"][1],
+                site_dict["magnetic_field_axis"][2],
+            ),
+            jex_interactions=[
+                JexInteraction(
+                    neighbor_index=jex_dict["neighbor_index"], jex=jex_dict["jex"]
+                )
+                for jex_dict in site_dict["jex_interactions"]
+            ],
+        )

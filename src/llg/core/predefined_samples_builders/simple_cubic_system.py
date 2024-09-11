@@ -56,7 +56,7 @@ class SimpleCubicSystem(System):
                 mu=mu,
                 anisotropy_constant=anisotropy_constant,
                 anisotropy_axis=anisotropy_axis,
-                field_axis=magnetic_field_axis,
+                magnetic_field_axis=magnetic_field_axis,
             )
             for i, (x, y, z) in enumerate(product(range(length), repeat=3))
         ]
