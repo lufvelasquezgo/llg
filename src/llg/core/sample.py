@@ -36,8 +36,8 @@ class Sample:
     :param anisotropy_constant: It receives the anisotropy constants of the sites in
     the system.
     :type anisotropy_constant: float
-    :param anisotopy_axis: It receives the anisotropy axis of the sites in the system.
-    :type anisotopy_axis: list
+    :param anisotropy_axis: It receives the anisotropy axis of the sites in the system.
+    :type anisotropy_axis: list
     :param seed: It receives the number of the seed, this is because we want to
     generate the same number every time before calling ``random.randint()``.
     :type seed: int, optional.
@@ -45,29 +45,35 @@ class Sample:
     :type initial_state: list, optional.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        sites,
+        neighbors,
+        units,
+        damping,
+        gyromagnetic_ratio,
+        deltat,
+        num_iterations,
+        temperature,
+        magnetic_field,
+        initial_state,
+        seed,
+    ):
         """
         The constructor for Sample class.
         """
-        self.sites = []
-        self.neighbors = []
-        self.units = "adim"
-        self.damping = 1.0
-        self.gyromagnetic = 1.0
-        self.deltat = 1.0
-        self.num_iterations = 1000
-        self.temperature = None
-        self.field = None
+        self.sites = sites
+        self.neighbors = neighbors
+        self.units = units
+        self.damping = damping
+        self.gyromagnetic = gyromagnetic_ratio
+        self.deltat = deltat
+        self.num_iterations = num_iterations
+        self.temperature = temperature
+        self.field = magnetic_field
 
-        self.jex = 1.0
-        self.mu = 1.0
-        self.field_axis = [0.0, 0.0, 0.0]
-        self.type = "generic"
-        self.anisotropy_constant = 0.0
-        self.anisotopy_axis = [0.0, 0.0, 0.0]
-
-        self.seed = None
-        self.initial_state = None
+        self.seed = initial_state
+        self.initial_state = seed
 
     def build(self):
         """It is a function responsible for building the sample. It receives all the
@@ -92,8 +98,8 @@ class Sample:
             if "anisotropy_constant" not in site:
                 site["anisotropy_constant"] = self.anisotropy_constant
 
-            if "anisotopy_axis" not in site:
-                site["anisotopy_axis"] = self.anisotopy_axis
+            if "anisotropy_axis" not in site:
+                site["anisotropy_axis"] = self.anisotropy_axis
 
             if "field_axis" not in site:
                 site["field_axis"] = self.field_axis

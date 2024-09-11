@@ -14,7 +14,7 @@ classifiers = [
 
 
 [tool.poetry.scripts]
-llg = 'llg.cli:main'
+llg = 'llg.cli.entrypoint:main'
 
 
 [tool.poetry.dependencies]
@@ -35,6 +35,9 @@ pre-commit = "^3.8.0"
 tox = "^4.18.1"
 pytest = "^8.3.2"
 pytest-repeat = "^0.9.3"
+coverage = "^7.6.1"
+mypy = "^1.11.2"
+black = "^24.8.0"
 
 
 [build-system]
@@ -46,9 +49,18 @@ line-length = 88
 
 [tool.mypy]
 ignore_missing_imports = true
+plugins = "numpy.typing.mypy_plugin"
 
 [[tool.mypy.overrides]]
 module = "src"
 
 [tool.isort]
 profile = "black"
+
+[tool.coverage.run]
+command_line = "-m pytest"
+source = ["src"]
+omit = ["**/__init__.py"]
+
+[tool.coverage.report]
+show_missing = true

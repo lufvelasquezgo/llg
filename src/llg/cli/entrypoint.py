@@ -1,20 +1,18 @@
-# -*- coding: utf-8 -*-
-
-"""Console script for llg."""
 import os
 import pickle
+from typing import cast
 
 import click
 import h5py
 import moviepy.editor as mpy
 import numpy
+from click import Command
 from matplotlib import pyplot
 from matplotlib.backends.backend_pdf import PdfPages
 from tqdm import tqdm
 
-from llg._tools import __ask_for_field, __ask_for_temperature
+from llg.cli.build_samples import build_samples
 from llg.plot_states import PlotStates
-from llg.predefined_structures import GenericBcc, GenericFcc, GenericSc
 from llg.simulation import Simulation
 from llg.store import StoreHDF
 
@@ -23,6 +21,9 @@ from llg.store import StoreHDF
 def main():
     """Console script for llg."""
     pass
+
+
+main.add_command(cast(Command, build_samples))
 
 
 @main.command("simulate")
@@ -52,8 +53,8 @@ def simulate(configuration_file):
     default=False,
     is_flag=True,
     show_default=True,
-    help="It reduces the overall number of bits and bytes of the file, but it takes "
-    "much more time",
+    help="It reduces the overall number of bytes of the file, "
+    "but it takes much more time",
 )
 def store_hdf_cli(output, compress):
     simulation_information = pickle.loads(eval(input()))
@@ -228,41 +229,6 @@ def compute_averages(by_types, components, discard):
                     )
 
         print(output)
-
-
-@main.group("build-samples")
-def build_samples():
-    pass
-
-
-@build_samples.command("generic-sc")
-@click.argument("output")
-@click.option("--length", default=10, help="It represents the size of the sytem")
-def generic_sc(length, output):
-    sample = GenericSc(length)
-    sample.temperature = __ask_for_temperature()
-    sample.field = __ask_for_field()
-    sample.save(output)
-
-
-@build_samples.command("generic-bcc")
-@click.argument("output")
-@click.option("--length", default=10, help="It represents the size of the sytem")
-def generic_bcc(length, output):
-    sample = GenericBcc(length)
-    sample.temperature = __ask_for_temperature()
-    sample.field = __ask_for_field()
-    sample.save(output)
-
-
-@build_samples.command("generic-fcc")
-@click.argument("output")
-@click.option("--length", default=10, help="It represents the size of the sytem")
-def generic_fcc(length, output):
-    sample = GenericFcc(length)
-    sample.temperature = __ask_for_temperature()
-    sample.field = __ask_for_field()
-    sample.save(output)
 
 
 @main.group("plot")

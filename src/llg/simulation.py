@@ -4,9 +4,10 @@ import random
 import numpy
 from tqdm import tqdm
 
-from llg.bucket import Bucket
+from llg.core.system import System
 from llg.functions import energy, heun
-from llg.system import System
+from llg.scalar_list import ScalarList
+from llg.scalar_list_matcher import ScalarListMatcher
 
 
 def get_random_state(num_sites):
@@ -20,7 +21,7 @@ class Simulation:
     """This is a class for make a simulation in order to evolve the state of the system.
 
     :param system: Object that contains index, position, type_, mu,
-    anisotropy_constant, anisotopy_axis and field_axis (geometry). Also it contains a
+    anisotropy_constant, anisotropy_axis and field_axis (geometry). Also it contains a
     source, target, and jex (neighbors). Finally it contains units, damping,
     gyromagnetic, and deltat.
     :type system:
@@ -39,8 +40,8 @@ class Simulation:
     def __init__(
         self,
         system,
-        temperature: Bucket,
-        field: Bucket,
+        temperature: ScalarList,
+        field: ScalarList,
         num_iterations=None,
         seed=None,
         initial_state=None,
@@ -76,7 +77,7 @@ class Simulation:
         """It is a function decorator, it creates the simulation file.
 
         :param simulation_file: File that contains index, position, type, mu,
-        anisotropy_constant, anisotopy_axis, and field_axis of each site. Also it
+        anisotropy_constant, anisotropy_axis, and field_axis of each site. Also it
         contains a source, target, and jex.
         :type simulation_file: file
 
@@ -92,9 +93,9 @@ class Simulation:
         num_iterations = simulation_dict.get("num_iterations")
         seed = simulation_dict.get("seed")
 
-        temperature = Bucket(simulation_dict["temperature"])
-        field = Bucket(simulation_dict["field"])
-        temperature, field = Bucket.match_sizes(temperature, field)
+        temperature = ScalarList(simulation_dict["temperature"])
+        field = ScalarList(simulation_dict["field"])
+        temperature, field = zip(*zip(ScalarListMatcher(temperature, field)))
 
         return cls(system, temperature, field, num_iterations, seed, initial_state)
 

@@ -1,17 +1,14 @@
-from typing import Any
-
 import numpy
 from numba import jit
-from numpy import ndarray
 
 
 @jit(nopython=True)
 def exchange_interaction_field(
-    state: ndarray[(Any, 3), float],
-    magnitude_spin_moment: ndarray[Any, float],
-    exchanges: ndarray[(Any, Any), float],
-    neighbors: ndarray[(Any, Any), float],
-) -> ndarray[(Any, 3), float]:
+    state,
+    magnitude_spin_moment,
+    exchanges,
+    neighbors,
+):
     N = len(magnitude_spin_moment)
     out = numpy.zeros(shape=(N, 3))
     for i in range(N):
@@ -29,11 +26,11 @@ def exchange_interaction_field(
 
 @jit(nopython=True)
 def anisotropy_interaction_field(
-    state: ndarray[(Any, 3), float],
-    magnitude_spin_moment: ndarray[Any, float],
-    anisotropy_constants: ndarray[Any, float],
-    anisotropy_vectors: ndarray[(Any, 3), float],
-) -> ndarray[(Any, 3), float]:
+    state,
+    magnitude_spin_moment,
+    anisotropy_constants,
+    anisotropy_vectors,
+):
     values = (
         anisotropy_constants
         * (state * anisotropy_vectors).sum(axis=1)

@@ -1,137 +1,97 @@
-from numbers import Real
+from dataclasses import dataclass
+from typing import List, Optional
+
+from llg.core.types import SiteDict, Vector
+
+
+@dataclass
+class JexInteraction:
+    neighbor_index: int
+    jex: float
 
 
 class Site:
-    """This is a class for create an object of sites.
-
-    :param index: The index of each site of the system
-    :type index: int
-    :param position: The position of each site of the system
-    :type position: float
-    :param type: The type of each site in the system
-    :type type: str
-    :param mu: The spin norms of each site of the system.
-    :type mu: float
-    :param anisotropy_constant: The anisotropy constant of the system
-    :type anisotropy_constant: float
-    :param anisotropy_axis: The anisotropy axis of the system
-    :type anisotropy_axis: float
-    :param field_axis: The field axis of the system
-    :type field_axis: float
-    :param neighbors: The list of neighbors of the sites in the system.
-    :type neighbors: list
-    :param jexs: The list of the exchanges interactions of the sites in the system.
-    :type jexs: list
-    """
-
     def __init__(
         self,
-        index,
-        position,
-        type_,
-        mu,
-        anisotropy_constant,
-        anisotopy_axis,
-        field_axis,
+        index: int,
+        position: Vector,
+        type_: str,
+        mu: float,
+        anisotropy_constant: float,
+        anisotropy_axis: Vector,
+        field_axis: Vector,
+        jex_interactions: Optional[List[JexInteraction]] = None,
     ):
-        """The constructor for Site class.
+        self._index = index
+        self._position = position
+        self._type = type_
+        self._mu = mu
+        self._anisotropy_constant = anisotropy_constant
+        self._anisotropy_axis = anisotropy_axis
+        self._field_axis = field_axis
+        self._jex_interactions = jex_interactions or []
 
-        :param index: The index of each site of the system.
-        :type index: int
-        :param position: The position of each site of the system.
-        :type position: float
-        :param type__: The type of each site in the system.
-        :type type__: str
-        :param mu: The .
-        :type mu: float
-        :param anisotropy_constant: The anisotropy constant of the system.
-        :type anisotropy_constant: float
-        :param anisotropy_axis: The anisotropy axis of the system.
-        :type anisotropy_axis: float
-        :param field_axis: The field axis of the system.
-        :type field_axis: float
-        """
-        self.index = index
-        self.position = position
-        self.type = type_
-        self.mu = mu
-        self.anisotropy_constant = anisotropy_constant
-        self.anisotopy_axis = anisotopy_axis
-        self.field_axis = field_axis
-        self.__neighbors = []
-        self.__jexs = []
-
-    @classmethod
-    def from_dict(cls, site_dict):
-        """The dictionary of the values for Site class. It is a function decorator, it
-        creates the dictionary with the attributes that belong to the class method Site.
-
-        :param site_dict: Dictionary that contains the attributes.
-        :type site_dict: dict
-
-        :return: Object that contains the values index, position, type_, mu,
-        anisotropy_constant, anisotopy_axis and field_axis.
-        :rtype: dict
-        """
-        index = site_dict["index"]
-        position = site_dict["position"]
-        type_ = site_dict["type"]
-        mu = site_dict["mu"]
-        anisotropy_constant = site_dict["anisotropy_constant"]
-        anisotopy_axis = site_dict["anisotopy_axis"]
-        field_axis = site_dict["field_axis"]
-
-        return cls(
-            index, position, type_, mu, anisotropy_constant, anisotopy_axis, field_axis
+    def __repr__(self) -> str:
+        return (
+            f"Site("
+            f"index={self._index!r}, "
+            f"position={self._position!r}, "
+            f"type={self._type!r}, "
+            f"mu={self._mu!r}, "
+            f"anisotropy_constant={self._anisotropy_constant!r}, "
+            f"anisotropy_axis={self._anisotropy_axis!r}, "
+            f"field_axis={self._field_axis!r})"
         )
 
-    def append_neighbor(self, neighbor, jex: float):
-        """Function to append the neighbors and it own jexs for Site class.
-
-        :param neighbor: The neighbors of each site in the system.
-        :type neighbor: int
-        :param jex: The exchange interaction of each site in the system.
-        :type jex: float
-        """
-        if not isinstance(neighbor, Site):
-            raise Exception("`neighbor` is not an instance of Site.")
-
-        if not isinstance(jex, Real):
-            raise Exception("`jex` is not an instance of Real.")
-
-        self.__neighbors.append(neighbor)
-        self.__jexs.append(jex)
-
-    def set_neighbors(self, neighbors: list, jexs: list):
-        """It is a function to set the neighbors
-
-        :param neighbors: The list of neighbors of the sites in the system.
-        :type neighbors: list
-        :param jexs: The list of the exchanges interactions of the sites in the system.
-        :type jexs: list
-        """
-        for neighbor, jex in zip(neighbors, jexs):
-            self.append_neighbor(neighbor, jex)
+    @property
+    def index(self) -> int:
+        return self._index
 
     @property
-    def neighbors(self):
-        """It is a function decorator, it provides an interface to instance attribute
-        neighbors. It encapsulates instance attribute neighbors and provides a property
-        Site class.
-
-        return: Return a property attribute of neighbors.
-        """
-        return self.__neighbors
+    def position(self) -> Vector:
+        return self._position
 
     @property
-    def jexs(self):
-        """It is a function decorator, it provides an interface to instance attribute
-        exchanges interactions. It encapsulates instance attribute jexs and provides a
-        property Site class.
+    def type(self) -> str:
+        return self._type
 
-        return: Return a property attribute of exchanges interactions.
-        """
-        return self.__jexs
+    @property
+    def mu(self) -> float:
+        return self._mu
 
-    def __eq__(self, other_site):
-        return self.index == other_site.index
+    @property
+    def anisotropy_constant(self) -> float:
+        return self._anisotropy_constant
+
+    @property
+    def anisotropy_axis(self) -> Vector:
+        return self._anisotropy_axis
+
+    @property
+    def field_axis(self) -> Vector:
+        return self._field_axis
+
+    @property
+    def jex_interactions(self) -> List[JexInteraction]:
+        return self._jex_interactions
+
+    def add_jex_interaction(self, neighbor_index: int, jex: float) -> None:
+        self._jex_interactions.append(JexInteraction(neighbor_index, jex))
+
+    def to_dict(self) -> SiteDict:
+        return {
+            "index": self._index,
+            "position": list(self._position),
+            "type": self._type,
+            "mu": self._mu,
+            "anisotropy_constant": self._anisotropy_constant,
+            "anisotropy_axis": list(self._anisotropy_axis),
+            "field_axis": list(self._field_axis),
+            "jex_interactions": [
+                {
+                    "neighbor_index": jex_interaction.neighbor_index,
+                    "jex": jex_interaction.jex,
+                }
+                for jex_interaction in self._jex_interactions
+            ],
+        }

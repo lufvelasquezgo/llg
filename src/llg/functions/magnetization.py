@@ -1,19 +1,14 @@
-from typing import Any
-
 import numpy
 from numba import jit
-from numpy import ndarray
 
 
 @jit(nopython=True)
-def magnetization_vector(state: ndarray[(Any, 3), float]) -> ndarray[(Any, 3), float]:
+def magnetization_vector(state):
     return state.sum(axis=0) / len(state)
 
 
 @jit(nopython=True)
-def magnetization_vector_by_type(
-    state: ndarray[(Any, 3), float], num_types: int, types: ndarray[Any, float]
-) -> ndarray[(Any, Any, 3), float]:
+def magnetization_vector_by_type(state, num_types: int, types):
     out = numpy.zeros(shape=(num_types, 3))
     for t in range(num_types):
         mask = types == t
@@ -22,15 +17,13 @@ def magnetization_vector_by_type(
 
 
 @jit(nopython=True)
-def total_magnetization(state: ndarray[(Any, 3), float]) -> float:
+def total_magnetization(state) -> float:
     mag = magnetization_vector(state)
     mag_sum = (mag * mag).sum(axis=0)
     return numpy.sqrt(mag_sum)
 
 
 @jit(nopython=True)
-def magnetization_by_type(
-    state: ndarray[(Any, 3), float], num_types: int, types: ndarray[Any, float]
-) -> ndarray[Any, float]:
+def magnetization_by_type(state, num_types: int, types):
     mag = magnetization_vector_by_type(state, num_types, types)
     return numpy.sqrt((mag * mag).sum(axis=1))

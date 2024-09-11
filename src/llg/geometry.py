@@ -10,7 +10,7 @@ class Geometry:
     """This is a class is created to get the object sites.
 
     :param sites: The dictionary that contains an index, position, type, mu,
-    anisotropy_constant, anisotopy_axis, and field_axis of each site.
+    anisotropy_constant, anisotropy_axis, and field_axis of each site.
     :type sites: dict
     :param neighbors: The dictionary that contains a source, target, and jex.
     :type neighbors: dict
@@ -20,7 +20,7 @@ class Geometry:
         """The constructor for Geometry class.
 
         :param sites: The dictionary that contains an index, position, type, mu,
-        anisotropy_constant, anisotopy_axis, and field_axis of each site.
+        anisotropy_constant, anisotropy_axis, and field_axis of each site.
         :type sites: dict
         """
         self.__sites = sites
@@ -30,7 +30,7 @@ class Geometry:
         """It creates the geometry file.
 
         :param geometry_file: File that contains index, position, type, mu,
-        anisotropy_constant, anisotopy_axis, and field_axis of each site. Also it
+        anisotropy_constant, anisotropy_axis, and field_axis of each site. Also it
         contains a source, target, and jex.
         :type geometry_file: file
 
@@ -50,7 +50,7 @@ class Geometry:
         values, we also alter the corresponding one in ``sites``.
 
         :param geometry_dict: Dictionary that contains index, position, type, mu,
-        anisotropy_constant, anisotopy_axis, and field_axis of each site. Also it
+        anisotropy_constant, anisotropy_axis, and field_axis of each site. Also it
         contains a source, target, and jex.
         :type geometry_dict: dict
         """
@@ -92,7 +92,7 @@ class Geometry:
         """It is an instance for read sites. It just gets the arguments site.
 
         :param site_dicts: Dictionary that contains index, position, type, mu,
-        anisotropy_constant, anisotopy_axis, and field_axis of each site.
+        anisotropy_constant, anisotropy_axis, and field_axis of each site.
         :type site_dicts: dict
 
         :return: Object that contains the sites values.
@@ -100,7 +100,7 @@ class Geometry:
         """
         output_sites = []
         for site_dict in site_dicts:
-            site = Site.from_dict(site_dict)
+            site = Site(**site_dict)
             if site in output_sites:
                 raise Exception(f"Site with the index {site.index} already exists !!!")
             output_sites.append(site)
@@ -196,7 +196,7 @@ class Geometry:
 
         :return: Return a property attribute of anisotropy_axes.
         """
-        return numpy.array([site.anisotopy_axis for site in self.__sites])
+        return numpy.array([site.anisotropy_axis for site in self.__sites])
 
     @property
     def exchanges(self):
