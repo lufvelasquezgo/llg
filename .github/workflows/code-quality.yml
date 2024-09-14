@@ -49,7 +49,7 @@ jobs:
 
       # Step 2: Install mypy for type checking
       - name: Install mypy
-        run: pip install mypy==1.11.2
+        run: pip install mypy==1.11.2 "numpy>=1.22,<2.1"
 
       # Step 3: Type check the codebase with mypy
       - name: Type check with mypy
