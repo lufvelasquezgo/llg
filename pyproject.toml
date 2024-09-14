@@ -51,9 +51,8 @@ line-length = 88
 [tool.mypy]
 ignore_missing_imports = true
 plugins = "numpy.typing.mypy_plugin"
-
-[[tool.mypy.overrides]]
-module = "src"
+packages = ["src"]
+disable_error_code = "empty-body"
 
 [tool.isort]
 profile = "black"

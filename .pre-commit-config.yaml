@@ -22,5 +22,8 @@ repos:
     rev: 'v1.11.2'
     hooks:
     -   id: mypy
+        args:
+            - --config-file=pyproject.toml
+        language_version: python3.12
         additional_dependencies:
             - numpy
