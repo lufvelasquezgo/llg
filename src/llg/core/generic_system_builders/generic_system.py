@@ -1,15 +1,23 @@
-from itertools import product
-from typing import Iterable, Union
+from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from typing import Iterable, List, Tuple, Union
 
-from llg.core.constants import GENERIC_SAMPLE_TYPE, EnergyUnit
+from llg.core.constants import GENERIC_TYPE, EnergyUnit
 from llg.core.parameters import Parameters
 from llg.core.system import System
 from llg.core.types import RangeDict, Scalar, Vector
 from llg.scalar_list import ScalarList
-from llg.site import Site
+from llg.site import JexInteraction, Site
 
 
-class SimpleCubicSystem(System):
+@dataclass
+class SpatialPoint:
+    index: int
+    position: Tuple[Scalar, Scalar, Scalar]
+    neighbors_indexes: List[int] = field(default_factory=list)
+
+
+class GenericSystem(System, ABC):
     def __init__(
         self,
         length: int,
@@ -46,44 +54,32 @@ class SimpleCubicSystem(System):
         )
 
     def _build_sites(
-        self, length, jex, mu, magnetic_field_axis, anisotropy_axis, anisotropy_constant
-    ):
-        sites = [
+        self,
+        length: int,
+        jex: float,
+        mu: float,
+        magnetic_field_axis: Vector,
+        anisotropy_axis: Vector,
+        anisotropy_constant: float,
+    ) -> List[Site]:
+        spatial_points = self._build_spatial_points(length)
+        return [
             Site(
-                index=i,
-                position=(x, y, z),
-                type_=GENERIC_SAMPLE_TYPE,
+                index=spatial_point.index,
+                position=spatial_point.position,
+                type=GENERIC_TYPE,
                 mu=mu,
                 anisotropy_constant=anisotropy_constant,
                 anisotropy_axis=anisotropy_axis,
                 magnetic_field_axis=magnetic_field_axis,
+                jex_interactions=[
+                    JexInteraction(neighbor_index, jex)
+                    for neighbor_index in spatial_point.neighbors_indexes
+                ],
             )
-            for i, (x, y, z) in enumerate(product(range(length), repeat=3))
+            for spatial_point in spatial_points
         ]
 
-        for site in sites:
-            x, y, z = site.position
-            site.add_jex_interaction(
-                self._get_neighbor_index((x + 1) % length, y, z, length), jex
-            )
-            site.add_jex_interaction(
-                self._get_neighbor_index((x - 1) % length, y, z, length), jex
-            )
-            site.add_jex_interaction(
-                self._get_neighbor_index(x, (y + 1) % length, z, length), jex
-            )
-            site.add_jex_interaction(
-                self._get_neighbor_index(x, (y - 1) % length, z, length), jex
-            )
-            site.add_jex_interaction(
-                self._get_neighbor_index(x, y, (z + 1) % length, length), jex
-            )
-            site.add_jex_interaction(
-                self._get_neighbor_index(x, y, (z - 1) % length, length), jex
-            )
-
-        return sites
-
-    @staticmethod
-    def _get_neighbor_index(x, y, z, length):
-        return x * length * length + y * length + z
+    @abstractmethod
+    def _build_spatial_points(self, length: int) -> List[SpatialPoint]:
+        pass

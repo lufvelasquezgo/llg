@@ -108,7 +108,8 @@ class Prompts:
         axis = None
         while axis is None:
             values = click.prompt(
-                "Insert the magnetic field axis separated with spaces"
+                "Insert the magnetic field axis separated with spaces",
+                default="0.0 0.0 1.0",
             )
             rx, ry, rz = values.rstrip().rsplit(" ")
             axis = (float(rx), float(ry), float(rz))
@@ -122,7 +123,10 @@ class Prompts:
     def ask_for_anisotropy_axis() -> Tuple[float, float, float]:
         axis = None
         while axis is None:
-            values = click.prompt("Insert the anisotropy axis separated with spaces")
+            values = click.prompt(
+                "Insert the anisotropy axis separated with spaces",
+                default="0.0 0.0 1.0",
+            )
             rx, ry, rz = values.rstrip().rsplit(" ")
             axis = (float(rx), float(ry), float(rz))
             if len(axis) != 3:

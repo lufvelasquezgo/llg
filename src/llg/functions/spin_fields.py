@@ -2,26 +2,15 @@ import numpy
 from numba import jit
 
 
-@jit(nopython=True)
 def exchange_interaction_field(
     state,
     magnitude_spin_moment,
     exchanges,
     neighbors,
 ):
-    N = len(magnitude_spin_moment)
-    out = numpy.zeros(shape=(N, 3))
-    for i in range(N):
-        exchanges_i = exchanges[i]
-        exchanges_i_repeated = numpy.repeat(exchanges_i, 3)
-        exchanges_i_repeated_reshaped = exchanges_i_repeated.reshape(
-            (len(exchanges_i), 3)
-        )
-        neighbors_i = state[neighbors[i]]
-        out[i] = (exchanges_i_repeated_reshaped * neighbors_i).sum(
-            axis=0
-        ) / magnitude_spin_moment[i]
-    return out
+    return (exchanges.reshape(tuple((*exchanges.shape, 1))) * state[neighbors]).sum(
+        axis=1
+    ) / magnitude_spin_moment.reshape(tuple((*magnitude_spin_moment.shape, 1)))
 
 
 @jit(nopython=True)

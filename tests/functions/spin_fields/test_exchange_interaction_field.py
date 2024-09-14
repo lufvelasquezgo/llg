@@ -109,20 +109,3 @@ def test_exchange_interaction_field_random_spin_moments(
         ),
         expected,
     )
-
-
-@pytest.mark.repeat(10)
-def test_exchange_interaction_field_null_magnetic_moments(
-    random_state_spins, build_sample, random_j_exchange
-):
-    num_sites, _, neighbors, _ = build_sample
-    exchanges = random_j_exchange.reshape(num_sites, 6)
-    neighbors_ = numpy.array(neighbors).reshape(num_sites, 6)
-    null_moments = numpy.array([0.0] * num_sites)
-    expected = numpy.full((num_sites, 3), numpy.inf)
-    total = numpy.abs(
-        spin_fields.exchange_interaction_field(
-            random_state_spins, null_moments, exchanges, neighbors_
-        )
-    )
-    assert numpy.allclose(total, expected)

@@ -12,13 +12,12 @@ from llg.functions.spin_fields import (
 def dS_llg(
     state,
     Heff,
-    damping: float,
-    gyromagnetic: float,
+    damping,
+    gyromagnetic,
 ):
-    alpha = -gyromagnetic / (1 + damping * damping)
     cross1 = numpy.cross(state, Heff)
     cross2 = numpy.cross(state, cross1)
-    return alpha * (cross1 + damping * cross2)
+    return -gyromagnetic * (cross1 + damping * cross2) / (1 + damping * damping)
 
 
 @jit(nopython=True)

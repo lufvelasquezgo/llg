@@ -7,4 +7,4 @@ class EnergyUnit(Enum):
     JOULE = "joule"
 
 
-GENERIC_SAMPLE_TYPE = "generic"
+GENERIC_TYPE = "generic"

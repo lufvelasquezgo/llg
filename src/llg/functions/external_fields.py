@@ -12,11 +12,11 @@ def thermal_field(
 ):
     N = len(magnitude_spin_moment)
     gamma = numpy.random.normal(size=(N, 3))
-    values = (2 * damping * kB * temperature) / (
-        gyromagnetic * magnitude_spin_moment * deltat
+    values = numpy.sqrt(
+        (2.0 * damping * kB * temperature)
+        / (gyromagnetic * magnitude_spin_moment * deltat)
     )
-    values = numpy.sqrt(values)
-    values = numpy.repeat(values, 3).reshape((len(values), 3))
+    values = values.reshape(tuple((*values.shape, 1)))
     return gamma * values
 
 

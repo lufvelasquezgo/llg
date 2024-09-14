@@ -17,7 +17,7 @@ class Site:
         self,
         index: int,
         position: Vector,
-        type_: str,
+        type: str,
         mu: float,
         anisotropy_constant: float,
         anisotropy_axis: Vector,
@@ -26,7 +26,7 @@ class Site:
     ):
         self._index = index
         self._position = position
-        self._type = type_
+        self._type = type
         self._mu = mu
         self._anisotropy_constant = anisotropy_constant
         self._anisotropy_axis = anisotropy_axis
@@ -107,7 +107,7 @@ class Site:
                 site_dict["position"][1],
                 site_dict["position"][2],
             ),
-            type_=site_dict["type"],
+            type=site_dict["type"],
             mu=site_dict["mu"],
             anisotropy_constant=site_dict["anisotropy_constant"],
             anisotropy_axis=(

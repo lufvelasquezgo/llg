@@ -18,7 +18,7 @@ llg = 'llg.cli.entrypoint:main'
 
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 numpy = ">=1.22,<2.1"
 h5py = "^3.11.0"
 click = "^8.1.7"
@@ -38,6 +38,7 @@ pytest-repeat = "^0.9.3"
 coverage = "^7.6.1"
 mypy = "^1.11.2"
 black = "^24.8.0"
+scipy = "^1.14.1"
 
 
 [build-system]

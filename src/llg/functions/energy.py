@@ -1,20 +1,15 @@
 from numba import jit
 
 
-@jit(nopython=True)
 def compute_exchange_energy(
     state,
     exchanges,
     neighbors,
 ) -> float:
-    total = 0
-    N = len(state)
-    for i in range(N):
-        state_i = state[i]
-        exchanges_i = exchanges[i]
-        neighbors_i = state[neighbors[i]]
-        total -= (exchanges_i * (state_i * neighbors_i).sum(axis=1)).sum()
-    return 0.5 * total
+    exchange_field = (
+        exchanges.reshape(tuple((*exchanges.shape, 1))) * state[neighbors]
+    ).sum(axis=1)
+    return -0.5 * (exchange_field * state).sum()
 
 
 @jit(nopython=True)

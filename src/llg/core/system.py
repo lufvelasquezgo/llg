@@ -30,8 +30,8 @@ class System:
         self._initial_state = initial_state
         self._seed = seed
 
-    def save(self, filename):
-        data = {
+    def to_dict(self):
+        return {
             "sites": [site.to_dict() for site in self._sites],
             "parameters": self._parameters.to_dict(),
             "temperatures": list(self._temperatures),
@@ -40,6 +40,9 @@ class System:
             "initial_state": self._initial_state,
             "seed": self._seed,
         }
+
+    def save(self, filename):
+        data = self.to_dict()
         with open(filename, "w") as file:
             json.dump(data, file, indent=2)
 

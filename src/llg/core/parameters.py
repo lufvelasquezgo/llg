@@ -28,6 +28,7 @@ class Parameters:
             "damping": self.damping,
             "gyromagnetic": self.gyromagnetic,
             "delta_time": self.delta_time,
+            "kb": self.kb,
         }
 
     @classmethod

@@ -1,7 +1,6 @@
 import random
 
 import numpy
-from tqdm import tqdm
 
 from llg.core.system import System
 from llg.functions import energy, heun
@@ -54,13 +53,15 @@ class Simulation:
         num_sites = self._system.num_sites
         state = self.initial_state
 
-        for T, H in ScalarListMatcher(
-            self._system.temperatures, self._system.magnetic_field_intensities
+        for th_index, (T, H) in enumerate(
+            ScalarListMatcher(
+                self._system.temperatures, self._system.magnetic_field_intensities
+            )
         ):
             temperatures = numpy.array([T] * num_sites)
             magnetic_fields = H * field_axes
 
-            for _ in tqdm(range(self._system.num_iterations)):
+            for iteration in range(self._system.num_iterations):
                 state = heun.integrate(
                     state,
                     spin_norms,
@@ -92,6 +93,8 @@ class Simulation:
                 )
 
                 yield (
+                    th_index,
+                    iteration,
                     state,
                     exchange_energy_value,
                     anisotropy_energy_value,

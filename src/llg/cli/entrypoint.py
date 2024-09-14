@@ -11,7 +11,7 @@ from matplotlib import pyplot
 from matplotlib.backends.backend_pdf import PdfPages
 from tqdm import tqdm
 
-from llg.cli.build_samples import build_samples
+from llg.cli.build_generic_system import build_generic_system
 from llg.core.system import System
 from llg.plot_states import PlotStates
 from llg.simulation import Simulation
@@ -24,17 +24,20 @@ def main():
     pass
 
 
-main.add_command(cast(Command, build_samples))
+main.add_command(cast(Command, build_generic_system))
 
 
 @main.command("simulate")
 @click.argument("configuration_file")
 def simulate(configuration_file):
     system = System.from_file(configuration_file)
+
     simulation = Simulation(system)
     print(pickle.dumps(simulation.information))
-    for values in simulation.run():
+    for values in tqdm(simulation.run()):
         (
+            th_index,
+            iteration,
             state,
             exchange_energy,
             anisotropy_energy,
@@ -90,14 +93,14 @@ def read_hdf(file):
         simulation_information = {
             "num_sites": dataset.attrs["num_sites"],
             "parameters": {
-                "units": dataset.attrs["units"],
+                "energy_unit": dataset.attrs["energy_unit"],
                 "damping": dataset.attrs["damping"],
                 "gyromagnetic": dataset.attrs["gyromagnetic"],
-                "deltat": dataset.attrs["deltat"],
-                "kb": dataset.attrs["deltat"],
+                "deta_time": dataset.attrs["delta_time"],
+                "kb": dataset.attrs["kb"],
             },
-            "temperature": dataset["temperature"][:],
-            "field": dataset["field"][:],
+            "temperatures": dataset["temperatures"][:],
+            "magnetic_field_intensities": dataset["magnetic_field_intensities"][:],
             "seed": dataset.attrs["seed"],
             "num_iterations": dataset.attrs["num_iterations"],
             "positions": dataset["positions"][:],
@@ -140,8 +143,8 @@ def compute_averages(by_types, components, discard):
     if discard > simulation_information["num_iterations"]:
         raise Exception("Discard option should be less than the number of iterations !")
 
-    temperature = simulation_information["temperature"]
-    field = simulation_information["field"]
+    temperatures = simulation_information["temperatures"]
+    magnetic_field_intensities = simulation_information["magnetic_field_intensities"]
     types = numpy.array(simulation_information["types"])
     set_types = sorted(set(types))
 
@@ -216,7 +219,7 @@ def compute_averages(by_types, components, discard):
                     mag_x_by_types[t], mag_y_by_types[t], mag_z_by_types[t] = mag
 
         output = (
-            f"{temperature[i]} {field[i]} {E_exchange} "
+            f"{temperatures[i]} {magnetic_field_intensities[i]} {E_exchange} "
             f"{E_anisotropy} {E_field} {E_total} {M_total}"
         )
         if components:
@@ -320,8 +323,8 @@ def plot_states(output, step, size, mode, colormap):
     num_TH = simulation_information["num_TH"]
     num_iterations = simulation_information["num_iterations"]
     positions = simulation_information["positions"]
-    temperature = simulation_information["temperature"]
-    field = simulation_information["field"]
+    temperatures = simulation_information["temperatures"]
+    magnetic_field_intensities = simulation_information["magnetic_field_intensities"]
     initial_state = simulation_information["initial_state"]
 
     if step == "max":
@@ -337,8 +340,8 @@ def plot_states(output, step, size, mode, colormap):
     click.secho("Figure was created the initial state", fg="green")
 
     for i in range(num_TH):
-        T = temperature[i]
-        H = field[i]
+        T = temperatures[i]
+        H = magnetic_field_intensities[0]
         for j in range(num_iterations):
             # reads
             state = pickle.loads(eval(input()))
